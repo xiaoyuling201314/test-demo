@@ -1,0 +1,190 @@
+.warp_box
+    width: 50%
+    height: 380px
+    margin: 20px auto
+
+.list_h3
+    text-align: center
+    font-size: 30px
+    line-height: 40px
+    color: #1890ff
+.date_box
+
+    padding: 20px 20px 20px 0
+    background-color: #ffffff
+    box-shadow: 5px 8px 15px 0px rgba(222,222,222,0.5)
+    border-radius: 10px
+    min-height: 395px
+    border: 1px solid #ccc
+
+    .date_center
+        padding: 0 20px 0 0
+
+    .date_top
+
+        height: 36px
+        padding: 0 20px
+
+        .tody
+            font-family: MicrosoftYaHei
+            font-size: 28px
+            font-weight: normal
+            font-stretch: normal
+            letter-spacing: 0px
+            color: #000000
+            line-height: 36px
+            margin-right: 20px
+            width: 32px
+
+        .date_action
+            margin: 12px 0 0
+            i
+                display: inline-block
+                font-size: 10px
+                cursor: pointer
+            .icon_left
+                transform: rotate(180deg)
+            span
+
+                font-family: MicrosoftYaHei
+                font-size: 14px
+                font-weight: normal
+                font-stretch: normal
+                letter-spacing: 0px
+                color: #a2a0a0
+            .rigth_action
+                line-height: 36px
+            span
+                width: 80px
+                display: inline-block
+
+                height: 20px
+                background-color: #ffffff
+                border-radius: 5px
+                border: solid 1px #a2a0a0
+                cursor: pointer
+                padding: 0px 10px
+                box-sizing: border-box
+            .add
+                background-color: #2c6ce1
+                border-radius: 5px
+                margin: 0 0 0 10px
+                color: #fff
+    .date_header
+        height: 24px
+        .week_item
+            float: left
+            height: 24px
+            width: 14.28%
+            line-height: 24px
+            font-family: MicrosoftYaHei
+            font-size: 13px
+            font-weight: normal
+            font-stretch: normal
+            letter-spacing: 0px
+            color: #a2a0a0
+            text-align: center
+    .day_item
+        .day_list
+            float: left
+            width: 14.28%
+            height: 40px
+            text-align: center
+            padding: 10px 0 0 0
+            .day_center
+                box-sizing: border-box
+                padding: 4px 0 0 0
+                width: 50px
+                height: 50px
+                border-radius: 50%
+                margin: 0 auto
+                cursor: pointer
+                position: relative
+                .dayone
+                    font-family: MicrosoftYaHei
+                    font-size: 16px
+                    font-weight: normal
+                    font-stretch: normal
+                    letter-spacing: 0px
+                    color: #fff
+                    text-align: center
+                    line-height: 22px
+                .daytwo
+                    font-family: MicrosoftYaHei
+                    font-size: 10px
+                    font-weight: normal
+                    font-stretch: normal
+                    letter-spacing: 0px
+                    color: #fff
+                    text-align: center
+                    display: block
+                .dayshark
+                    width: 4px
+                    height: 4px
+                    background: rgb(66, 133, 244)
+                    margin: 0 auto
+                    display: inline-block
+                    border-radius: 50%
+                    position: absolute
+                    bottom: 2px
+                    left: 50%
+                    color: #fff
+                &:hover
+                    background: #2c6ce1
+                    color: #fff
+                    .dayone,.daytwo
+                        color: #fff
+
+                    .term
+                        color: #fff
+
+                .dayone,.daytwo,.dayshark
+                    color: #000
+                .dayshark
+                    background: #fff
+                .term
+                    color: #2c6ce1
+                    font-size: 8px
+            .nullDom
+                display: none
+            .today
+                border: 1px solid #2c6ce1
+            .showdate
+                background: #2c6ce1
+                color: #fff
+                .dayone,.daytwo,.dayshark
+                    color: #fff
+                .dayshark
+                    background: #fff
+            .tips
+                background: #2c6ce1
+                color: #ffffff
+                padding: 5px
+        .nowNonth
+            .day_center
+                .dayone
+                    color: #ccc
+                .daytwo
+                    color: #ccc
+                .term
+                    color: #ccc!important
+                    font-size: 8px !important
+.tips
+    margin-top: 20px
+    text-align: center
+    a
+        display: block
+        color: #1890ff
+
+@media screen and (max-width: 1300px)
+    .h4_tips
+        display: none
+    .items_titele
+        width: 100%
+        text-align: center
+        font: 17px/30px MicrosoftYaHei
+        height: 40px !important
+        color: #fff
+        padding: 6px !important
+        box-sizing: border-box
+        background-size: 100%

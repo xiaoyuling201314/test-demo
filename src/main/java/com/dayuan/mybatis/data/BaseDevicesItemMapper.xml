@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseDevicesItemMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseDevicesItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="device_parameter_id" property="deviceParameterId" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="SMALLINT" />
+    <result column="checked" property="checked" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="joinBaseResultMap" type="com.dayuan.bean.data.BaseDevicesItem" extends="BaseResultMap" >
+      <result column="serialNumber" property="serialNumber" jdbcType="VARCHAR" />
+      <result column="registerDate" property="registerDate" jdbcType="TIMESTAMP" />
+ 	 <result column="itemName" property="itemName" jdbcType="VARCHAR" />
+ 	 <result column="projectType" property="projectType" jdbcType="VARCHAR" />
+ 	 <result column="detectMethod" property="detectMethod" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- <sql id="Base_Column_List" >
+    id, device_id, device_parameter_id, priority, checked, remark, create_by, create_date, update_by, 
+    update_date
+  </sql> -->
+  <sql id="Base_Column_List" >
+  	bdi.id id, bdi.device_id device_id, bdi.device_parameter_id device_parameter_id, bdi.priority priority, 
+		bdi.checked checked, bdi.remark remark, bdi.create_by create_by, bdi.create_date create_date, bdi.update_by update_by, 
+    	bdi.update_date update_date, bdti.detect_item_name itemName, bdp.project_type projectType, bdp.detect_method detectMethod
+  </sql>
+   <!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="obj.baseBean != null">
+			<if test="obj.baseBean.deviceId != null and obj.baseBean.deviceId != ''">
+				and bdi.device_id = #{obj.baseBean.deviceId}
+			</if>
+		</if>
+	</sql>
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_devices_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select> -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_devices_item bdi 
+	    	left join base_device_parameter bdp 
+	    	left join base_detect_item bdti
+	    	on bdi.device_parameter_id = bdp.id and bdp.item_id = bdti.id
+    where bdi.id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from base_devices_item
+   where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+		#{ids}
+	</foreach>
+  </delete>
+  <!-- 根据仪器ID进行删除 -->
+  <delete id="deleteByDeviceId" parameterType="java.lang.String" >
+    delete from base_devices_item
+   where device_id =#{deviceId}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.data.BaseDevicesItem" >
+    insert into base_devices_item (id, device_id, device_parameter_id, 
+      priority, checked, remark, create_by, 
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{deviceParameterId,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=SMALLINT}, #{checked,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseDevicesItem" >
+    insert into base_devices_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="deviceParameterId != null" >
+        device_parameter_id,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="checked != null" >
+        checked,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceParameterId != null" >
+        #{deviceParameterId,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=SMALLINT},
+      </if>
+      <if test="checked != null" >
+        #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseDevicesItem" >
+    update base_devices_item
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceParameterId != null" >
+        device_parameter_id = #{deviceParameterId,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=SMALLINT},
+      </if>
+      <if test="checked != null" >
+        checked = #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseDevicesItem" >
+    update base_devices_item
+    set device_id = #{deviceId,jdbcType=VARCHAR},
+      device_parameter_id = #{deviceParameterId,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=SMALLINT},
+      checked = #{checked,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+ <!-- 分页基础查询 -->
+  	<select id="loadDatagrid" resultMap="joinBaseResultMap" parameterType="Object" >
+	    SELECT 
+			<include refid="Base_Column_List" />
+	    FROM base_devices_item bdi 
+	    	INNER JOIN base_device_parameter bdp ON bdi.device_parameter_id = bdp.id 
+	    	INNER JOIN base_detect_item bdti ON bdp.item_id = bdti.id
+    	<include refid="Example_Where_Clause" />
+	    ORDER BY create_date ${order} LIMIT #{rowOffset}, #{pageSize}
+  	</select>
+	
+ 	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    	SELECT count(1) AS rowTotal 
+    	FROM base_devices_item bdi 
+	    	INNER JOIN base_device_parameter bdp ON bdi.device_parameter_id = bdp.id
+	    	INNER JOIN base_detect_item bdti ON bdp.item_id = bdti.id
+    	<include refid="Example_Where_Clause" />
+  	</select>
+  	
+ 	<delete id="deleteByDeviceParameterId" parameterType="java.lang.String">
+  		delete from base_devices_item where device_parameter_id=#{deviceParameterId}
+  	</delete>
+
+  	<select id="queryDeviceByDetectName" resultMap="joinBaseResultMap" parameterType="Object">
+  	SELECT i.id, d.serial_number serialnumber, d.register_date registerDate, i.priority
+  	from base_devices_item i
+	LEFT JOIN base_device_parameter p on i.device_parameter_id=p.id
+	LEFT JOIN base_device d on i.device_id=d.id
+	WHERE p.item_id=#{itemId}
+        and d.point_id=#{pointId}
+	    and i.checked=1 and d.serial_number !='' and d.serial_number is not null
+	    and d.delete_flag=0 and d.status=0
+	ORDER BY i.priority DESC, d.register_date DESC
+  	</select>
+</mapper>

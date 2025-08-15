@@ -1,0 +1,49 @@
+.zz-back-modal, .zz-back-modal2, .zz-back-modal3 {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+     z-index: 10001;
+}
+.zz-del-warn {
+    width: 300px;
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -62px;
+    padding-top: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+    .zz-del-warn p {
+    text-align: center;
+    color: #000;
+}
+.zz-warn-text {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+.zz-warn-text2{
+	padding:10px;	
+}
+.zz-del-warn .zz-del-sure {
+    background: #2F8FE2;
+    color: #fff;
+    float: right;
+}
+.zz-btns div {
+    display: inline-block;
+    width: 49.9%;
+    float: left;
+    text-align: center;
+    background: #f1f1f1;
+    padding: 10px;
+}

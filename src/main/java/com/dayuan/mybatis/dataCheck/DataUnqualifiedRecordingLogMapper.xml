@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.dataCheck.DataUnqualifiedRecordingLogMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="dur_id" jdbcType="INTEGER" property="durId"/>
+        <result column="send_state" jdbcType="SMALLINT" property="sendState"/>
+        <result column="send_time" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    </resultMap>
+
+    <resultMap id="baseResultModel" type="com.dayuan.model.dataCheck.DataUnqualifiedRecordingLogModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="dur_id" jdbcType="INTEGER" property="durId"/>
+        <result column="send_state" jdbcType="SMALLINT" property="sendState"/>
+        <result column="send_time" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="realname" jdbcType="VARCHAR" property="realname"/>
+        <result column="send_remark" jdbcType="VARCHAR" property="sendRemark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, dur_id, send_state, send_time, send_remark, content, delete_flag, create_by, create_date,
+        update_by, update_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM data_unqualified_recording_log
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM data_unqualified_recording_log
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteLog">
+        UPDATE data_unqualified_recording_log SET delete_flag=1,update_by=#{userId}
+        WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingLog">
+        INSERT INTO data_unqualified_recording_log (id, dur_id, send_state,
+                                                    send_time, send_remark, content,
+                                                    create_by, update_by)
+        VALUES (#{id,jdbcType=INTEGER}, #{durId,jdbcType=INTEGER}, #{sendState,jdbcType=SMALLINT},
+                #{sendTime,jdbcType=TIMESTAMP}, #{sendRemark,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+                #{createBy,jdbcType=VARCHAR},
+                #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingLog">
+        INSERT INTO data_unqualified_recording_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="durId != null">
+                dur_id,
+            </if>
+            <if test="sendState != null">
+                send_state,
+            </if>
+            <if test="sendRemark != null">
+                send_remark,
+            </if>
+            <if test="sendTime != null">
+                send_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="durId != null">
+                #{durId,jdbcType=INTEGER},
+            </if>
+            <if test="sendState != null">
+                #{sendState,jdbcType=SMALLINT},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendRemark != null">
+                #{sendRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingLog">
+        UPDATE data_unqualified_recording_log
+        <set>
+            <if test="durId != null">
+                dur_id = #{durId,jdbcType=INTEGER},
+            </if>
+            <if test="sendState != null">
+                send_state = #{sendState,jdbcType=SMALLINT},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendRemark != null">
+                send_remark = #{sendRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingLog">
+        UPDATE data_unqualified_recording_log
+        SET dur_id      = #{durId,jdbcType=INTEGER},
+            send_state  = #{sendState,jdbcType=SMALLINT},
+            send_time   = #{sendTime,jdbcType=TIMESTAMP},
+            send_remark = #{sendRemark,jdbcType=VARCHAR},
+            content     = #{content,jdbcType=VARCHAR},
+            delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=VARCHAR},
+            update_date = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="baseResultModel" parameterType="Object">
+        SELECT
+        durl.*, ( CASE durl.create_by WHEN 0 THEN '定时系统' ELSE u.user_name END ) AS user_name
+        FROM data_unqualified_recording_log durl LEFT JOIN t_s_user u ON durl.create_by = u.id
+        WHERE durl.delete_flag = 0 AND durl.dur_id = #{obj.durId}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            HAVING
+            durl.content LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            user_name LIKE CONCAT('%',#{obj.keyWords},'%')
+        </if>
+        ORDER BY durl.create_date DESC LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM (
+        SELECT
+        durl.*, ( CASE durl.create_by WHEN 0 THEN '定时系统' ELSE u.user_name END ) AS user_name
+        FROM data_unqualified_recording_log durl LEFT JOIN t_s_user u ON durl.create_by = u.id
+        WHERE durl.delete_flag = 0 AND durl.dur_id = #{obj.durId}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            HAVING
+            durl.content LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            user_name LIKE CONCAT('%',#{obj.keyWords},'%')
+        </if>
+        )tb1
+
+    </select>
+
+</mapper>

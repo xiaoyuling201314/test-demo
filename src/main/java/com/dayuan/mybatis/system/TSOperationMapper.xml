@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.system.TSOperationMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.system.TSOperation">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="function_id" property="functionId" jdbcType="VARCHAR"/>
+        <result column="operation_code" property="operationCode" jdbcType="VARCHAR"/>
+        <result column="operation_name" property="operationName" jdbcType="VARCHAR"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="sorting" property="sorting" jdbcType="SMALLINT"/>
+        <result column="function_icon" property="functionIcon" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+
+        <result column="function_url" property="functionUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, function_id, operation_code, operation_name, delete_flag, sorting, function_icon, remark, create_by,
+        create_date, update_by, update_date
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where delete_flag = 0
+        <trim suffixOverrides=",">
+            <if test="obj.baseBean != null">
+                <if test="obj.baseBean.functionId != null and obj.baseBean.functionId != ''">
+                    and function_id= #{obj.baseBean.functionId}
+                </if>
+                <if test="obj.baseBean.operationName != null and obj.baseBean.operationName != ''">
+                    and operation_name like CONCAT('%', #{obj.baseBean.operationName}, '%')
+                </if>
+            </if>
+        </trim>
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_operation
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByRoleIdAndFunctionId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_operation
+        WHERE id IN (
+        SELECT function_id FROM t_s_role_function WHERE role_id=#{roleId} AND mark=1 )
+        AND
+        function_id=#{functionId} ORDER BY sorting ASC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        UPDATE t_s_operation SET delete_flag=1,update_date=now()
+        WHERE id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+    <!-- 根据function_id进行批量删除 -->
+    <update id="deleteByFunctionId" parameterType="java.lang.String">
+        UPDATE t_s_operation
+        SET delete_flag = 1, update_date = now()
+        WHERE function_id = #{id}
+    </update>
+
+    <!--shit:启用菜单时开启其对应的权限-->
+    <update id="enableByFunctionId" parameterType="java.lang.Integer">
+        UPDATE t_s_operation
+        SET delete_flag = 0, update_date = now()
+        WHERE function_id = #{id}
+    </update>
+    <insert id="insert" parameterType="com.dayuan.bean.system.TSOperation">
+        INSERT INTO t_s_operation (id, function_id, operation_code,
+                                   operation_name, delete_flag, sorting, function_icon, remark,
+                                   create_by, create_date, update_by,
+                                   update_date)
+        VALUES (#{id,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, #{operationCode,jdbcType=VARCHAR},
+                                        #{operationName,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=SMALLINT},
+                                        #{sorting,jdbcType=SMALLINT},
+                                        #{functionIcon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+                                        #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+                                        #{updateBy,jdbcType=VARCHAR},
+                #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.system.TSOperation">
+        INSERT INTO t_s_operation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="functionId != null">
+                function_id,
+            </if>
+            <if test="operationCode != null">
+                operation_code,
+            </if>
+            <if test="operationName != null">
+                operation_name,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="sorting != null">
+                sorting,
+            </if>
+            <if test="functionIcon != null">
+                function_icon,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="functionId != null">
+                #{functionId,jdbcType=VARCHAR},
+            </if>
+            <if test="operationCode != null">
+                #{operationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="operationName != null">
+                #{operationName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="functionIcon != null">
+                #{functionIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.system.TSOperation">
+        UPDATE t_s_operation
+        <set>
+            <if test="functionId != null">
+                function_id = #{functionId,jdbcType=VARCHAR},
+            </if>
+            <if test="operationCode != null">
+                operation_code = #{operationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="operationName != null">
+                operation_name = #{operationName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                sorting = #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="functionIcon != null">
+                function_icon = #{functionIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.system.TSOperation">
+        UPDATE t_s_operation
+        SET function_id    = #{functionId,jdbcType=VARCHAR},
+            operation_code = #{operationCode,jdbcType=VARCHAR},
+            operation_name = #{operationName,jdbcType=VARCHAR},
+            delete_flag    = #{deleteFlag,jdbcType=SMALLINT},
+            sorting        = #{sorting,jdbcType=SMALLINT},
+            function_icon  = #{functionIcon,jdbcType=VARCHAR},
+            remark         = #{remark,jdbcType=VARCHAR},
+            create_by      = #{createBy,jdbcType=VARCHAR},
+            create_date    = #{createDate,jdbcType=TIMESTAMP},
+            update_by      = #{updateBy,jdbcType=VARCHAR},
+            update_date    = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_operation
+        <include refid="Example_Where_Clause"/>
+        ORDER BY sorting ${order} LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM t_s_operation
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <select id="queryByOperationName" resultMap="BaseResultMap" parameterType="com.dayuan.bean.system.TSOperation">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_operation
+        WHERE function_id = #{functionId,jdbcType=VARCHAR}
+        AND operation_name=#{operationName,jdbcType=VARCHAR}
+        AND delete_flag=0
+    </select>
+    <select id="queryLastCode" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT CONCAT(#{functionId}, "-", MAX(CAST(substring_index(operation_code, "-", -1) AS SIGNED)))
+        FROM
+            t_s_operation
+        WHERE operation_code LIKE CONCAT(#{functionId}, '-', '%')
+    </select>
+    <!-- <update id="updateByFunctionId" parameterType="Object"> update t_s_operation set function_id=#{id},
+        operation_code=CONCAT(#{id},'-',SUBSTRING(operation_code,LOCATE('-',operation_code)+1)) where function_id=
+        #{oldId} </update> -->
+
+    <!-- /**
+ * 查询所有 按钮权限
+ * @param roleId 角色ID
+ * @return
+ * @author LuoYX
+ * @date 2018年5月25日
+ */ -->
+    <select id="queryAllPrivilegs" parameterType="Object" resultMap="BaseResultMap">
+        SELECT
+            o.id,
+            o.function_id,
+            o.operation_code,
+            o.operation_name,
+            o.delete_flag,
+            o.sorting,
+            o.function_icon,
+            o.remark,
+            o.create_by,
+            o.create_date,
+            o.update_by,
+            o.update_date,
+            fun.function_url
+        FROM
+            t_s_operation o
+            INNER JOIN t_s_role_function f ON o.id = f.function_id
+            LEFT JOIN t_s_function fun ON o.function_id = fun.id
+        WHERE
+            f.role_id = #{roleId} AND f.mark = 1 AND o.delete_flag = 0
+        GROUP BY o.id
+    </select>
+
+    <!--根据角色ID和菜单类型查询权限按钮-->
+    <select id="queryByRIdAndType" parameterType="Object" resultMap="BaseResultMap">
+        SELECT
+            o.id,
+            o.function_id,
+            o.operation_code,
+            o.operation_name,
+            o.delete_flag,
+            o.sorting,
+            o.function_icon,
+            o.remark,
+            o.create_by,
+            o.create_date,
+            o.update_by,
+            o.update_date,
+            fun.function_url
+        FROM
+            t_s_operation o
+            INNER JOIN t_s_role_function f ON o.id = f.function_id
+            LEFT JOIN t_s_function fun ON o.function_id = fun.id
+        WHERE
+            f.role_id = #{roleId} AND f.mark = 1 AND o.delete_flag = 0 AND fun.function_type = #{type}
+        GROUP BY o.id
+    </select>
+    <select id="queryByOperationCode" resultType="java.lang.Integer" parameterType="Object">
+       SELECT
+       count(1)
+        FROM t_s_role_function rf
+        LEFT JOIN t_s_operation tso ON tso.id = rf.function_id
+        WHERE rf.role_id = #{roleId} AND tso.delete_flag = 0 and rf.mark=1 and  tso.operation_code=#{operationCode}
+    </select>
+</mapper>

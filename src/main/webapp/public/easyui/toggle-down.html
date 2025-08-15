@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Tree - jQuery EasyUI Demo</title>
+  <link rel="stylesheet" type="text/css" href="easyui.css">
+  <link rel="stylesheet" type="text/css" href="icon.css">
+  <link rel="stylesheet" type="text/css" href="demo.css">
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.easyui.min.js"></script>
+  <style type="text/css">
+  .datagrid-header-row{
+   display:none;
+  }
+  .panel-body{
+    border-style: none;
+  }
+  .datagrid-btable{
+    width:100%;
+  }
+  </style>
+</head>
+<body>
+  
+  <table title="" class="easyui-treegrid" style="width:100%;"
+      data-options="
+        url: 'treegrid_data1.json',
+        method: 'get',
+        idField: 'id',
+        treeField: 'name'
+      ">
+    <thead>
+      <tr>
+        <th class="none-th" data-options="field:'name'" width="30%"></th>
+        <th class="none-th" data-options="field:'date'" width="70%"></th>
+      </tr>
+    </thead>
+  </table>
+ 
+</body>
+</html>

@@ -1,0 +1,323 @@
+.select-city {
+	width: 100%;
+	/* padding: 5px; */
+	margin-bottom: 5px;
+}
+
+.select-city select {
+	width: 100%;
+	height: 32px;
+	border-radius: 4px;
+	padding: 4px 10px;
+	display: block;
+}
+
+.city-box {
+	background-color: #f1f1f1;
+	position: absolute;
+	top: 42px;
+	bottom: 5px;
+	left: 5px;
+	right: 5px;
+}
+
+.search-city {
+	padding: 5px;
+	width: 100%;
+}
+
+.search-city input {
+	height: 28px;
+	line-height: 28px;
+	padding: 4px 10px;
+	width: 100%;
+}
+
+.search-btn {
+	/* width: 60px; */
+}
+
+.search-btn button {
+	width: 100%;
+	height: 100%;
+	border-radius: 0 4px 4px 0;
+}
+
+.search-btn button .icon {
+	/* color: #fff; */
+}
+
+.city-list {
+	padding: 5px;
+}
+
+.city-list li {
+	/* line-height: 30px; */
+	padding: 0 10px;
+	padding-left: 15px;
+	cursor: pointer;
+	font-size: 14px;
+    line-height: 36px;
+    height: 38px;
+    border-bottom: 1px dotted #D3D7DE;
+}
+
+.city-list li.action,
+.city-list li:hover {
+	background-color: #0088EC;
+	color: #fff;
+}
+
+/* .cs-navbar-nav{
+	width: 220px;
+}
+.cs-container{
+	left: 221px;
+} */
+.normal-input input[type="text"] {
+	width: 100%;
+}
+
+.flex-time {
+	justify-content: center;
+	align-items: center;
+}
+
+.wtime {
+	padding: 0 4px;
+}
+
+.flex-time div {}
+
+.flex-time .stime,
+.flex-time .etime {
+	width: 50%;
+}
+
+.flex-time .stime input,
+.flex-time .etime input {
+	width: 100%;
+}
+
+.cs-in-style select {
+	width: 200px;
+	height: 29px;
+	border-radius: 3px;
+	padding: 0 10px;
+}
+
+.menu-list {
+	padding: 10px;
+}
+
+.menu-list li {
+	padding: 0;
+	padding-left: 0px;
+}
+
+.menu-list2 li {
+	padding-left: 20px;
+}
+
+.menu-list input,
+.menu-list span {
+	float: left;
+}
+
+.menu-list input {
+	margin-right: 5px;
+}
+
+.report-nav {
+	position: absolute;
+	left: 10px;
+	width: 200px;
+	top: 50px;
+	border: 1px solid #ddd;
+	background: #fff;
+}
+
+.rep-rewrite input {
+	height: 32px;
+	font-size: 16px;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.report-content {
+	margin-top: 10px;
+	margin-left: 220px;
+	width: calc(100% - 230px);
+	border: 1px solid #ddd;
+	background: #fff;
+	padding: 20px;
+}
+
+.report-title {
+	text-align: center;
+	line-height: 30px;
+	background-color: #f1f1f1;
+}
+
+.report-content p {
+	font-family: "宋体";
+}
+
+.rep-first,
+.rep-second {
+	margin-bottom: 10px;
+	align-items: center;
+}
+.rep-first,.rep-second,.rep-third{
+	position: relative;
+}
+.rep-second {
+	padding-left: 32px;
+}
+
+.rep-third .content-work p {
+	text-indent: 2em;
+}
+
+.rep-third {
+	padding-left: 80px;
+	margin-bottom: 10px;
+}
+
+.content-work {
+	width: 100%;
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+.rep-first p,
+.rep-second p {
+	font-weight: bold;
+	font-size: 16px;
+	margin-right: 5px;
+}
+
+.edui-default .edui-editor-bottomContainer td {
+	display: none;
+}
+
+.rep-contral {
+	text-align: center;
+	padding: 0 5px;
+}
+
+.rep-contral .icon {
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+.rep-contral .icon:hover {
+	opacity: 1;
+}
+
+.echarts {
+	/* margin-top:10px; */
+}
+
+.charts-box {
+	justify-content: center;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+.charts-box .rep-rewrite p {
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.charts-box .rep-rewrite input {
+	width: 260px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.charts-table,
+.charts-table2 {
+	margin-top: 10px;
+}
+
+.charts-table table,
+.charts-table2 table {
+	width: 100%;
+}
+
+.charts-table table td,
+.charts-table2 table td {
+	padding: 0 4px;
+}
+
+.charts-table table input,
+.charts-table table input:focus {
+	/* border: 0; */
+	outline: 0;
+	text-align: center;
+	background: rgba(0, 0, 0, 0);
+}
+
+.second-lite .rep-rewrite {
+	padding-left: 30px;
+}
+
+.long {
+	flex: 2;
+	min-width: 100px;
+}
+
+.short {
+	flex: 1;
+	min-width: 100px;
+}
+
+.second-lite-tb {
+	padding: 0;
+	text-indent: 0;
+}
+.rep-third .content-work .second-lite-tb p{
+	text-indent: 0;
+}
+.content-work .second-lite-tb p span{
+	font-size: 14px;
+	font-weight: normal;
+}
+.second-lite-tb{
+	margin-top:10px;
+}
+.report-end p{
+	font-weight: normal;
+}
+.report-end .rep-rewrite{
+	flex: 1;
+}
+.form-btn{
+	position: absolute;
+	right: 10px;
+	top: 0;
+}
+.form-btn .menu-list{
+	padding:0;
+}
+.form-btn .menu-list2 li{
+	float:right;
+}
+.menu-list li{
+	cursor: pointer;
+}
+.menu-list li span:hover{
+	color:#478ad5;
+}
+.is-flex {
+	display: flex;
+}
+.city-list ul li a {
+	color: rgb(0, 0, 0);
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    overflow: hidden;
+}

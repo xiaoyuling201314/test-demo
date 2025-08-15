@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.system.TSTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.system.TSType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="type_value" property="typeValue" jdbcType="VARCHAR" />
+    <result column="checked" property="checked" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="sorting" property="sorting" jdbcType="SMALLINT" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="param3" property="param3" jdbcType="VARCHAR" />
+    <collection column="id" property="tsTypes" ofType="com.dayuan.bean.system.TSType" javaType="list" select="queryByParentId">
+    	<!-- <id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+	    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+	    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+	    <result column="type_value" property="typeValue" jdbcType="VARCHAR" />
+	    <result column="checked" property="checked" jdbcType="SMALLINT" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="sorting" property="sorting" jdbcType="SMALLINT" />
+	    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+	    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+	    <result column="param1" property="param1" jdbcType="VARCHAR" />
+	    <result column="param2" property="param2" jdbcType="VARCHAR" />
+	    <result column="param3" property="param3" jdbcType="VARCHAR" /> -->
+    </collection>
+  </resultMap>
+  
+	<!-- <resultMap id="JoinResultMap" type="com.dayuan.bean.system.TSType" extends="BaseResultMap">
+		<collection property="tsTypes" ofType="com.dayuan.bean.system.TSType">
+	    	<id column="s_id" property="id" jdbcType="INTEGER" />
+		    <result column="s_parent_id" property="parentId" jdbcType="INTEGER" />
+		    <result column="s_type_code" property="typeCode" jdbcType="VARCHAR" />
+		    <result column="s_type_name" property="typeName" jdbcType="VARCHAR" />
+		    <result column="s_type_value" property="typeValue" jdbcType="VARCHAR" />
+		    <result column="s_checked" property="checked" jdbcType="SMALLINT" />
+		    <result column="s_remark" property="remark" jdbcType="VARCHAR" />
+		    <result column="s_sorting" property="sorting" jdbcType="SMALLINT" />
+		    <result column="s_delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+		    <result column="s_create_by" property="createBy" jdbcType="VARCHAR" />
+		    <result column="s_create_date" property="createDate" jdbcType="TIMESTAMP" />
+		    <result column="s_update_by" property="updateBy" jdbcType="VARCHAR" />
+		    <result column="s_update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		    <result column="s_param1" property="param1" jdbcType="VARCHAR" />
+		    <result column="s_param2" property="param2" jdbcType="VARCHAR" />
+		    <result column="s_param3" property="param3" jdbcType="VARCHAR" />
+	    </collection>
+	</resultMap> -->
+  
+  <sql id="Base_Column_List" >
+    id, parent_id, type_code, type_name, type_value, checked, remark, sorting, delete_flag, 
+    create_by, create_date, update_by, update_date, param1, param2, param3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.system.TSType" >
+    insert into t_s_type (id, parent_id, type_code, 
+      type_name, type_value, checked, 
+      remark, sorting, delete_flag, 
+      create_by, create_date, update_by, 
+      update_date, param1, param2, 
+      param3)
+    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{typeCode,jdbcType=VARCHAR}, 
+      #{typeName,jdbcType=VARCHAR}, #{typeValue,jdbcType=VARCHAR}, #{checked,jdbcType=SMALLINT}, 
+      #{remark,jdbcType=VARCHAR}, #{sorting,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, 
+      #{param3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.system.TSType" >
+    insert into t_s_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="typeCode != null" >
+        type_code,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+      <if test="typeValue != null" >
+        type_value,
+      </if>
+      <if test="checked != null" >
+        checked,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="sorting != null" >
+        sorting,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="param1 != null" >
+        param1,
+      </if>
+      <if test="param2 != null" >
+        param2,
+      </if>
+      <if test="param3 != null" >
+        param3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeValue != null" >
+        #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null" >
+        #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        #{param3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.system.TSType" >
+    update t_s_type
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="typeCode != null" >
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeValue != null" >
+        type_value = #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        checked = #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null" >
+        sorting = #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.system.TSType" >
+    update t_s_type
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      type_code = #{typeCode,jdbcType=VARCHAR},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      type_value = #{typeValue,jdbcType=VARCHAR},
+      checked = #{checked,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      sorting = #{sorting,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryByTypeCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_type where type_code = #{typeCode} and ISNULL(parent_id) and checked=1 and delete_flag=0
+  </select>
+  
+  <select id="queryByParentId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_s_type where parent_id = #{id} and checked=1 and delete_flag=0
+  </select>
+  
+<!--   <select id="queryByTypeCode" resultMap="JoinResultMap" parameterType="java.lang.String" >
+  SELECT t.id id, t.parent_id parent_id, t.type_code type_code, t.type_name type_name, t.type_value type_value, t.checked checked, 
+  	t.remark remark, t.sorting sorting, t.delete_flag delete_flag, t.create_by create_by, t.create_date create_date, 
+  	t.update_by update_by, t.update_date update_date, t.param1 param1, t.param2 param2, t.param3 param3,
+    s.id s_id, s.parent_id s_parent_id, s.type_code s_type_code, s.type_name s_type_name, s.type_value s_type_value, s.checked s_checked, 
+    s.remark s_remark, s.sorting s_sorting, s.delete_flag s_delete_flag, s.create_by s_create_by, s.create_date s_create_date, 
+    s.update_by s_update_by, s.update_date s_update_date, s.param1 s_param1, s.param2 s_param2, s.param3 s_param3 
+    FROM t_s_type t RIGHT JOIN (
+	  	select 
+	    <include refid="Base_Column_List" />
+	    from t_s_type where type_code = #{typeCode} and ISNULL(parent_id) and checked=1 and delete_flag=0
+	  ) s ON t.parent_id = s.id 
+    
+  </select> -->
+  
+  <!-- <select id="queryByTypeCode" resultMap="JoinResultMap" parameterType="java.lang.String" >
+  SELECT t.id id, t.parent_id parent_id, t.type_code type_code, t.type_name type_name, t.type_value type_value, t.checked checked, 
+  	t.remark remark, t.sorting sorting, t.delete_flag delete_flag, t.create_by create_by, t.create_date create_date, 
+  	t.update_by update_by, t.update_date update_date, t.param1 param1, t.param2 param2, t.param3 param3,
+    s.id s_id, s.parent_id s_parent_id, s.type_code s_type_code, s.type_name s_type_name, s.type_value s_type_value, s.checked s_checked, 
+    s.remark s_remark, s.sorting s_sorting, s.delete_flag s_delete_flag, s.create_by s_create_by, s.create_date s_create_date, 
+    s.update_by s_update_by, s.update_date s_update_date, s.param1 s_param1, s.param2 s_param2, s.param3 s_param3 
+    FROM t_s_type t RIGHT JOIN (
+	  	select <include refid="Base_Column_List" />
+	    from t_s_type where type_code = #{typeCode} and ISNULL(parent_id) and checked=1 and delete_flag=0
+	  ) s ON t.parent_id = s.id 
+    
+  </select> -->
+</mapper>

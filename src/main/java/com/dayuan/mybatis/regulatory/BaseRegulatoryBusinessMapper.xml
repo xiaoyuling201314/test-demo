@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.regulatory.BaseRegulatoryBusinessMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.regulatory.BaseRegulatoryBusiness">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="reg_id" property="regId" jdbcType="INTEGER"/>
+        <result column="ope_shop_name" property="opeShopName" jdbcType="VARCHAR"/>
+        <result column="ope_shop_code" property="opeShopCode" jdbcType="VARCHAR"/>
+        <result column="ope_name" property="opeName" jdbcType="VARCHAR"/>
+        <result column="ope_idcard" property="opeIdcard" jdbcType="VARCHAR"/>
+        <result column="credit_code" property="creditCode" jdbcType="VARCHAR"/>
+        <result column="ope_phone" property="opePhone" jdbcType="VARCHAR"/>
+        <result column="credit_rating" property="creditRating" jdbcType="SMALLINT"/>
+        <result column="monitoring_level" property="monitoringLevel" jdbcType="SMALLINT"/>
+        <result column="qrcode" property="qrcode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="checked" property="checked" jdbcType="SMALLINT"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="sorting" property="sorting" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="business_cope" property="businessCope" jdbcType="VARCHAR"/>
+        <result column="contacts" property="contacts" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <!-- 经营户账号 -->
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="yiwanc" property="yiwanc" jdbcType="INTEGER"/>
+        <result column="business_first_letter" jdbcType="VARCHAR" property="businessFirstLetter"/>
+        <result column="business_full_letter" jdbcType="VARCHAR" property="businessFullLetter"/>
+    </resultMap>
+    <resultMap id="BusinessResultMap" type="com.dayuan.bean.regulatory.BaseRegulatoryBusiness">
+        <result column="reg_id" property="regId" jdbcType="INTEGER"/>
+        <result column="ope_shop_name" property="opeShopName" jdbcType="VARCHAR"/>
+        <result column="ope_shop_code" property="opeShopCode" jdbcType="VARCHAR"/>
+        <result column="ope_name" property="opeName" jdbcType="VARCHAR"/>
+        <result column="ope_idcard" property="opeIdcard" jdbcType="VARCHAR"/>
+        <result column="credit_code" property="creditCode" jdbcType="VARCHAR"/>
+        <result column="ope_phone" property="opePhone" jdbcType="VARCHAR"/>
+        <result column="credit_rating" property="creditRating" jdbcType="SMALLINT"/>
+        <result column="monitoring_level" property="monitoringLevel" jdbcType="SMALLINT"/>
+        <result column="reg_name" property="regName" jdbcType="VARCHAR"/>
+        <result column="business_cope" property="businessCope" jdbcType="VARCHAR"/>
+        <result column="contacts" property="contacts" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="depart_name" property="departName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, reg_id, ope_shop_name, ope_shop_code, ope_name, ope_idcard, credit_code, ope_phone, credit_rating,
+        monitoring_level, qrcode, remark, checked, delete_flag, sorting, create_by, create_date,
+        update_by, update_date, business_cope, contacts, type, address
+    </sql>
+    <select id="queryByRegIdAndRegName" parameterType="Object" resultMap="BusinessResultMap">
+        SELECT
+        b.id, reg_id, ope_shop_name, ope_shop_code, ope_name, ope_idcard,b.credit_code, ope_phone, b.credit_rating,
+        b.monitoring_level,b.qrcode,b.checked,reg_name,b.business_cope,b.contacts, b.type,d.depart_name
+        FROM base_regulatory_business b
+        LEFT JOIN base_regulatory_object o ON b.reg_id=o.id
+        LEFT JOIN t_s_depart d ON o.depart_id=d.id
+        WHERE b.delete_flag = 0 AND reg_id = #{regId,jdbcType=INTEGER}
+        <if test="opeShopName !=null and opeShopName !='' ">
+            AND (
+            ope_shop_name LIKE concat(concat('%',#{opeShopName}),'%')
+            OR ope_name LIKE concat(concat('%',#{opeShopName}),'%')
+            OR ope_shop_code LIKE concat(concat('%',#{opeShopName}),'%')
+            )
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_regulatory_business
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryByIds" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_regulatory_business
+        WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" > delete from base_regulatory_business
+        where id = #{id,jdbcType=VARCHAR} </delete> -->
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        UPDATE base_regulatory_business SET delete_flag = 1,update_date=now()
+        WHERE id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </update>
+    <insert id="insert" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryBusiness" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO base_regulatory_business (id, reg_id, ope_shop_name,
+                                              ope_shop_code, ope_name, ope_idcard, credit_code,
+                                              ope_phone, credit_rating, monitoring_level,
+                                              qrcode, remark, checked,
+                                              delete_flag, sorting, create_by,
+                                              create_date, update_by, update_date, business_cope, contacts, type, address
+            , business_first_letter, business_full_letter)
+        VALUES (#{id,jdbcType=INTEGER}, #{regId,jdbcType=INTEGER}, #{opeShopName,jdbcType=VARCHAR},
+                                        #{opeShopCode,jdbcType=VARCHAR}, #{opeName,jdbcType=VARCHAR},
+                                        #{opeIdcard,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR},
+                                        #{opePhone,jdbcType=VARCHAR}, #{creditRating,jdbcType=SMALLINT},
+                                        #{monitoringLevel,jdbcType=SMALLINT},
+                                        #{qrcode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+                                                                    #{checked,jdbcType=SMALLINT},
+                                                                    #{deleteFlag,jdbcType=SMALLINT},
+                                                                    #{sorting,jdbcType=SMALLINT},
+                                                                    #{createBy,jdbcType=VARCHAR},
+                                                                    #{createDate,jdbcType=TIMESTAMP},
+                                                                    #{updateBy,jdbcType=VARCHAR},
+                                                                    #{updateDate,jdbcType=TIMESTAMP},
+                                                                    #{businessCope,jdbcType=VARCHAR},
+                                                                    #{contacts,jdbcType=VARCHAR},
+                #{type,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}
+            , #{businessFirstLetter,jdbcType=VARCHAR}, #{businessFullLetter,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryBusiness"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO base_regulatory_business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="regId != null">
+                reg_id,
+            </if>
+            <if test="opeShopName != null">
+                ope_shop_name,
+            </if>
+            <if test="opeShopCode != null">
+                ope_shop_code,
+            </if>
+            <if test="opeName != null">
+                ope_name,
+            </if>
+            <if test="opeIdcard != null">
+                ope_idcard,
+            </if>
+            <if test="creditCode != null">
+                credit_code,
+            </if>
+            <if test="opePhone != null">
+                ope_phone,
+            </if>
+            <if test="creditRating != null">
+                credit_rating,
+            </if>
+            <if test="monitoringLevel != null">
+                monitoring_level,
+            </if>
+            <if test="qrcode != null">
+                qrcode,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="checked != null">
+                checked,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="sorting != null">
+                sorting,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="businessCope != null">
+                business_cope,
+            </if>
+            <if test="contacts != null">
+                contacts,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="businessFirstLetter != null">
+                business_first_letter,
+            </if>
+            <if test="businessFullLetter != null">
+                business_full_letter,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="regId != null">
+                #{regId,jdbcType=INTEGER},
+            </if>
+            <if test="opeShopName != null">
+                #{opeShopName,jdbcType=VARCHAR},
+            </if>
+            <if test="opeShopCode != null">
+                #{opeShopCode,jdbcType=VARCHAR},
+            </if>
+            <if test="opeName != null">
+                #{opeName,jdbcType=VARCHAR},
+            </if>
+            <if test="opeIdcard != null">
+                #{opeIdcard,jdbcType=VARCHAR},
+            </if>
+            <if test="creditCode != null">
+                #{creditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="opePhone != null">
+                #{opePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="creditRating != null">
+                #{creditRating,jdbcType=SMALLINT},
+            </if>
+            <if test="monitoringLevel != null">
+                #{monitoringLevel,jdbcType=SMALLINT},
+            </if>
+            <if test="qrcode != null">
+                #{qrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="checked != null">
+                #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessCope != null">
+                #{businessCope,jdbcType=VARCHAR},
+            </if>
+            <if test="contacts != null">
+                #{contacts,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="businessFirstLetter != null">
+                #{businessFirstLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="businessFullLetter != null">
+                #{businessFullLetter,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryBusiness">
+        UPDATE base_regulatory_business
+        <set>
+            <if test="regId != null">
+                reg_id = #{regId,jdbcType=INTEGER},
+            </if>
+            <if test="opeShopName != null">
+                ope_shop_name = #{opeShopName,jdbcType=VARCHAR},
+            </if>
+            <if test="opeShopCode != null">
+                ope_shop_code = #{opeShopCode,jdbcType=VARCHAR},
+            </if>
+            <if test="opeName != null">
+                ope_name = #{opeName,jdbcType=VARCHAR},
+            </if>
+            <if test="opeIdcard != null">
+                ope_idcard = #{opeIdcard,jdbcType=VARCHAR},
+            </if>
+            <if test="creditCode != null">
+                credit_code= #{creditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="opePhone != null">
+                ope_phone = #{opePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="creditRating != null">
+                credit_rating = #{creditRating,jdbcType=SMALLINT},
+            </if>
+            <if test="monitoringLevel != null">
+                monitoring_level = #{monitoringLevel,jdbcType=SMALLINT},
+            </if>
+            <if test="qrcode != null">
+                qrcode = #{qrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="checked != null">
+                checked = #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                sorting = #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessCope != null">
+                business_cope = #{businessCope,jdbcType=VARCHAR},
+            </if>
+            <if test="contacts != null">
+                contacts = #{contacts,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="businessFirstLetter != null">
+                business_first_letter = #{businessFirstLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="businessFullLetter != null">
+                business_full_letter = #{businessFullLetter,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryBusiness">
+        UPDATE base_regulatory_business
+        SET reg_id           = #{regId,jdbcType=INTEGER},
+            ope_shop_name    = #{opeShopName,jdbcType=VARCHAR},
+            ope_shop_code    = #{opeShopCode,jdbcType=VARCHAR},
+            ope_name         = #{opeName,jdbcType=VARCHAR},
+            ope_idcard       = #{opeIdcard,jdbcType=VARCHAR},
+            credit_code      = #{creditCode,jdbcType=VARCHAR},
+            ope_phone        = #{opePhone,jdbcType=VARCHAR},
+            credit_rating    = #{creditRating,jdbcType=SMALLINT},
+            monitoring_level = #{monitoringLevel,jdbcType=SMALLINT},
+            qrcode           = #{qrcode,jdbcType=VARCHAR},
+            remark           = #{remark,jdbcType=VARCHAR},
+            checked          = #{checked,jdbcType=SMALLINT},
+            delete_flag      = #{deleteFlag,jdbcType=SMALLINT},
+            sorting          = #{sorting,jdbcType=SMALLINT},
+            create_by        = #{createBy,jdbcType=VARCHAR},
+            create_date      = #{createDate,jdbcType=TIMESTAMP},
+            update_by        = #{updateBy,jdbcType=VARCHAR},
+            update_date      = #{updateDate,jdbcType=TIMESTAMP},
+            business_cope    = #{businessCope,jdbcType=VARCHAR},
+            contacts         = #{contacts,jdbcType=VARCHAR},
+            type             = #{type,jdbcType=INTEGER},
+            address          = #{address,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where delete_flag = 0 and reg_id is not null
+        <if test="obj.regulatoryObject != null">
+            <if test="obj.regulatoryObject.id != null">
+                and reg_id = #{obj.regulatoryObject.id}
+            </if>
+        </if>
+        <if test="obj.regulatoryBusiness != null">
+            <if test="obj.regulatoryBusiness.opeShopName != null and obj.regulatoryBusiness.opeShopName != ''">
+                and (
+                ope_shop_name like concat(concat('%',#{obj.regulatoryBusiness.opeShopName}),'%')
+                or ope_name like concat(concat('%',#{obj.regulatoryBusiness.opeShopName}),'%')
+                or ope_shop_code like concat(concat('%',#{obj.regulatoryBusiness.opeShopName}),'%')
+                )
+            </if>
+            <if test="obj.regulatoryBusiness.creditRating != null and obj.regulatoryBusiness.creditRating != ''">
+                and credit_rating = #{obj.regulatoryBusiness.creditRating}
+            </if>
+            <if test="obj.regulatoryBusiness.monitoringLevel != null and obj.regulatoryBusiness.monitoringLevel != ''">
+                and monitoring_level = #{obj.regulatoryBusiness.monitoringLevel}
+            </if>
+
+            <if test="obj.regulatoryBusiness.type != null">
+                and type = #{obj.regulatoryBusiness.type}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap"
+            parameterType="Object"> <!-- and stockDate &gt; #{obj.startTime} and stockDate &lt; NOW()  -->
+        SELECT
+        <include refid="Base_Column_List"/>,(SELECT username FROM base_ledger_user USER WHERE USER.ope_id=b.id AND
+        USER.type=0)AS username,
+        (SELECT COUNT(1) FROM base_ledger_stock WHERE
+        delete_flag = 0 AND businessId =b.id )AS yiwanc
+        FROM base_regulatory_business b
+        <include refid="Example_Where_Clause"/>
+        ORDER BY create_date ${order} LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <!-- 总数 -->
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM base_regulatory_business
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <select id="queryByRegid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>,business_first_letter,business_full_letter
+        FROM base_regulatory_business
+        WHERE reg_id = #{regId,jdbcType=INTEGER} AND delete_flag = 0
+        <if test="checked != null">
+            AND checked = #{checked,jdbcType=INTEGER}
+        </if>
+    </select>
+    <!-- /**
+     * 根据市场Id ,经营户名称查询 经营户
+     * @param regId 市场ID
+     * @param regShopName 经营户档口名称
+     * @return
+     * @author LuoYX
+     * @date 2018年5月14日
+     */ -->
+    <select id="queryByRegIdAndRegUser" parameterType="Object" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_regulatory_business
+        WHERE reg_id = #{regId,jdbcType=INTEGER} AND delete_flag = 0
+        AND ope_shop_code=#{opeShopCode}
+    </select>
+    <!-- /**
+     * 查询机构下的经营户
+     * @param departCode 机构Code
+     * @param subset Y or N
+     * @return
+     * @author LuoYX
+     * @date 2018年5月30日
+     */ -->
+    <select id="queryBusMapByDepartCode" parameterType="Object" resultType="java.util.Map">
+        SELECT t.id,t.ope_shop_code,COUNT(t.ope_shop_code) count
+        FROM (
+        SELECT bus.id,
+        CONCAT(bus.ope_shop_code,obj.reg_name) ope_shop_code
+        FROM base_regulatory_business bus
+        LEFT JOIN base_regulatory_object obj ON bus.reg_id=obj.id
+        WHERE bus.delete_flag=0 AND obj.delete_flag=0 AND
+        obj.depart_id IN (
+        SELECT id FROM t_s_depart WHERE depart_code
+        <if test="subset != null and subset == 'Y'.toString()">
+            LIKE CONCAT(#{departCode},'%')
+        </if>
+        <if test="subset != null and subset == 'N'.toString()">
+            =#{departCode}
+        </if>
+        )
+        GROUP BY obj.id,bus.id
+        ORDER BY ope_shop_code
+        )t
+        GROUP BY t.ope_shop_code
+    </select>
+    <!-- /**
+     * 根据市场ID查询 经营户档口ID
+     * @param regIds 市场ID
+     * @return
+     * @author LuoYX
+     * @date 2018年6月27日
+     */ -->
+    <select id="queryIdsByRegIds" resultType="java.lang.Integer" parameterType="Object">
+        SELECT id FROM base_regulatory_business WHERE delete_flag=0
+        AND reg_id IN
+        <if test="regIds != null and regIds.size() > 0">
+            <foreach item="item" index="index" collection="regIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="regIds == null or regIds.size() == 0">
+            (0)
+        </if>
+    </select>
+
+    <!-- /**
+    * 查询 时间段内 市场拥有的档口数量
+    * @param model
+    * @return
+    * @author LuoYX
+    * @date 2018年8月27日
+    */
+   List<Map<String, Object>> queryBusCountByGroupByRegId(RegulatoryCoverageModel model); -->
+    <select id="queryBusCountByGroupByRegId" parameterType="Object" resultType="java.util.Map">
+        SELECT id reg_id,
+        IFNULL((SELECT
+        SUM(CASE WHEN (delete_flag=0
+        <if test="end != null and end !=''">
+            OR (delete_flag=1 AND update_date&gt;=#{end})
+        </if>
+        ) THEN 1 ELSE 0 END)
+        FROM base_regulatory_business b
+        WHERE reg_id=o.id AND b.create_date&lt;=CONCAT(#{end},' 23:59:59')
+        ),0) busCount
+        FROM base_regulatory_object o
+        WHERE id IN (
+        SELECT id FROM base_regulatory_object WHERE depart_id=#{departId} AND delete_flag=0
+        <if test="end != null and end !=''">
+            AND create_date&lt;=CONCAT(#{end},' 23:59:59')
+        </if>
+        )
+        ORDER BY id
+    </select>
+
+    <select id="queryByRegOtherCode" parameterType="Object" resultMap="BaseResultMap">
+        SELECT
+            brb.id,
+            brb.reg_id,
+            brb.ope_shop_name,
+            brb.ope_shop_code,
+            brb.ope_name,
+            brb.ope_idcard,
+            brb.ope_phone,
+            brb.credit_rating,
+            brb.monitoring_level,
+            brb.qrcode,
+            brb.remark,
+            brb.checked,
+            brb.delete_flag,
+            brb.sorting,
+            brb.create_by,
+            brb.create_date,
+            brb.update_by,
+            brb.update_date,
+            brb.credit_code,
+            brb.business_cope,
+            brb.contacts,
+            brb.address
+        FROM base_regulatory_object bro INNER JOIN base_regulatory_business brb ON bro.id = brb.reg_id
+        WHERE brb.delete_flag = 0 AND bro.param1 = #{otherCode}
+    </select>
+    <select id="queryByLastUpdateTime" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_regulatory_business
+        WHERE delete_flag = 0 AND checked=1
+        <if test="lastUpdateTimeBusiness!=null">
+            AND update_date&gt;=#{lastUpdateTimeBusiness}
+        </if>
+    </select>
+
+    <resultMap id="deviceResultMap" type="com.dayuan.model.regulatory.BaseRegBusDeviceModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="reg_id" property="regId" jdbcType="INTEGER"/>
+        <result column="ope_shop_name" property="opeShopName" jdbcType="VARCHAR"/>
+        <result column="ope_shop_code" property="opeShopCode" jdbcType="VARCHAR"/>
+        <result column="ope_name" property="opeName" jdbcType="VARCHAR"/>
+        <result column="ope_idcard" property="opeIdcard" jdbcType="VARCHAR"/>
+        <result column="credit_code" property="creditCode" jdbcType="VARCHAR"/>
+        <result column="ope_phone" property="opePhone" jdbcType="VARCHAR"/>
+        <result column="checked" property="checked" jdbcType="SMALLINT"/>
+        <result column="contacts" property="contacts" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--
+   仪器端嵌套网页的分页查询-查询列表
+   @author：shit
+   @date 2022-03-15
+   -->
+    <select id="loadDatagridDevice" resultMap="deviceResultMap" parameterType="Object">
+        SELECT *
+        FROM base_regulatory_business
+        WHERE delete_flag = 0
+        AND reg_id = #{obj.regId}
+        <if test="obj.opeShopName != null and obj.opeShopName != ''">
+            AND (
+            ope_shop_name LIKE concat('%',#{obj.opeShopName},'%')
+            OR ope_name LIKE concat('%',#{obj.opeShopName},'%')
+            OR ope_shop_code LIKE concat('%',#{obj.opeShopName},'%')
+            )
+        </if>
+        ORDER BY sorting ASC, update_date DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+
+    <!--
+    仪器端嵌套网页的分页查询-查询总数
+    @author：shit
+   @date 2022-03-15
+    -->
+    <select id="getRowTotalDevice" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM base_regulatory_business
+        WHERE delete_flag = 0
+        AND reg_id = #{obj.regId}
+        <if test="obj.opeShopName != null and obj.opeShopName != ''">
+            AND (
+            ope_shop_name LIKE concat('%',#{obj.opeShopName},'%')
+            OR ope_name LIKE concat('%',#{obj.opeShopName},'%')
+            OR ope_shop_code LIKE concat('%',#{obj.opeShopName},'%')
+            )
+        </if>
+    </select>
+</mapper>

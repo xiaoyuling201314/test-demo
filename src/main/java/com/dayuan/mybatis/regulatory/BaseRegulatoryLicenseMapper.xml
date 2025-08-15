@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.regulatory.BaseRegulatoryLicenseMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.regulatory.BaseRegulatoryLicense" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
+    <result column="source_type" property="sourceType" jdbcType="VARCHAR" />
+    <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="capital" property="capital" jdbcType="DOUBLE" />
+    <result column="license_name" property="licenseName" jdbcType="VARCHAR" />
+    <result column="license_code" property="licenseCode" jdbcType="VARCHAR" />
+    <result column="license_type" property="licenseType" jdbcType="SMALLINT" />
+    <result column="license_rdate" property="licenseRdate" jdbcType="TIMESTAMP" />
+    <result column="license_sdate" property="licenseSdate" jdbcType="TIMESTAMP" />
+    <result column="license_edate" property="licenseEdate" jdbcType="TIMESTAMP" />
+    <result column="license_image" property="licenseImage" jdbcType="VARCHAR" />
+    <result column="scope" property="scope" jdbcType="VARCHAR" />
+    <result column="authority" property="authority" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="checked" property="checked" jdbcType="SMALLINT" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="sorting" property="sorting" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, source_id, source_type, legal_person, idcard, capital, license_name, license_code, 
+    license_type, license_rdate, license_sdate, license_edate, license_image, scope, 
+    authority, remark, checked, delete_flag, sorting, create_by, create_date, update_by, 
+    update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_regulatory_license
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+<!--   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from base_regulatory_license
+    where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+  </delete> -->
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    update base_regulatory_license set delete_flag = 1,update_date=now()
+    	where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+  </update>
+  <insert id="insert" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryLicense" useGeneratedKeys="true" keyProperty="id">
+    insert into base_regulatory_license (id, source_id, source_type, 
+      legal_person, idcard, capital, 
+      license_name, license_code, license_type, 
+      license_rdate, license_sdate, license_edate, 
+      license_image, scope, authority, 
+      remark, checked, delete_flag, 
+      sorting, create_by, create_date, 
+      update_by, update_date)
+    values (#{id,jdbcType=INTEGER}, #{sourceId,jdbcType=INTEGER}, #{sourceType,jdbcType=VARCHAR}, 
+      #{legalPerson,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{capital,jdbcType=DOUBLE}, 
+      #{licenseName,jdbcType=VARCHAR}, #{licenseCode,jdbcType=VARCHAR}, #{licenseType,jdbcType=SMALLINT}, 
+      #{licenseRdate,jdbcType=TIMESTAMP}, #{licenseSdate,jdbcType=TIMESTAMP}, #{licenseEdate,jdbcType=TIMESTAMP}, 
+      #{licenseImage,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{checked,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, 
+      #{sorting,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryLicense" useGeneratedKeys="true" keyProperty="id">
+    insert into base_regulatory_license
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="legalPerson != null" >
+        legal_person,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="capital != null" >
+        capital,
+      </if>
+      <if test="licenseName != null" >
+        license_name,
+      </if>
+      <if test="licenseCode != null" >
+        license_code,
+      </if>
+      <if test="licenseType != null" >
+        license_type,
+      </if>
+      <if test="licenseRdate != null" >
+        license_rdate,
+      </if>
+      <if test="licenseSdate != null" >
+        license_sdate,
+      </if>
+      <if test="licenseEdate != null" >
+        license_edate,
+      </if>
+      <if test="licenseImage != null" >
+        license_image,
+      </if>
+      <if test="scope != null" >
+        scope,
+      </if>
+      <if test="authority != null" >
+        authority,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="checked != null" >
+        checked,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="sorting != null" >
+        sorting,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        #{capital,jdbcType=DOUBLE},
+      </if>
+      <if test="licenseName != null" >
+        #{licenseName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseCode != null" >
+        #{licenseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseType != null" >
+        #{licenseType,jdbcType=SMALLINT},
+      </if>
+      <if test="licenseRdate != null" >
+        #{licenseRdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseSdate != null" >
+        #{licenseSdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseEdate != null" >
+        #{licenseEdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseImage != null" >
+        #{licenseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null" >
+        #{authority,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="sorting != null" >
+        #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryLicense" >
+    update base_regulatory_license
+    <set >
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="capital != null" >
+        capital = #{capital,jdbcType=DOUBLE},
+      </if>
+      <if test="licenseName != null" >
+        license_name = #{licenseName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseCode != null" >
+        license_code = #{licenseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseType != null" >
+        license_type = #{licenseType,jdbcType=SMALLINT},
+      </if>
+      <if test="licenseRdate != null" >
+        license_rdate = #{licenseRdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseSdate != null" >
+        license_sdate = #{licenseSdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseEdate != null" >
+        license_edate = #{licenseEdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licenseImage != null" >
+        license_image = #{licenseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        scope = #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null" >
+        authority = #{authority,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="checked != null" >
+        checked = #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="sorting != null" >
+        sorting = #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryLicense" >
+    update base_regulatory_license
+    set source_id = #{sourceId,jdbcType=INTEGER},
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      capital = #{capital,jdbcType=DOUBLE},
+      license_name = #{licenseName,jdbcType=VARCHAR},
+      license_code = #{licenseCode,jdbcType=VARCHAR},
+      license_type = #{licenseType,jdbcType=SMALLINT},
+      license_rdate = #{licenseRdate,jdbcType=TIMESTAMP},
+      license_sdate = #{licenseSdate,jdbcType=TIMESTAMP},
+      license_edate = #{licenseEdate,jdbcType=TIMESTAMP},
+      license_image = #{licenseImage,jdbcType=VARCHAR},
+      scope = #{scope,jdbcType=VARCHAR},
+      authority = #{authority,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      checked = #{checked,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      sorting = #{sorting,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryBySourceId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_regulatory_license
+    where delete_flag = 0 and source_id = #{sourceId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryByBusinessId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_regulatory_license
+    where delete_flag = 0 and source_type = '1' and source_id = #{businessId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag = 0 and source_id is not null
+		<trim suffixOverrides=",">
+		<if test="obj.regulatoryObject != null">
+			<if test="obj.regulatoryObject.id != null">
+				and source_id = #{obj.regulatoryObject.id}
+			</if>
+		</if>
+		</trim>
+	</sql>
+  
+  <!-- 分页查询  -->
+  <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object" >
+    select <include refid="Base_Column_List" />
+    from base_regulatory_license 
+    <include refid="Example_Where_Clause" />
+    order by create_date ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  
+  <!-- 总数 -->
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal
+    from base_regulatory_license 
+    <include refid="Example_Where_Clause" />
+  </select>
+  <!-- 根据监管对象和类型查询最近注册的执照信息 -->
+    <select id="queryBySourceIdAndType" resultMap="BaseResultMap" parameterType="Object" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_regulatory_license
+    where delete_flag = 0 and source_id = #{sourceId,jdbcType=INTEGER} and license_type=#{licenseType} order by license_rdate desc limit 0,1
+  </select>
+</mapper>

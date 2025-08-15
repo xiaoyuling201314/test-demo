@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.dataCheck.DataCheckRecordingMapper1" >
+  <resultMap id="JoinResultMap" type="com.dayuan.bean.dataCheck.DataCheckRecording" extends="com.dayuan.mapper.dataCheck.DataCheckRecordingMapper.BaseResultMap">
+  	<result column="regUserCode" property="regUserCode" jdbcType="VARCHAR" />
+  	<result column="samplingUsername" property="samplingUsername" jdbcType="VARCHAR" />
+  </resultMap>
+
+   <sql id="SQL_WHERE">
+		<choose>
+			<when test="obj.userRegId != null ">
+				AND ts.reg_id = #{obj.userRegId}
+			</when>
+			<when test="obj.pointArr != null and obj.pointArr.length > 0">
+				AND ts.point_id in
+			   	<foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+			    	#{item}
+			    </foreach>
+			</when>
+			<when test="obj.departArr != null and obj.departArr.length > 0">
+				AND ts.depart_id in
+		    	<foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+		    		#{item}
+		    	</foreach>
+			</when>
+		</choose>
+  </sql>
+  <select id="loadDatagrid" resultMap="JoinResultMap" parameterType="Object" >
+	SELECT tsd.id id, tsd.sample_code samplingDetailCode, tsd.id samplingDetailId,
+	tsd.food_name foodName, 	tsd.item_name itemName,
+	ts.reg_name regName, ts.ope_shop_name regUserName, ts.ope_shop_code regUserCode,
+	ts.sampling_date samplingDate, ts.sampling_username samplingUsername
+	<!-- bp.point_name pointName -->
+	FROM tb_sampling ts
+	INNER JOIN tb_sampling_detail tsd ON ts.id = tsd.sampling_id
+	LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+	WHERE ts.delete_flag = 0 AND (dcr.id IS NULL OR dcr.delete_flag = 1) <include refid="SQL_WHERE"></include>
+    ORDER BY ts.sampling_date ${order} LIMIT #{rowOffset}, #{pageSize}
+  </select>
+
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+	SELECT count(1) AS rowTotal
+	FROM tb_sampling ts
+	INNER JOIN tb_sampling_detail tsd ON ts.id = tsd.sampling_id
+	LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+	WHERE ts.delete_flag = 0 AND (dcr.id IS NULL OR dcr.delete_flag = 1) <include refid="SQL_WHERE"></include>
+  </select>
+</mapper>

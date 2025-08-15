@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.app.TbSignInMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.app.TbSignIn">
+		<id column="id" property="id" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result property="signType" column="sign_type" jdbcType="SMALLINT"/>
+		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="param1" property="param1" jdbcType="VARCHAR" />
+		<result column="param2" property="param2" jdbcType="VARCHAR" />
+		<result column="param3" property="param3" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BaseResultModelMap" type="com.dayuan.model.app.TbSignInModel">
+		<id column="id" property="id" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="userId" property="userId" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="departId" property="departId" jdbcType="VARCHAR" />
+		<result column="pointId" property="pointId" jdbcType="VARCHAR" />
+		<result column="departName" property="departName" jdbcType="VARCHAR" />
+		<result column="pointName" property="pointName" jdbcType="VARCHAR" />
+		<result column="signCount" property="signCount" jdbcType="INTEGER" />
+		<result column="samplingCount" property="samplingCount" jdbcType="INTEGER" />
+		<result column="punchCount" property="punchCount" jdbcType="INTEGER" />
+		<result property="signType" column="sign_type" jdbcType="SMALLINT"/>
+		<result column="param1" property="param1" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, longitude, latitude, address,signType, delete_flag, create_by, create_date,
+		update_by,
+		update_date, param1, param2, param3
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tb_sign_in
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from tb_sign_in
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.app.TbSignIn"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tb_sign_in (longitude, latitude,
+		address,sign_type, delete_flag, create_by,
+		create_date, update_by, update_date,
+		param1, param2, param3
+		)
+		values (#{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR},#{signType,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT},
+		#{createBy,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+		#{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+		#{param3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.dayuan.bean.app.TbSignIn" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into tb_sign_in
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="longitude != null">
+				longitude,
+			</if>
+			<if test="latitude != null">
+				latitude,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="signType != null">
+				sign_type,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="param1 != null">
+				param1,
+			</if>
+			<if test="param2 != null">
+				param2,
+			</if>
+			<if test="param3 != null">
+				param3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="longitude != null">
+				#{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				#{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="signType != null">
+				#{signType,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="param1 != null">
+				#{param1,jdbcType=VARCHAR},
+			</if>
+			<if test="param2 != null">
+				#{param2,jdbcType=VARCHAR},
+			</if>
+			<if test="param3 != null">
+				#{param3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.dayuan.bean.app.TbSignIn">
+		update tb_sign_in
+		<set>
+			<if test="longitude != null">
+				longitude = #{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="signType != null">
+				sign_type = #{signType,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="param1 != null">
+				param1 = #{param1,jdbcType=VARCHAR},
+			</if>
+			<if test="param2 != null">
+				param2 = #{param2,jdbcType=VARCHAR},
+			</if>
+			<if test="param3 != null">
+				param3 = #{param3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.dayuan.bean.app.TbSignIn">
+		update tb_sign_in
+		set longitude = #{longitude,jdbcType=VARCHAR},
+		latitude = #{latitude,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		sign_type = #{signType,jdbcType=SMALLINT},
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		param1 = #{param1,jdbcType=VARCHAR},
+		param2 = #{param2,jdbcType=VARCHAR},
+		param3 = #{param3,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<!-- 分页基础查询 -->
+	<!-- <select id="loadDatagrid" resultMap="BaseResultModelMap" parameterType="Object" 
+		> select tsi.id id, tsi.longitude longitude, tsi.latitude latitude, tsi.address 
+		address, tsi.create_date createDate, tsu.id userId, tsu.user_name userName, 
+		tsu.realname realname, tsd.id departId, tsd.depart_name departName, bp.id 
+		pointId, bp.point_name pointName from tb_sign_in tsi left join t_s_user tsu 
+		on tsi.create_by = tsu.id left join t_s_depart tsd on tsu.depart_id = tsd.id 
+		left join base_point bp on tsu.point_id = bp.id where tsi.delete_flag = 0 
+		<if test="obj.departArr != null and obj.departArr.length > 0"> and tsu.depart_id 
+		in <foreach item="item" index="index" collection="obj.departArr" open="(" 
+		separator="," close=")"> #{item} </foreach> </if> order by tsi.create_date 
+		desc limit #{rowOffset}, #{pageSize} </select> <select id="getRowTotal" resultType="java.lang.Integer" 
+		parameterType="Object" > select count(1) as rowTotal from tb_sign_in tsi 
+		left join t_s_user tsu on tsi.create_by = tsu.id where tsi.delete_flag = 
+		0 <if test="obj.departArr != null and obj.departArr.length > 0"> and tsu.depart_id 
+		in <foreach item="item" index="index" collection="obj.departArr" open="(" 
+		separator="," close=")"> #{item} </foreach> </if> </select> -->
+
+	<!-- 分页基础查询(人员当天签到信息) -->
+	<!-- <select id="loadDatagrid" resultMap="BaseResultModelMap" parameterType="Object" 
+		> select tsi.id id, tsi.longitude longitude, tsi.latitude latitude, tsi.address 
+		address, MAX(tsi.create_date) createDate, tsu.id userId, tsu.user_name userName, 
+		tsu.realname realname, tsd.id departId, tsd.depart_name departName, bp.id 
+		pointId, bp.point_name pointName from t_s_user tsu left join (SELECT a.* 
+		FROM tb_sign_in a INNER JOIN (SELECT create_by, max(create_date) create_date 
+		FROM tb_sign_in WHERE delete_flag=0 GROUP BY create_by) b ON a.create_by=b.create_by 
+		AND a.create_date=b.create_date) tsi on tsi.create_by = tsu.id left join 
+		t_s_depart tsd on tsu.depart_id = tsd.id left join base_point bp on tsu.point_id 
+		= bp.id where tsu.delete_flag = 0 and tsi.delete_flag = 0 <if test="obj.departArr 
+		!= null and obj.departArr.length > 0"> and tsu.depart_id in <foreach item="item" 
+		index="index" collection="obj.departArr" open="(" separator="," close=")"> 
+		#{item} </foreach> </if> group by tsu.id order by tsi.create_date desc limit 
+		#{rowOffset}, #{pageSize} </select> <select id="getRowTotal" resultType="java.lang.Integer" 
+		parameterType="Object" > select count(a.1) as rowTotal from (select 1 from 
+		t_s_user tsu left join tb_sign_in tsi on tsi.create_by = tsu.id where tsu.delete_flag 
+		= 0 and tsi.delete_flag = 0 <if test="obj.departArr != null and obj.departArr.length 
+		> 0"> and tsu.depart_id in <foreach item="item" index="index" collection="obj.departArr" 
+		open="(" separator="," close=")"> #{item} </foreach> </if> and tsi.create_date 
+		between date_format(now(),'%y-%m-%d') and date_format(DATE_ADD(now(), INTERVAL 
+		1 day),'%y-%m-%d') group by tsu.id) a </select> -->
+
+	<!-- 通过机构ID查询当天签到信息 -->
+	<select id="queryByDepartIds" resultMap="BaseResultModelMap"
+		parameterType="Object">
+		select tsi.id id, tsi.longitude longitude, tsi.latitude latitude,
+		tsi.address address, tsi.create_date createDate,
+		tsu.id userId, tsu.user_name userName, tsu.realname realname,
+		tsd.id departId, tsd.depart_name departName,
+		bp.id pointId, bp.point_name pointName
+		from t_s_user tsu
+		left join
+		(SELECT a.id id, a.longitude longitude, a.latitude latitude, a.address
+		address, a.create_date create_date, a.create_by create_by FROM (
+		SELECT id, longitude, latitude, address, create_date, create_by FROM
+		tb_sign_in where delete_flag = 0
+		AND longitude IS NOT NULL AND longitude != ''
+		AND latitude IS NOT NULL AND latitude != ''
+		AND (create_date BETWEEN CONCAT(#{signDate},' 00:00:00') AND
+		CONCAT(#{signDate},' 23:59:59'))
+		ORDER BY create_date DESC
+		)a GROUP BY a.create_by) tsi
+		on tsi.create_by = tsu.id
+		left join t_s_depart tsd on tsu.depart_id = tsd.id
+		left join base_point bp on tsu.point_id = bp.id
+		where tsu.delete_flag = 0
+		<if test="realname != null and realname!='' ">
+			and tsu.realname LIKE CONCAT('%',#{realname},'%')
+		</if>
+		<if test="departArr != null and departArr.length > 0">
+			and tsu.depart_id in
+			<foreach item="item" index="index" collection="departArr"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="queryByUserId" resultMap="BaseResultModelMap"
+		parameterType="Object">
+		select tsi.id id, tsi.longitude longitude, tsi.latitude latitude,
+		tsi.address address, tsi.create_date createDate, tsi.sign_type signType,
+		tsi.param1 param1,tsi.param2 param2,
+		tsu.id userId, tsu.user_name userName, tsu.realname realname,
+		tsd.id departId, tsd.depart_name departName,
+		bp.id pointId, bp.point_name pointName
+		from tb_sign_in tsi
+		left join t_s_user tsu on tsi.create_by = tsu.id
+		left join t_s_depart tsd on tsu.depart_id = tsd.id
+		left join base_point bp on tsu.point_id = bp.id
+		where tsu.delete_flag = 0 and tsi.delete_flag = 0
+		AND tsi.longitude IS NOT NULL AND tsi.longitude != ''
+		AND tsi.latitude IS NOT NULL AND tsi.latitude != ''
+		AND tsi.create_by = #{userId}
+		<if test="dateStr !=null and dateStr!=''">
+			AND (tsi.create_date BETWEEN CONCAT(#{dateStr},' 00:00:00') AND
+			CONCAT(#{dateStr},' 23:59:59'))
+		</if>
+		ORDER BY tsi.create_date desc
+	</select>
+
+	<!-- 通过机构ID查询所有有签到记录的日期 -->
+	<select id="querySignDate" resultType="java.lang.String"
+		parameterType="Object">
+		<!-- SELECT DISTINCT (DATE_FORMAT(tsi.create_date, '%Y-%m-%d'))
+		FROM tb_sign_in tsi
+		LEFT JOIN t_s_user tsu ON tsi.create_by = tsu.id
+		WHERE tsu.delete_flag = 0 AND tsi.delete_flag = 0
+		AND tsu.depart_id IN
+		(SELECT id FROM t_s_depart
+		WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id
+		= #{departId}),'%'))
+		AND tsi.create_date >= #{signDate}
+		AND tsi.longitude IS NOT NULL AND tsi.longitude != ''
+		AND tsi.latitude IS NOT NULL AND tsi.latitude != '' -->
+		SELECT DISTINCT (DATE_FORMAT(tsi.create_date, '%Y-%m-%d'))
+		FROM tb_sign_in tsi
+		LEFT JOIN t_s_user tsu ON tsi.create_by = tsu.id
+		WHERE tsu.delete_flag = 0 AND tsi.delete_flag = 0
+		AND tsi.create_by=#{userId}
+		AND tsi.create_date >= #{signDate}
+		AND tsi.longitude IS NOT NULL AND tsi.longitude != ''
+		AND tsi.latitude IS NOT NULL AND tsi.latitude != ''
+	</select>
+	<!-- add by xiaoyl 2020/05/11 人员签到查询优化 -->
+	<select id="loadDatagrid" resultMap="BaseResultModelMap" parameterType="Object">
+		select  tsi.id,tsu.id userId, tsu.user_name userName, tsu.realname realname, 
+		 tsd.id departId, tsd.depart_name departName, 
+		 bp.id pointId, bp.point_name pointName, 
+		 last.sign_date createDate,last.sign_address address,last.longitude,last.latitude,
+		 tsi.signCount, tsi.samplingCount, tsi.punchCount,tsi.param1
+		from t_s_user tsu 
+		left join (
+		 SELECT id,create_by,param1,
+		  COUNT(IF(sign_type=0,1,null)) signCount, COUNT(IF(sign_type=1,1,null)) samplingCount,
+		  COUNT(IF(sign_type=3 or sign_type=4, 1,null)) punchCount 
+		  FROM tb_sign_in
+		 WHERE delete_flag=0
+			 <if test="obj.startDateStr != null and obj.startDateStr!=''">
+				and create_date>=#{obj.startDateStr}
+			</if>
+			<if test="obj.endDateStr != null and obj.endDateStr!=''">
+				and create_date&lt;=#{obj.endDateStr}
+			</if> 
+		 GROUP BY create_by
+		) tsi on tsu.id=tsi.create_by 
+		left join tb_sign_last last on last.user_id=tsu.id
+		left join t_s_depart tsd on tsu.depart_id = tsd.id left join base_point bp on tsu.point_id = bp.id
+		
+		where tsu.delete_flag = 0 and tsu.status=0
+		<if test="obj.keyWords != null and obj.keyWords!=''">
+			and tsu.realname like CONCAT(#{obj.keyWords},'%')
+		</if>
+		
+		<if test="obj.departArr != null and obj.departArr.length > 0">
+			and tsu.depart_id in
+			<foreach item="item" index="index" collection="obj.departArr"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		order by tsd.depart_code ASC,bp.point_name ASC,tsu.sorting ASC,tsu.user_name ASC
+		limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select  count(*) as rowTotal from t_s_user tsu 
+		left join (
+		 SELECT create_by,
+		  COUNT(IF(sign_type=0,1,null)) signCount, COUNT(IF(sign_type=1,1,null)) samplingCount,
+		  COUNT(IF(sign_type=3 or sign_type=4, 1,null)) punchCount 
+		  FROM tb_sign_in
+		 WHERE delete_flag=0 
+		 <if test="obj.startDateStr != null and obj.startDateStr!=''">
+			and create_date>=#{obj.startDateStr}
+		</if>
+		<if test="obj.endDateStr != null and obj.endDateStr!=''">
+			and create_date&lt;=#{obj.endDateStr}
+		</if>
+		 GROUP BY create_by
+		) tsi on tsu.id=tsi.create_by 
+		left join t_s_depart tsd on tsu.depart_id = tsd.id 
+		left join base_point bp on tsu.point_id = bp.id 
+		where tsu.delete_flag = 0 and tsu.status=0
+		<if test="obj.departArr != null and obj.departArr.length > 0">
+			and tsu.depart_id in
+			<foreach item="item" index="index" collection="obj.departArr"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="obj.keyWords != null and obj.keyWords!=''">
+			and tsu.realname like CONCAT(#{obj.keyWords},'%')
+		</if>
+	</select>
+	<select id="queryLastSignByUserId" resultMap="BaseResultModelMap" parameterType="java.lang.String">
+		select * from (select tsi.id id, tsi.longitude longitude, tsi.latitude latitude,
+		tsi.address address, tsi.create_date createDate, tsi.param1 param1,
+		tsi.param2 param2,
+		tsu.id userId, tsu.user_name userName, tsu.realname realname
+		from tb_sign_in tsi
+		left join t_s_user tsu on tsi.create_by = tsu.id
+		
+		where tsu.delete_flag = 0 and tsi.delete_flag = 0
+		AND tsi.create_by = #{userId}
+		order by tsi.create_date desc
+		)  a limit 0,1
+	</select>
+	<select id="querySignByDepartIds" resultMap="BaseResultModelMap" parameterType="Object">
+		select  tsu.id userId, tsu.user_name userName, tsu.realname realname,
+		sign.longitude longitude, sign.latitude latitude, sign.sign_address address, sign.sign_date createDate
+		from t_s_user tsu
+		right join tb_sign_last sign on tsu.id=sign.user_id
+		where tsu.delete_flag=0
+		AND sign.longitude IS NOT NULL AND sign.longitude != ''
+		AND sign.latitude IS NOT NULL AND sign.latitude != ''
+		<if test="realname != null and realname!='' ">
+			and tsu.realname LIKE CONCAT('%',#{realname},'%')
+		</if>
+		<if test="departArr != null and departArr.length > 0">
+			and tsu.depart_id in
+			<foreach item="item" index="index" collection="departArr"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY sign.sign_date DESC
+	</select>
+</mapper>

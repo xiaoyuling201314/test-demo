@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.common.mapper.SystemConfigMapper">
+  <resultMap id="BaseResultMap" type="com.dayuan3.common.bean.SystemConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="config_type_id" jdbcType="INTEGER" property="configTypeId" />
+    <result column="config_param" jdbcType="VARCHAR" property="configParam" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+    <result column="param1" jdbcType="VARCHAR" property="param1" />
+    <result column="param2" jdbcType="VARCHAR" property="param2" />
+    <result column="param3" jdbcType="VARCHAR" property="param3" />
+    
+    <result column="config_code" jdbcType="VARCHAR" property="configCode" />
+    <result column="config_type_name" jdbcType="VARCHAR" property="configTypeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_id, config_type_id, config_param, description, create_by, create_date, 
+    update_by, update_date, delete_flag, param1, param2, param3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select config.*,ctype.config_code from system_config config
+	left join system_config_type ctype on config.config_type_id=ctype.id
+    where config.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update system_config set delete_flag=1,update_date=now()
+       where id in
+       <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+           #{ids}
+       </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.dayuan3.common.bean.SystemConfig">
+    insert into system_config (id, project_id, config_type_id, 
+      config_param, description, create_by, 
+      create_date, update_by, update_date, 
+      delete_flag, param1, param2, 
+      param3)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR}, #{configTypeId,jdbcType=INTEGER}, 
+      #{configParam,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+      #{deleteFlag,jdbcType=SMALLINT}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, 
+      #{param3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan3.common.bean.SystemConfig">
+    insert into system_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="configTypeId != null">
+        config_type_id,
+      </if>
+      <if test="configParam != null">
+        config_param,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="param1 != null">
+        param1,
+      </if>
+      <if test="param2 != null">
+        param2,
+      </if>
+      <if test="param3 != null">
+        param3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="configTypeId != null">
+        #{configTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="configParam != null">
+        #{configParam,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="param1 != null">
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        #{param3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.common.bean.SystemConfig">
+    update system_config
+    <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="configTypeId != null">
+        config_type_id = #{configTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="configParam != null">
+        config_param = #{configParam,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="param1 != null">
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan3.common.bean.SystemConfig">
+    update system_config
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      config_type_id = #{configTypeId,jdbcType=INTEGER},
+      config_param = #{configParam,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="queryByProjectID" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select config.*,ctype.config_code from system_config config
+	left join system_config_type ctype on config.config_type_id=ctype.id
+	where config.delete_flag=0 and ctype.delete_flag=0 
+	and project_id=#{projectID}
+  </select>
+  
+  <!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+	select config.*,ctype.config_code,ctype.config_type_name from system_config config
+	left join system_config_type ctype on config.config_type_id=ctype.id
+	where config.delete_flag=0 and ctype.delete_flag=0 
+	and project_id=#{obj.projectID}
+	<if test="obj.keyWords!=null and obj.keyWords!=''">
+		and ctype.config_type_name like CONCAT('%',#{obj.keyWords},'%')
+	</if>
+	order by config.update_date ${order} limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from system_config config
+		left join system_config_type ctype on config.config_type_id=ctype.id
+		where config.delete_flag=0 and ctype.delete_flag=0 
+		and project_id=#{obj.projectID}
+		<if test="obj.keyWords!=null and obj.keyWords!=''">
+			and ctype.config_type_name like CONCAT('%',#{obj.keyWords},'%')
+		</if>
+	</select>
+	<select id="queryByConfigType" resultType="java.lang.Integer" parameterType="Object">
+    SELECT count(1) FROM system_config where delete_flag=0 
+    and project_id=#{projectId} and config_type_id=#{configTypeId}
+  </select>
+  <select id="queryDataByConfigType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT * FROM system_config where delete_flag=0 
+     and config_type_id=#{configTypeId}
+  </select>
+</mapper>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.system.ScheduledMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.system.Scheduled">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="scheduled_name" jdbcType="VARCHAR" property="scheduledName"/>
+        <result column="scheduled" jdbcType="VARCHAR" property="scheduled"/>
+        <result column="depart_ids" jdbcType="VARCHAR" property="departIds"/>
+        <result column="start_url" jdbcType="VARCHAR" property="startUrl"/>
+        <result column="off" jdbcType="SMALLINT" property="off"/>
+        <result column="off" jdbcType="SMALLINT" property="oldOff"/>
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, scheduled_name, scheduled, off, delete_flag, create_by, create_date, update_by,
+        update_date, depart_ids, start_url
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from scheduled
+        where delete_flag=0 and off=0 and id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where delete_flag=0
+        <trim suffixOverrides=",">
+            <if test="obj.keyWords != null">
+                and scheduled_name like CONCAT('%', #{obj.keyWords}, '%')
+            </if>
+        </trim>
+    </sql>
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from scheduled
+        <include refid="Example_Where_Clause"/>
+        order by update_date desc limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM scheduled
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from scheduled
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectDepart" resultType="java.util.Map">
+        SELECT
+            id,
+            IFNULL(depart_pid, 0) AS pId,
+            depart_name           AS name
+        FROM t_s_depart
+        WHERE delete_flag = 0
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update scheduled set delete_flag=1,update_date=now()
+        where id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.system.Scheduled">
+        INSERT INTO scheduled (id, scheduled_name, scheduled,
+                               off, delete_flag, create_by,
+                               create_date, update_by, update_date, depart_ids, start_url
+        )
+        VALUES (#{id,jdbcType=INTEGER}, #{scheduledName,jdbcType=VARCHAR}, #{scheduled,jdbcType=VARCHAR},
+                                        #{off,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR},
+                                        #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+                                        #{departIds,jdbcType=VARCHAR}, #{startUrl,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.system.Scheduled">
+        insert into scheduled
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="scheduledName != null">
+                scheduled_name,
+            </if>
+            <if test="scheduled != null">
+                scheduled,
+            </if>
+            <if test="off != null">
+                off,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="departIds != null">
+                depart_ids,
+            </if>
+            <if test="startUrl != null">
+                start_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="scheduledName != null">
+                #{scheduledName,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduled != null">
+                #{scheduled,jdbcType=VARCHAR},
+            </if>
+            <if test="off != null">
+                #{off,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="departIds != null">
+                #{departIds,jdbcType=VARCHAR},
+            </if>
+            <if test="startUrl != null">
+                #{startUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.system.Scheduled">
+        update scheduled
+        <set>
+            <if test="scheduledName != null">
+                scheduled_name = #{scheduledName,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduled != null">
+                scheduled = #{scheduled,jdbcType=VARCHAR},
+            </if>
+                off = #{off,jdbcType=SMALLINT},
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="departIds != null">
+                depart_ids = #{departIds,jdbcType=VARCHAR},
+            </if>
+            <if test="startUrl != null">
+                start_url = #{startUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.system.Scheduled">
+        UPDATE scheduled
+        SET scheduled_name = #{scheduledName,jdbcType=VARCHAR},
+            scheduled      = #{scheduled,jdbcType=VARCHAR},
+            off            = #{off,jdbcType=SMALLINT},
+            update_by      = #{updateBy,jdbcType=VARCHAR},
+            update_date    = #{updateDate,jdbcType=TIMESTAMP},
+            depart_ids     = #{departIds,jdbcType=VARCHAR},
+            start_url      = #{startUrl,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

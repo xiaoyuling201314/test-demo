@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.sampling.TbSamplingDetailMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.sampling.TbSamplingDetail">
+        <id property="id" column="id" />
+        <result property="samplingId" column="sampling_id" />
+        <result property="sampleCode" column="sample_code" />
+        <result property="itemId" column="item_id" />
+        <result property="itemName" column="item_name" />
+        <result property="foodId" column="food_id" />
+        <result property="foodName" column="food_name" />
+        <result property="sampleNumber" column="sample_number" />
+        <result property="purchaseAmount" column="purchase_amount" />
+        <result property="purchaseDate" column="purchase_date" />
+        <result property="origin" column="origin" />
+        <result property="specs" column="specs" />
+        <result property="batchNumber" column="batch_number" />
+        <result property="supplier" column="supplier" />
+        <result property="supplierAddress" column="supplier_address" />
+        <result property="supplierPerson" column="supplier_person" />
+        <result property="supplierPhone" column="supplier_phone" />
+        <result property="collectUserid" column="collect_userid" />
+        <result property="collectUsername" column="collect_username" />
+        <result property="collectTime" column="collect_time" />
+        <result property="sampleTubeCode" column="sample_tube_code" />
+        <result property="printCodeTime" column="print_code_time" />
+        <result property="printCodeNum" column="print_code_num" />
+        <result property="isRecheck" column="is_recheck" />
+        <result property="recheckDetailId" column="recheck_detail_id" />
+        <result property="inspectionFee" column="inspection_fee" />
+        <result property="recevieStatus" column="recevie_status" />
+        <result property="recevieDevice" column="recevie_device" />
+        <result property="operatingTime" column="operating_time" />
+        <result property="remark" column="remark" />
+        <result property="param1" column="param1" />
+        <result property="param2" column="param2" />
+        <result property="param3" column="param3" />
+
+        <!--外表字段-->
+        <result column="conclusion" property="conclusion" jdbcType="VARCHAR"/>
+        <result column="tube_code1" property="tubeCode1" jdbcType="VARCHAR"/>
+        <result column="tube_code_time1" property="tubeCodeTime1" jdbcType="TIMESTAMP"/>
+        <result column="tube_code2" property="tubeCode2" jdbcType="VARCHAR"/>
+        <result column="tube_code_time2" property="tubeCodeTime2" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sampling_id,sample_code,item_id,item_name,food_id,
+        food_name,sample_number,purchase_amount,purchase_date,origin,
+        specs,batch_number,supplier,supplier_address,supplier_person,
+        supplier_phone,collect_userid,collect_username,collect_time,sample_tube_code,
+        print_code_time,print_code_num,is_recheck,recheck_detail_id,inspection_fee,recevie_status,
+        recevie_device,operating_time,remark,param1,param2,
+        param3
+    </sql>
+
+<!--    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
+<!--        select-->
+<!--        <include refid="Base_Column_List" />-->
+<!--        from tb_sampling_detail-->
+<!--        where  id = #{id}-->
+<!--    </select>-->
+
+<!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">-->
+<!--        delete from tb_sampling_detail-->
+<!--        where  id = #{id}-->
+<!--    </delete>-->
+<!--    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dayuan.bean.sampling.TbSamplingDetail" useGeneratedKeys="true">-->
+<!--        insert into tb_sampling_detail-->
+<!--        ( id,sampling_id,sample_code,item_id,item_name,food_id,-->
+<!--          food_name,sample_number,purchase_amount,purchase_date,origin,-->
+<!--          specs,batch_number,supplier,supplier_address,supplier_person,-->
+<!--          supplier_phone,collect_userid,collect_username,collect_time,sample_tube_code,-->
+<!--          print_code_time,is_recheck,recheck_detail_id,inspection_fee,recevie_status,-->
+<!--          recevie_device,operating_time,remark,param1,param2,-->
+<!--          param3)-->
+<!--        values (#{id},#{samplingId},#{sampleCode},#{itemId},#{itemName},#{foodId},-->
+<!--                #{foodName},#{sampleNumber},#{purchaseAmount},#{purchaseDate},#{origin},-->
+<!--                #{specs},#{batchNumber},#{supplier},#{supplierAddress},#{supplierPerson},-->
+<!--                #{supplierPhone},#{collectUserid},#{collectUsername},#{collectTime},#{sampleTubeCode},-->
+<!--                #{printCodeTime},#{isRecheck},#{recheckDetailId},#{inspectionFee},#{recevieStatus},-->
+<!--                #{recevieDevice},#{operatingTime},#{remark},#{param1},#{param2},-->
+<!--                #{param3})-->
+<!--    </insert>-->
+<!--    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.dayuan.bean.sampling.TbSamplingDetail" useGeneratedKeys="true">-->
+<!--        insert into tb_sampling_detail-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">id,</if>-->
+<!--            <if test="samplingId != null">sampling_id,</if>-->
+<!--            <if test="sampleCode != null">sample_code,</if>-->
+<!--            <if test="itemId != null">item_id,</if>-->
+<!--            <if test="itemName != null">item_name,</if>-->
+<!--            <if test="foodId != null">food_id,</if>-->
+<!--            <if test="foodName != null">food_name,</if>-->
+<!--            <if test="sampleNumber != null">sample_number,</if>-->
+<!--            <if test="purchaseAmount != null">purchase_amount,</if>-->
+<!--            <if test="purchaseDate != null">purchase_date,</if>-->
+<!--            <if test="origin != null">origin,</if>-->
+<!--            <if test="specs != null">specs,</if>-->
+<!--            <if test="batchNumber != null">batch_number,</if>-->
+<!--            <if test="supplier != null">supplier,</if>-->
+<!--            <if test="supplierAddress != null">supplier_address,</if>-->
+<!--            <if test="supplierPerson != null">supplier_person,</if>-->
+<!--            <if test="supplierPhone != null">supplier_phone,</if>-->
+<!--            <if test="collectUserid != null">collect_userid,</if>-->
+<!--            <if test="collectUsername != null">collect_username,</if>-->
+<!--            <if test="collectTime != null">collect_time,</if>-->
+<!--            <if test="sampleTubeCode != null">sample_tube_code,</if>-->
+<!--            <if test="printCodeTime != null">print_code_time,</if>-->
+<!--            <if test="isRecheck != null">is_recheck,</if>-->
+<!--            <if test="recheckDetailId != null">recheck_detail_id,</if>-->
+<!--            <if test="inspectionFee != null">inspection_fee,</if>-->
+<!--            <if test="recevieStatus != null">recevie_status,</if>-->
+<!--            <if test="recevieDevice != null">recevie_device,</if>-->
+<!--            <if test="operatingTime != null">operating_time,</if>-->
+<!--            <if test="remark != null">remark,</if>-->
+<!--            <if test="param1 != null">param1,</if>-->
+<!--            <if test="param2 != null">param2,</if>-->
+<!--            <if test="param3 != null">param3,</if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">#{id},</if>-->
+<!--            <if test="samplingId != null">#{samplingId},</if>-->
+<!--            <if test="sampleCode != null">#{sampleCode},</if>-->
+<!--            <if test="itemId != null">#{itemId},</if>-->
+<!--            <if test="itemName != null">#{itemName},</if>-->
+<!--            <if test="foodId != null">#{foodId},</if>-->
+<!--            <if test="foodName != null">#{foodName},</if>-->
+<!--            <if test="sampleNumber != null">#{sampleNumber},</if>-->
+<!--            <if test="purchaseAmount != null">#{purchaseAmount},</if>-->
+<!--            <if test="purchaseDate != null">#{purchaseDate},</if>-->
+<!--            <if test="origin != null">#{origin},</if>-->
+<!--            <if test="specs != null">#{specs},</if>-->
+<!--            <if test="batchNumber != null">#{batchNumber},</if>-->
+<!--            <if test="supplier != null">#{supplier},</if>-->
+<!--            <if test="supplierAddress != null">#{supplierAddress},</if>-->
+<!--            <if test="supplierPerson != null">#{supplierPerson},</if>-->
+<!--            <if test="supplierPhone != null">#{supplierPhone},</if>-->
+<!--            <if test="collectUserid != null">#{collectUserid},</if>-->
+<!--            <if test="collectUsername != null">#{collectUsername},</if>-->
+<!--            <if test="collectTime != null">#{collectTime},</if>-->
+<!--            <if test="sampleTubeCode != null">#{sampleTubeCode},</if>-->
+<!--            <if test="printCodeTime != null">#{printCodeTime},</if>-->
+<!--            <if test="isRecheck != null">#{isRecheck},</if>-->
+<!--            <if test="recheckDetailId != null">#{recheckDetailId},</if>-->
+<!--            <if test="inspectionFee != null">#{inspectionFee},</if>-->
+<!--            <if test="recevieStatus != null">#{recevieStatus},</if>-->
+<!--            <if test="recevieDevice != null">#{recevieDevice},</if>-->
+<!--            <if test="operatingTime != null">#{operatingTime},</if>-->
+<!--            <if test="remark != null">#{remark},</if>-->
+<!--            <if test="param1 != null">#{param1},</if>-->
+<!--            <if test="param2 != null">#{param2},</if>-->
+<!--            <if test="param3 != null">#{param3},</if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.sampling.TbSamplingDetail">-->
+<!--        update tb_sampling_detail-->
+<!--        <set>-->
+<!--            <if test="samplingId != null">-->
+<!--                sampling_id = #{samplingId},-->
+<!--            </if>-->
+<!--            <if test="sampleCode != null">-->
+<!--                sample_code = #{sampleCode},-->
+<!--            </if>-->
+<!--            <if test="itemId != null">-->
+<!--                item_id = #{itemId},-->
+<!--            </if>-->
+<!--            <if test="itemName != null">-->
+<!--                item_name = #{itemName},-->
+<!--            </if>-->
+<!--            <if test="foodId != null">-->
+<!--                food_id = #{foodId},-->
+<!--            </if>-->
+<!--            <if test="foodName != null">-->
+<!--                food_name = #{foodName},-->
+<!--            </if>-->
+<!--            <if test="sampleNumber != null">-->
+<!--                sample_number = #{sampleNumber},-->
+<!--            </if>-->
+<!--            <if test="purchaseAmount != null">-->
+<!--                purchase_amount = #{purchaseAmount},-->
+<!--            </if>-->
+<!--            <if test="purchaseDate != null">-->
+<!--                purchase_date = #{purchaseDate},-->
+<!--            </if>-->
+<!--            <if test="origin != null">-->
+<!--                origin = #{origin},-->
+<!--            </if>-->
+<!--            <if test="specs != null">-->
+<!--                specs = #{specs},-->
+<!--            </if>-->
+<!--            <if test="batchNumber != null">-->
+<!--                batch_number = #{batchNumber},-->
+<!--            </if>-->
+<!--            <if test="supplier != null">-->
+<!--                supplier = #{supplier},-->
+<!--            </if>-->
+<!--            <if test="supplierAddress != null">-->
+<!--                supplier_address = #{supplierAddress},-->
+<!--            </if>-->
+<!--            <if test="supplierPerson != null">-->
+<!--                supplier_person = #{supplierPerson},-->
+<!--            </if>-->
+<!--            <if test="supplierPhone != null">-->
+<!--                supplier_phone = #{supplierPhone},-->
+<!--            </if>-->
+<!--            <if test="collectUserid != null">-->
+<!--                collect_userid = #{collectUserid},-->
+<!--            </if>-->
+<!--            <if test="collectUsername != null">-->
+<!--                collect_username = #{collectUsername},-->
+<!--            </if>-->
+<!--            <if test="collectTime != null">-->
+<!--                collect_time = #{collectTime},-->
+<!--            </if>-->
+<!--            <if test="sampleTubeCode != null">-->
+<!--                sample_tube_code = #{sampleTubeCode},-->
+<!--            </if>-->
+<!--            <if test="printCodeTime != null">-->
+<!--                print_code_time = #{printCodeTime},-->
+<!--            </if>-->
+<!--            <if test="isRecheck != null">-->
+<!--                is_recheck = #{isRecheck},-->
+<!--            </if>-->
+<!--            <if test="recheckDetailId != null">-->
+<!--                recheck_detail_id = #{recheckDetailId},-->
+<!--            </if>-->
+<!--            <if test="inspectionFee != null">-->
+<!--                inspection_fee = #{inspectionFee},-->
+<!--            </if>-->
+<!--            <if test="recevieStatus != null">-->
+<!--                recevie_status = #{recevieStatus},-->
+<!--            </if>-->
+<!--            <if test="recevieDevice != null">-->
+<!--                recevie_device = #{recevieDevice},-->
+<!--            </if>-->
+<!--            <if test="operatingTime != null">-->
+<!--                operating_time = #{operatingTime},-->
+<!--            </if>-->
+<!--            <if test="remark != null">-->
+<!--                remark = #{remark},-->
+<!--            </if>-->
+<!--            <if test="param1 != null">-->
+<!--                param1 = #{param1},-->
+<!--            </if>-->
+<!--            <if test="param2 != null">-->
+<!--                param2 = #{param2},-->
+<!--            </if>-->
+<!--            <if test="param3 != null">-->
+<!--                param3 = #{param3},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where   id = #{id}-->
+<!--    </update>-->
+<!--    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.sampling.TbSamplingDetail">-->
+<!--        update tb_sampling_detail-->
+<!--        set-->
+<!--            sampling_id =  #{samplingId},-->
+<!--            sample_code =  #{sampleCode},-->
+<!--            item_id =  #{itemId},-->
+<!--            item_name =  #{itemName},-->
+<!--            food_id =  #{foodId},-->
+<!--            food_name =  #{foodName},-->
+<!--            sample_number =  #{sampleNumber},-->
+<!--            purchase_amount =  #{purchaseAmount},-->
+<!--            purchase_date =  #{purchaseDate},-->
+<!--            origin =  #{origin},-->
+<!--            specs =  #{specs},-->
+<!--            batch_number =  #{batchNumber},-->
+<!--            supplier =  #{supplier},-->
+<!--            supplier_address =  #{supplierAddress},-->
+<!--            supplier_person =  #{supplierPerson},-->
+<!--            supplier_phone =  #{supplierPhone},-->
+<!--            collect_userid =  #{collectUserid},-->
+<!--            collect_username =  #{collectUsername},-->
+<!--            collect_time =  #{collectTime},-->
+<!--            sample_tube_code =  #{sampleTubeCode},-->
+<!--            print_code_time =  #{printCodeTime},-->
+<!--            is_recheck =  #{isRecheck},-->
+<!--            recheck_detail_id =  #{recheckDetailId},-->
+<!--            inspection_fee =  #{inspectionFee},-->
+<!--            recevie_status =  #{recevieStatus},-->
+<!--            recevie_device =  #{recevieDevice},-->
+<!--            operating_time =  #{operatingTime},-->
+<!--            remark =  #{remark},-->
+<!--            param1 =  #{param1},-->
+<!--            param2 =  #{param2},-->
+<!--            param3 =  #{param3}-->
+<!--        where   id = #{id}-->
+<!--    </update>-->
+
+
+    <sql id="SQL_COLUMN">
+        tsd.id id, tsd.sampling_id samplingId, tsd.sample_code sampleCode, tsd.food_id foodId, tsd.food_name foodName,
+        tsd.sample_number sampleNumber, tsd.purchase_amount purchaseAmount, tsd.sample_date sampleDate,
+        tsd.purchase_date purchaseDate, tsd.item_id itemId, tsd.item_name itemName, tsd.origin origin, tsd.supplier supplier,
+        tsd.supplier_address supplierAddress, tsd.supplier_person supplierPerson, tsd.supplier_phone supplierPhone,
+        tsd.batch_number batchNumber, tsd.status status, tsd.recevie_device recevieDevice, tsd.ope_shop_name opeShopName,
+        tsd.remark remark, tsd.param1 param1, tsd.param2 param2, tsd.param3 param3, tsd.print_code_time printCodeTime,tsd.print_code_num printCodeNum,
+        tsd.operating_time operatingTime,
+        IF(dcr.param7 = 1,dcr.conclusion,'' ) conclusion
+    </sql>
+
+    <sql id="SQL_LEFT_JOIN">
+        INNER JOIN tb_sampling ts ON tsd.sampling_id = ts.id
+        LEFT JOIN data_check_recording dcr FORCE INDEX(idx_sampling_detail_id) ON tsd.id = dcr.sampling_detail_id and dcr.delete_flag=0
+    </sql>
+
+    <sql id="SQL_WHERE">
+        ts.delete_flag = 0
+        <if test="obj.samplingDateStartDate != null and obj.samplingDateStartDate !=''">
+            AND ts.sampling_date >= #{obj.samplingDateStartDate}
+        </if>
+        <if test="obj.samplingDateEndDate != null and obj.samplingDateEndDate !=''">
+            AND ts.sampling_date &lt;= #{obj.samplingDateEndDate}
+        </if>
+        <choose>
+            <when test="obj.tbSampling !=null and obj.tbSampling.id != null and obj.tbSampling.id !=''">
+                AND tsd.sampling_id = #{obj.tbSampling.id}
+            </when>
+            <when test="obj.recevieDevice != null and obj.recevieDevice !=''">
+                AND tsd.recevie_device = #{obj.recevieDevice}
+            </when>
+            <otherwise>
+                AND 1=0
+            </otherwise>
+        </choose>
+        <if test="obj.sampleCode != null and obj.sampleCode !=''">
+            AND tsd.sample_code like concat('%', #{obj.sampleCode}, '%')
+        </if>
+        <if test="obj.keyWords != null and obj.keyWords !=''">
+            AND ( tsd.sample_code like concat('%', #{obj.keyWords}, '%')
+            or tsd.food_name like concat('%', #{obj.keyWords}, '%')
+            or tsd.item_name like concat('%', #{obj.keyWords}, '%') )
+        </if>
+        <if test="obj.status != null">
+            AND tsd.status = #{obj.status}
+        </if>
+    </sql>
+
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="SQL_COLUMN"></include>
+        from tb_sampling_detail tsd
+        <include refid="SQL_LEFT_JOIN"></include>
+        where
+        <include refid="SQL_WHERE"></include>
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        from tb_sampling_detail tsd
+        <include refid="SQL_LEFT_JOIN"></include>
+        where
+        <include refid="SQL_WHERE"></include>
+    </select>
+
+    <select id="queryBySamplingIdUnionItems" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+            id,
+            sampling_id,
+            sample_code,
+            food_id,
+            food_name,
+            sample_number,
+            purchase_amount,
+            purchase_date,
+            GROUP_CONCAT(item_id)   AS item_id,
+            GROUP_CONCAT(item_name) AS item_name,
+            origin,
+            supplier,
+            supplier_person,
+            supplier_address,
+            supplier_phone,
+            batch_number,
+            status,
+            recevie_device,
+            ope_shop_name,
+            remark
+        FROM tb_sampling_detail
+        WHERE sampling_id = #{id,jdbcType=INTEGER}
+        GROUP BY sample_code
+    </select>
+
+    <select id="queryTaskBySamplingId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_sampling_detail
+        where sampling_id=#{id}
+        and status = 0
+    </select>
+
+    <select id="queryUncheckSamplingDetail" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT tsd.id, tsd.sampling_id, tsd.sample_code, tsd.food_id, tsd.food_name, tsd.sample_number, tsd.purchase_amount,
+        tsd.sample_date, tsd.purchase_date, tsd.item_id, tsd.item_name, tsd.origin, tsd.supplier, tsd.supplier_address,
+        tsd.supplier_person, tsd.supplier_phone, tsd.batch_number, tsd.status, tsd.recevie_device, tsd.ope_shop_name,
+        tsd.update_date, tsd.remark, tsd.param1, tsd.param2, tsd.param3, tsd.print_code_time,tsd.print_code_num, tsd.operating_time,
+        tsd.sample_tube_code, tsd.sample_tube_time
+        FROM tb_sampling_detail tsd 
+        	LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE tsd.recevie_device=#{serialNumber} AND dcr.id IS NULL 
+    </select>
+
+    <update id="cleanSerialNumber">
+        UPDATE tb_sampling_detail SET status = 0, recevie_device = '' 
+		WHERE id IN (SELECT a.id FROM (SELECT tsd.id id FROM tb_sampling_detail tsd 
+				LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+			WHERE dcr.id IS NULL AND tsd.recevie_device = #{serialNumber}) a)
+    </update>
+
+    <update id="resetStatus">
+        UPDATE tb_sampling_detail
+        SET status = 0
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <resultMap id="JoinResultMap" type="com.dayuan.model.sampling.TbSamplingDetailReport" extends="BaseResultMap">
+        <result column="check_date" property="checkDate" jdbcType="TIMESTAMP"/>
+        <result column="check_username" property="checkUsername" jdbcType="VARCHAR"/>
+        <result column="item_names" property="itemNames" jdbcType="VARCHAR"/>
+        <result column="check_result" property="checkResult" jdbcType="VARCHAR"/>
+        <result column="limit_value" property="limitValue" jdbcType="VARCHAR"/>
+        <!--  <result column="conclusion" property="conclusion" jdbcType="VARCHAR"/> -->
+        <result column="check_unit" property="checkUnit" jdbcType="VARCHAR"/>
+        <result column="samplingCount" property="samplingCount"/>
+        <result column="detectCount" property="detectCount"/>
+        <result column="unqualifiedCount" property="unqualifiedCount"/>
+        <result column="recevieCount" property="recevieCount"/>
+        <result column="scan_num" property="scanNum" jdbcType="SMALLINT"/>
+        <result column="std_code" property="stdCode" jdbcType="VARCHAR"/>
+        <result column="point_name" property="pointName" jdbcType="VARCHAR"/>
+        <result column="point_address" property="pointAddress" jdbcType="VARCHAR"/>
+        <result column="point_phone" property="pointPhone" jdbcType="VARCHAR"/>
+        <result column="review_image" property="reviewImage" jdbcType="VARCHAR"/>
+        <result column="approve_image" property="approveImage" jdbcType="VARCHAR"/>
+        <result column="signature_image" property="signatureImage" jdbcType="VARCHAR"/>
+        <result column="rdata_id" jdbcType="INTEGER" property="rdataId"/>
+        <result column="purchase_amount" property="purchaseAmount" jdbcType="DECIMAL"/>
+
+    </resultMap>
+
+    <select id="queryBySamplingId" resultMap="JoinResultMap" parameterType="java.lang.Integer">
+        SELECT
+            d.*,
+            r.check_date,
+            r.check_username,
+            r.check_result,
+            r.limit_value,r.check_accord std_code,
+            CASE
+                WHEN r.conclusion = '合格'  or r.conclusion = '阴性' THEN '合格'
+                WHEN r.conclusion = '不合格' or r.conclusion = '阳性'   AND r.reload_flag >= #{checkNumber} THEN '不合格'
+                ELSE ''
+            END conclusion,
+            r.check_unit
+        FROM tb_sampling_detail d
+            INNER JOIN tb_sampling s ON d.sampling_id = s.id
+            LEFT JOIN data_check_recording r
+                ON r.sampling_id = s.id AND r.sampling_detail_id = d.id
+        WHERE r.delete_flag = 0 and r.param7 = 1 AND d.sampling_id = #{samplingId}
+    </select>
+
+    <select id="queryBySamplingDetailId" resultMap="JoinResultMap" parameterType="java.lang.Integer">
+        SELECT
+            d.*,
+            r.check_date,
+            r.check_username,
+            r.check_result,
+            r.limit_value,
+            CASE
+                WHEN r.conclusion = '合格' THEN '合格'
+                WHEN r.conclusion = '不合格' AND r.reload_flag >= #{checkNumber} THEN '不合格'
+                ELSE ''
+            END conclusion,
+            r.check_unit
+        FROM tb_sampling_detail d
+            INNER JOIN tb_sampling s ON d.sampling_id = s.id
+            LEFT JOIN data_check_recording r
+                ON r.sampling_id = s.id AND r.sampling_detail_id = d.id
+        WHERE r.delete_flag = 0 AND d.id = #{samplingDetailId}
+    </select>
+
+    <!-- app扫码查看抽样单信息 -->
+    <select id="queryBySamplingIdForApp" resultMap="JoinResultMap" parameterType="java.lang.Integer">
+        SELECT
+            s.*,
+            ts.ope_shop_code,
+            ts.ope_shop_name,
+            d.check_date,
+            COUNT(1)                            AS samplingCount,
+            SUM(IF(s.status = 1, 1, 0))         AS recevieCount,
+            SUM(IF(ISNULL(d.id), 0, 1))         AS detectCount,
+            SUM(IF(d.conclusion = '不合格' AND d.reload_flag >= #{checkNumber} , 1, 0)) AS unqualifiedCount,
+            IF(d.conclusion = '合格' OR (d.conclusion = '不合格' AND d.reload_flag >= #{checkNumber}), d.conclusion, NULL) conclusion
+        FROM tb_sampling_detail s
+            LEFT JOIN data_check_recording d ON d.sampling_detail_id = s.id and d.param7=1
+            LEFT JOIN tb_sampling ts ON s.sampling_id = ts.id
+        WHERE s.sampling_id = #{samplingId,jdbcType=INTEGER}
+        GROUP BY s.sample_code ORDER BY s.id
+    </select>
+
+    <!--去查询其抽样单明细 rId 检测数据ID 暂时没调用该方法-->
+    <select id="selectDetailByRid" resultType="java.util.Map">
+        SELECT
+            dcr.rid              AS dcrId,
+            dcr.food_name        AS foodName,
+            dcr.item_name        AS itemName,
+            dcr.conclusion       AS conclusion,
+            dcr.reg_id           AS regId,
+            dcr.reg_user_id      AS opeId,
+            dcr.reg_user_name    AS opeShopCode,
+            tsd.batch_number     AS batchNumber,
+            tsd.purchase_date    AS purchaseDate,
+            tsd.purchase_amount  AS purchaseAmount,
+            tsd.origin           AS origin,
+            dcr.check_date       AS checkDate,
+            tsd.supplier         AS supplier,
+            tsd.supplier_address AS address,
+            tsd.supplier_person  AS persion,
+            tsd.supplier_phone   AS phone,
+            ts.sampling_date     AS samplingDate
+        FROM
+            data_check_recording dcr
+            LEFT JOIN tb_sampling AS ts ON dcr.sampling_id = ts.id
+            LEFT JOIN tb_sampling_detail AS tsd ON dcr.sampling_detail_id = tsd.id
+        WHERE
+            dcr.delete_flag = 0
+            AND dcr.rid = #{rId}
+    </select>
+
+    <!--根据抽样单明显信息去查询溯源表中数据 暂时没调用该方法-->
+    <select id="selectSource" resultType="com.dayuan.bean.ledger.BaseLedgerStock">
+        SELECT
+        id,
+        regId,
+        businessId,
+        foodName,
+        supplierId,
+        supplierUser,
+        supplierTel,
+        supplier,
+        batchNumber,
+        size,
+        stockDate,
+        expirationDate,
+        stockCount,
+        productionPlace,
+        productionDate,
+        stockProof,
+        stockProof_Img,
+        checkProof,
+        checkProof_Img,
+        quarantineProof,
+        quarantineProof_Img,
+        memo,
+        accessory,
+        delete_flag,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        param1,
+        param2,
+        param3
+        FROM base_ledger_stock
+        WHERE
+        regId = #{regId} AND foodName = #{foodName}
+        <if test="opeId != null and opeId != ''">AND businessId = #{opeId}</if>
+        <if test="batchNumber != null and batchNumber != ''">AND batchNumber = #{batchNumber}</if>
+        ORDER BY stockDate DESC LIMIT 0, 1
+    </select>
+
+    <!-- 根据订单id查询订单明细  2019-7-5 huht-->
+    <select id="queryBySamplingId2" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+ 	SELECT
+	  d.*, tsdc.tube_code1, tsdc.tube_code2,
+        CASE
+            WHEN r.conclusion = '合格' THEN '合格'
+            WHEN r.conclusion = '不合格' AND r.reload_flag >= #{checkNumber} THEN '不合格'
+            ELSE ''
+        END conclusion
+ 	FROM
+	  tb_sampling_detail d
+	LEFT JOIN tb_sampling_detail_code tsdc ON tsdc.sampling_detail_id = d.id
+	LEFT JOIN data_check_recording r ON d.id=r.sampling_detail_id
+	WHERE d.sampling_id=#{samplingId}
+	  <if test="queryReCheck==1">
+            and  d.recheck_detail_id is not null
+      </if>
+	  order by d.sample_code  asc
+    </select>
+
+    <!--前处理：根据样品码查询数据，增加is_recheck=0 条件过掉掉已检测不合格的样品明细数据 -->
+    <select id="queryByBarCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT tsd.id, tsd.sampling_id, tsd.sample_code, tsd.food_id, tsd.food_name, tsd.sample_number, tsd.purchase_amount,
+        tsd.print_code_time,tsd.print_code_num, tsd.purchase_date, tsd.item_id, tsd.item_name, tsd.origin, tsd.supplier, tsd.supplier_address,
+        tsd.supplier_person, tsd.supplier_phone, tsd.batch_number,  tsd.recevie_device,
+        tsd.remark, tsd.param1, tsd.param2, tsd.param3,  tsd.operating_time, tsd.sample_tube_code,
+         tsd.inspection_fee,
+        tsdc.tube_code1, tsdc.tube_code_time1, tsdc.tube_code2, tsdc.tube_code_time2
+        FROM tb_sampling_detail tsd
+        RIGHT JOIN tb_sampling_detail_code tsdc ON tsd.id = tsdc.sampling_detail_id
+        WHERE tsd.sample_code = #{barCode} and is_recheck=0
+    </select>
+
+    <select id="queryByCollectCode" parameterType="java.lang.Object" resultMap="BaseResultMap">
+        SELECT tsd.id, tsd.sampling_id, tsd.sample_code, tsd.food_id, tsd.food_name, tsd.sample_number, tsd.purchase_amount,
+            tsd.sample_date, tsd.purchase_date, tsd.item_id, tsd.item_name, tsd.origin, tsd.supplier, tsd.supplier_address,
+            tsd.supplier_person, tsd.supplier_phone, tsd.batch_number, tsd.status, tsd.recevie_device, tsd.ope_shop_name,
+            tsd.update_date, tsd.remark, tsd.param1, tsd.param2, tsd.param3, tsd.print_code_time, tsd.operating_time, tsd.sample_tube_code, tsd.sample_tube_time,
+            tsd.print_num, tsd.inspection_fee,report_number, tsd.param4, tsd.param5, tsd.param6, tsd.collect_code, tsd.scan_num,
+            tsdc.tube_code1 tubeCode1, tsdc.tube_code2 tubeCode2,
+            CASE
+                WHEN dcr.conclusion = '合格' THEN '合格'
+                WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= #{checkNumber} THEN '不合格'
+                ELSE ''
+            END conclusion
+        FROM tb_sampling_detail tsd
+          LEFT JOIN tb_sampling_detail_code tsdc ON tsd.id = tsdc.sampling_detail_id
+          LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE tsd.sampling_id = #{samplingId} AND tsd.collect_code = #{collectCode}
+    </select>
+
+    <select id="loadDatagridOrderDetails" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        tsd.id, tsd.sampling_id, tsd.sample_code, tsd.food_id, tsd.food_name,
+        tsd.item_id, tsd.item_name, tsd.supplier, tsd.ope_shop_name,tsd.purchase_amount,
+        tsd.status, tsd.recevie_device, tsd.collect_code, tsd.report_number,
+        tsd.sample_tube_code, tsd.sample_tube_time, tsd.print_num, tsd.inspection_fee,
+        CASE
+        WHEN dcr.conclusion = '合格' THEN '合格'
+        WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= #{obj.checkNumber} THEN '不合格'
+        ELSE ''
+        END conclusion
+        FROM tb_sampling_detail tsd
+        LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE
+        <choose>
+            <when test="obj.tbSampling !=null and obj.tbSampling.id != null and obj.tbSampling.id !=''">tsd.sampling_id = #{obj.tbSampling.id}</when>
+            <otherwise>1 = 0</otherwise>
+        </choose>
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="loadDatagridOrderDetails2" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        tsd.id, tsd.sampling_id, tsd.sample_code, tsd.food_id, tsd.food_name,
+        tsd.item_id, tsd.item_name, tsd.supplier,tsd.purchase_amount,
+        tsd.recevie_status, tsd.recevie_device, tsd.collect_time,
+        tsd.sample_tube_code, tsd.operating_time, tsd.print_code_num,tsd.print_code_time, tsd.inspection_fee,
+        dcode.tube_code1,dcode.tube_code2,
+        CASE
+        WHEN dcr.conclusion = '合格' THEN '合格'
+        WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= #{obj.checkNumber} THEN '不合格'
+        ELSE ''
+        END conclusion
+        FROM tb_sampling_detail tsd
+        LEFT JOIN tb_sampling_detail_code dcode on dcode.sampling_detail_id=tsd.id and is_recheck=0
+        LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE
+        <choose>
+            <when test="obj.tbSampling !=null and obj.tbSampling.id != null and obj.tbSampling.id !=''">tsd.sampling_id = #{obj.tbSampling.id}</when>
+            <otherwise>1 = 0</otherwise>
+        </choose>
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotalOrderDetails" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM tb_sampling_detail tsd
+        WHERE
+        <choose>
+            <when test="obj.tbSampling !=null and obj.tbSampling.id != null and obj.tbSampling.id !=''">tsd.sampling_id = #{obj.tbSampling.id}</when>
+            <otherwise>1 = 0</otherwise>
+        </choose>
+    </select>
+    <select id="queryOrderDetailBySamplingId" resultMap="JoinResultMap" parameterType="Object">
+        SELECT tsd.id id, tsd.sampling_id samplingId, tsd.sample_code sampleCode, tsd.food_id foodId, tsd.food_name foodName,
+        tsd.item_id itemId, tsd.item_name itemName, tsd.supplier supplier, tsd.ope_shop_name opeShopName,
+        tsd.print_num printNum, tsd.inspection_fee inspectionFee,tsd.report_number,tsd.collect_code,tsd.scan_num,tsd.sample_tube_time,
+        tsd.scan_num,tsd.purchase_amount, dcr.point_name,dcr.check_date,dcr.check_username,rdata.id rdata_id,rdata.std_code,rdata.point_address,rdata.point_phone,rdata.review_image,rdata.approve_image,rdata.signature_image,
+        CASE
+        WHEN dcr.conclusion = '合格' THEN '合格'
+        WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= #{checkNumber} THEN '不合格'
+        ELSE ''
+        END conclusion
+        FROM tb_sampling_detail tsd
+        LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        left join check_report_data rdata on dcr.rid=rdata.recording_id
+        WHERE tsd.sampling_id = #{samplingId,jdbcType=INTEGER}
+        <if test="reportNumber!=null">
+            and tsd.report_number=#{reportNumber,jdbcType=INTEGER}
+        </if>
+        <if test="collectCode!=null">
+            and tsd.collect_code=#{collectCode,jdbcType=VARCHAR}
+        </if>
+        order by tsd.sample_tube_time desc
+    </select>
+
+
+    <!-- 根据订单号查询所有取报告码 xiaoyl 2019-08-15 -->
+    <select id="queryReportNumberBySamplingId" resultType="map" parameterType="Object">
+        select report_number reportNumber,count(1) samplingCount,DATE_FORMAT(sample_tube_time,'%Y-%m-%d %H:%i:%s') sampleTubeTime
+        ,IF(count(1) mod 10=0,count(1) div 10,(count(1) div 10)+1) pageNo from tb_sampling_detail where sampling_id=#{samplingId}
+        and report_number is not null
+        <if test="collectCode!=null">
+            and collect_code=#{collectCode}
+        </if>
+        GROUP BY report_number
+    </select>
+    <!-- 报告首次打印：批量写入打印报告码 xiaoyl 2019-08-15 -->
+    <update id="updateReportNumberByDetailIds">
+        UPDATE tb_sampling_detail SET report_number= #{reportNumber,jdbcType=INTEGER},
+        print_num = 1, update_date = NOW() WHERE id in
+        <foreach collection="samplingDetailIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+    <!--  根据订单明细ID更新报告打印次数 xiaoyl 2019-08-15 -->
+    <update id="updateByDetailIds">
+        UPDATE tb_sampling_detail tsd1, (SELECT id, print_num FROM tb_sampling_detail
+        WHERE id in
+        <foreach collection="samplingDetailIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        ) tsd2
+        SET tsd1.print_num = (IF(tsd2.print_num IS NULL, 0, tsd2.print_num)+1), tsd1.update_date = NOW()
+        WHERE tsd1.id = tsd2.id ;
+    </update>
+
+    <update id="bulkUpdateCode" parameterType="java.util.HashMap">
+        UPDATE tb_sampling_detail tsd, tb_sampling_detail_code tsdc
+        SET
+        tsd.food_id = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.foodId}
+        </foreach>
+        END,
+        tsd.food_name = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.foodName}
+        </foreach>
+        END,
+        tsd.sample_tube_code = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.sampleTubeCode}
+        </foreach>
+        END,
+        tsd.sample_tube_time = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.sampleTubeTime}
+        </foreach>
+        END,
+        tsd.collect_code = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.collectCode}
+        </foreach>
+        END,
+        tsd.param4 = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.param4}
+        </foreach>
+        END,
+        tsd.param5 = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.param5}
+        </foreach>
+        END,
+        tsd.depart_id = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.departId}
+        </foreach>
+        END,
+        tsd.point_id = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.pointId}
+        </foreach>
+        END,
+        tsd.status = 0,
+        tsd.recevie_device = NULL,
+
+        tsdc.bag_code = CASE tsd.id
+        <foreach collection="samplingDetails" item="detail">
+            WHEN #{detail.id} THEN #{detail.sampleTubeCode}
+        </foreach>
+        END
+        WHERE tsd.id IN (
+        <foreach collection="samplingDetails" item="detail" separator=",">#{detail.id}</foreach>
+        )
+        AND tsdc.sampling_detail_id = tsd.id
+    </update>
+    <!--根据订单号查询收样批次  -->
+    <select id="queryCollectCodeBySamplingId" resultType="map" parameterType="Object">
+        select collect_code collectCode,DATE_FORMAT(sample_tube_time,'%Y-%m-%d %H:%i:%s') sampleTubeTime,count(1) receiveCount,count(report_number) printCount
+        ,IF(count(1) mod 10=0,count(1) div 10,(count(1) div 10)+1) pageNo from tb_sampling_detail where sampling_id=#{samplingId}
+        and sample_tube_time is not null
+        <if test="collectCode!=null">
+            and collect_code=#{collectCode}
+        </if>
+        GROUP BY sample_tube_time
+    </select>
+
+    <!--根据订单号查询收样批次  -->
+    <select id="queryFoodCountBySamplingId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+       select count(DISTINCT food_id) from tb_sampling_detail where sampling_id=#{samplingId}
+    </select>
+    <!--add by xiaoyl 2021/06/18 四季美项目：根据抽样单ID查询抽样明细已经检测结论-->
+    <select id="queryBySamplingIdForSelfPrint" resultMap="JoinResultMap" parameterType="java.lang.Integer">
+         SELECT s.*, CASE
+                WHEN d.conclusion = '合格'  or d.conclusion = '阴性' THEN '合格'
+                WHEN d.conclusion = '不合格' or d.conclusion = '阳性'   AND d.reload_flag >= #{checkNumber} THEN '不合格'
+                ELSE ''
+            END conclusion
+        FROM tb_sampling_detail s
+        LEFT JOIN data_check_recording d ON d.sampling_detail_id = s.id
+        LEFT JOIN tb_sampling ts ON s.sampling_id = ts.id
+        WHERE s.sampling_id = #{samplingId}
+    </select>
+    <update id="updatePrintNum" parameterType="java.lang.Integer">
+        UPDATE tb_sampling_detail SET print_code_num = COALESCE(print_code_num, 0) + 1, print_code_time = NOW() WHERE sampling_id = #{samplingId}
+        <if test="sampleDetailId!=null">
+            and id=#{sampleDetailId}
+        </if>
+    </update>
+    <select id="queryUnqualifiedFoodNum" resultMap="BaseResultMap" parameterType="Object">
+        SELECT tsd.*
+        FROM tb_sampling_detail tsd
+        LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE tsd.sampling_id = #{samplingId} and dcr.conclusion = '不合格'
+    </select>
+</mapper>

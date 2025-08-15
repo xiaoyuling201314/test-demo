@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.common.mapper.SysManageLogMapper">
+    <!-- ==================  用户操作日志 start  ======================-->
+    <resultMap id="operationResultMap" type="com.dayuan3.common.model.SysOperationLogModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userId" jdbcType="VARCHAR" property="userid"/>
+        <result column="userName" jdbcType="VARCHAR" property="username"/>
+        <result column="remoteIP" jdbcType="VARCHAR" property="remoteip"/>
+        <result column="requestUri" jdbcType="VARCHAR" property="requesturi"/>
+        <result column="operator_way" jdbcType="SMALLINT" property="operatorWay"/>
+        <result column="module" jdbcType="VARCHAR" property="module"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="func" jdbcType="VARCHAR" property="func"/>
+        <result column="request_param" jdbcType="VARCHAR" property="requestParam"/>
+        <result column="operator_result" jdbcType="SMALLINT" property="operatorResult"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="exception" jdbcType="VARCHAR" property="exception"/>
+        <result column="operateTime" jdbcType="TIMESTAMP" property="operatetime"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+    </resultMap>
+
+    <sql id="operation_Column_List">
+        id, userId, userName, remoteIP, requestUri, operator_way, module, class_name, func,
+        request_param, operator_result, description, exception, operateTime, param1, param2, param3
+    </sql>
+
+    <select id="loadOperationDatagrid" resultMap="operationResultMap" parameterType="Object">
+        SELECT
+        <include refid="operation_Column_List"/>
+        FROM sys_operation_log
+        <include refid="operation_where"/>
+        ORDER BY id DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getOperationRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM sys_operation_log
+        <include refid="operation_where"/>
+    </select>
+
+    <sql id="operation_where">
+        <where>
+            <include refid="common_where"/>
+            <if test="obj.module !=null and obj.module !=''">
+                AND module LIKE CONCAT('%', #{obj.module}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- ==================  用户操作日志 end  ======================-->
+
+
+    <!-- ==================  报告打印日志 start  ======================-->
+    <resultMap id="printResultMap" type="com.dayuan3.common.model.SysPrintLogModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userId" jdbcType="VARCHAR" property="userid"/>
+        <result column="userName" jdbcType="VARCHAR" property="username"/>
+        <result column="operator_way" jdbcType="SMALLINT" property="operatorWay"/>
+        <result column="remoteIP" jdbcType="VARCHAR" property="remoteip"/>
+        <result column="requestUri" jdbcType="VARCHAR" property="requesturi"/>
+        <result column="module" jdbcType="VARCHAR" property="module"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="func" jdbcType="VARCHAR" property="func"/>
+        <result column="request_param" jdbcType="VARCHAR" property="requestParam"/>
+        <result column="operator_result" jdbcType="SMALLINT" property="operatorResult"/>
+        <result column="print_Code" jdbcType="VARCHAR" property="printCode"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="exception" jdbcType="VARCHAR" property="exception"/>
+        <result column="operateTime" jdbcType="TIMESTAMP" property="operatetime"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+    </resultMap>
+
+    <sql id="print_Column_List">
+        id, userId, userName, operator_way, remoteIP, requestUri, module, class_name,
+        func, request_param, operator_result, print_Code, description, exception, operateTime,
+        param1, param2, param3
+    </sql>
+
+    <select id="loadPrintDatagrid" resultMap="printResultMap" parameterType="Object">
+        SELECT
+        <include refid="print_Column_List"/>
+        FROM sys_print_log
+        <include refid="print_where"/>
+        ORDER BY id DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getPrintRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM sys_print_log
+        <include refid="print_where"/>
+    </select>
+
+    <sql id="print_where">
+        <where>
+            <include refid="common_where"/>
+        </where>
+    </sql>
+    <!-- ==================  报告打印日志 end  ======================-->
+
+
+    <!-- ==================  付款日志 start  ======================-->
+    <resultMap id="payResultMap" type="com.dayuan3.common.model.SysPayLogModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userId" jdbcType="VARCHAR" property="userid"/>
+        <result column="userName" jdbcType="VARCHAR" property="username"/>
+        <result column="pay_status" jdbcType="SMALLINT" property="payStatus"/>
+        <result column="pay_number" jdbcType="VARCHAR" property="payNumber"/>
+        <result column="operator_way" jdbcType="SMALLINT" property="operatorWay"/>
+        <result column="pay_source" jdbcType="SMALLINT" property="paySource"/>
+        <result column="money" jdbcType="DOUBLE" property="money"/>
+        <result column="pay_account" jdbcType="VARCHAR" property="payAccount"/>
+        <result column="remoteIP" jdbcType="VARCHAR" property="remoteip"/>
+        <result column="requestUri" jdbcType="VARCHAR" property="requesturi"/>
+        <result column="module" jdbcType="VARCHAR" property="module"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="func" jdbcType="VARCHAR" property="func"/>
+        <result column="request_param" jdbcType="VARCHAR" property="requestParam"/>
+        <result column="operator_result" jdbcType="SMALLINT" property="operatorResult"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="exception" jdbcType="VARCHAR" property="exception"/>
+        <result column="operateTime" jdbcType="TIMESTAMP" property="operatetime"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+    </resultMap>
+
+    <sql id="pay_Column_List">
+        id, userId, userName, pay_status, pay_number, operator_way, pay_source, money, pay_account,
+        remoteIP, requestUri, module, class_name, func, request_param, operator_result, description,
+        exception, operateTime, param1, param2, param3
+    </sql>
+
+    <select id="loadPayDatagrid" resultMap="payResultMap" parameterType="Object">
+        SELECT
+        <include refid="pay_Column_List"/>
+        FROM sys_pay_log
+        <include refid="pay_where"/>
+        ORDER BY id DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getPayRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM sys_pay_log
+        <include refid="pay_where"/>
+    </select>
+
+    <sql id="pay_where">
+        <where>
+            <include refid="common_where"/>
+            <if test="obj.paySource !=null">
+                AND pay_source = #{obj.paySource}
+            </if>
+        </where>
+    </sql>
+    <!-- ==================  付款日志 end  ======================-->
+
+    <sql id="common_where">
+        <if test="obj.operateTimeStartDateStr !=null and obj.operateTimeStartDateStr !=''">
+            AND operateTime&gt;=#{obj.operateTimeStartDateStr}
+        </if>
+        <if test="obj.operateTimeEndDateStr !=null and obj.operateTimeEndDateStr !=''">
+            AND operateTime&lt;= CONCAT(#{obj.operateTimeEndDateStr},' 23:59:59')
+        </if>
+        <if test="obj.operateTimeStartDateStr == null and obj.operateTimeEndDateStr == null">
+            <if test="obj.operateTimeStart !=null and obj.operateTimeStart !=''">
+                AND operateTime&gt;=#{obj.operateTimeStart}
+            </if>
+            <if test="obj.operateTimeEnd !=null and obj.operateTimeEnd !=''">
+                AND operateTime&lt;= #{obj.operateTimeEnd}
+            </if>
+        </if>
+        <if test="obj.keyWords !=null and obj.keyWords !=''">
+            AND
+            (
+            userName LIKE CONCAT('%', #{obj.keyWords}, '%')
+            or remoteIP LIKE CONCAT('%', #{obj.keyWords}, '%')
+            )
+        </if>
+        <if test="obj.username !=null and obj.username !=''">
+            AND userName LIKE CONCAT('%', #{obj.username}, '%')
+        </if>
+        <if test="obj.remoteip !=null and obj.remoteip !=''">
+            AND remoteIP LIKE CONCAT('%', #{obj.remoteip}, '%')
+        </if>
+        <if test="obj.operatorResult !=null">
+            AND operator_result = #{obj.operatorResult}
+        </if>
+        <if test="obj.operatorWay !=null">
+            AND operator_way = #{obj.operatorWay}
+        </if>
+    </sql>
+
+</mapper>

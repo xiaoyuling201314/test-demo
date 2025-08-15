@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>JS点击弹出模态窗口下拉列表代码</title>
+
+<link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css">
+<link rel="stylesheet" type="text/css" href="css/pickout.css">
+<link rel="stylesheet" type="text/css" href="css/select.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<!--必要样式-->
+<link rel="stylesheet" href="css/pickout.css">
+<style>
+
+
+		  .change-btn .icon{
+			font-size: 20px
+		  }
+		  .pk-option{
+		  	display: table;
+		  	position: relative;
+		  	width: calc(100%);
+		  	padding: 0;
+		  }
+
+		.pk-option .zz-user-list{
+	      display: table; 
+	      width:100%;
+	      margin-bottom: 10px;
+	      border-top:1px solid #ddd;
+	      background: #fff;
+	     }
+	     
+
+	     .pk-option .zz-list-title{
+	     padding:4px 15px; 
+	     }
+	     .pk-option .zz-list-title i{
+	      color: #007EEA;
+	     }
+	   
+	     
+         .pk-option .zz-list-left{
+	        display: table-cell;
+	        position: relative;
+	        min-height: 41px;
+	        height: 50px;
+	        line-height: 50px;
+	        padding-left: 15px;
+      	}
+		.pk-option .zz-list-right{
+		    border:0;    
+		    display: table-cell; 
+		    border-left: 1px solid #f1f1f1;
+		    /* padding: 5px; */
+		    vertical-align: middle;
+		    text-align:center;
+			height: 50px;
+	        line-height: 50px;	 
+	        width: 60px     
+	     }
+      
+      
+     
+      	  
+</style>
+
+
+
+</head>
+<body>
+<div class="container">
+	<input class="tt" value="" placeholder="插入数据">
+	<div class="content">		
+		<form action="#" method="post">
+	
+			<div class="pk-modal - -show">
+				<div class="head">选择市场</div>
+				<div class="pk-search -show">
+					<input type="text">
+					<div class="zz-search-btn">确定</div>
+				</div>
+				<ul class="main">
+					<li class="pk-option  -">
+					<div class="zz-list-left">
+                    <a href="#"  class="clearfix">
+            
+                        <span class="txt">天河肉菜市场</span>
+                     
+                    </a>
+                    </div>
+                    <div class="zz-list-right">
+                      
+                    
+                      <div class="change-btn">
+							<span class="text-primary icon iconfont icon-xiugai"></span>
+						</div>
+                    </div>
+						
+						
+					</li>
+					
+				</ul>
+			</div>
+					
+		</form>
+	</div>
+</div>
+<script src="jquery-1.9.1.min.js"></script>
+<script src="js/pickout.js"></script>
+
+
+<script>
+
+	// Preparar o select
+	//pickout.to('.pickout');
+	pickout.to({
+		el:'.city',
+		theme: '', 
+		search: true
+	});
+
+	pickout.to({
+		el:'.state',
+		theme: 'clean',
+	});
+	pickout.updated('.city');
+	
+
+
+	$('.pk-option').click(function(e){
+		var txt = $(this).children('.txt').text()
+		if($(e.target).hasClass('change-btn')||$(e.target).hasClass('icon')){
+			console.log(this)
+		}else{
+			$('.tt').val(txt) 	
+		}
+		// if(e.target.hasClass('change-btn')){
+		// 	console.log(1)
+		// }else{
+		// $('.tt').val(txt) 			
+		// }
+		
+	})
+</script>
+
+</body>
+</html>

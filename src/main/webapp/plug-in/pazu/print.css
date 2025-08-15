@@ -1,0 +1,20 @@
+#myContent2 tr{
+	height:36px;
+}
+#myContent2 tr td{
+	padding:0px;
+}
+.MsoNormal{
+	display:inline;
+}
+.MsoNormal2{
+	padding-left:20px;
+}
+p{
+	padding:0;
+	margin:0;
+}
+/*
+.checkUserStyle{
+	width: 150px !important;
+}*/

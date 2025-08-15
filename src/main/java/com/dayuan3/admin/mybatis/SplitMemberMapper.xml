@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.admin.mapper.SplitMemberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dayuan3.admin.bean.SplitMember">
+        <id column="id" property="id" />
+        <result column="mb_user_id" property="mbUserId" />
+        <result column="mb_user_name" property="mbUserName" />
+        <result column="split_rate" property="splitRate" />
+        <result column="remark" property="remark" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_date" property="updateDate" />
+        <result column="param1" property="param1" />
+        <result column="param2" property="param2" />
+        <result column="param3" property="param3" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mb_user_id, mb_user_name, split_rate, remark, delete_flag, create_by, create_date, update_by, update_date, param1, param2, param3
+    </sql>
+
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_split_member
+        <include refid="Example_Where_Clause"/>
+        ORDER BY update_date ${order} LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM tb_split_member
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <sql id="Example_Where_Clause">
+        where delete_flag = 0
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (mb_user_id LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR mb_user_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+    </sql>
+
+</mapper>

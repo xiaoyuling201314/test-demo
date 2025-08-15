@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.system.TSRoleMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.system.TSRole">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="rolename" property="rolename" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="SMALLINT" />
+		<result column="sorting" property="sorting" jdbcType="SMALLINT" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="children_id" property="childrenId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, rolename, remark, status, sorting, delete_flag, create_by, create_date, update_by,
+		update_date,children_id
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1 and delete_flag=0
+		<trim suffixOverrides=",">
+			<if test="obj.baseBean != null">
+				<if test="obj.baseBean.rolename != null and obj.baseBean.rolename != ''">
+					AND (rolename like CONCAT('%', #{obj.baseBean.rolename}, '%')
+					OR remark like CONCAT('%', #{obj.baseBean.rolename}, '%')
+					)
+				</if>
+			</if>
+			<if test="obj.roleIds != null and obj.roleIds != ''" >
+				and id in
+				<foreach collection="obj.roleIds" item="ids" index="index" open="(" close=")" separator=",">
+					#{ids}
+				</foreach>
+			</if>
+		</trim>
+	</sql>
+	<select id="selectByRoleName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_role
+		where delete_flag=0 and rolename = #{rolename,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_role
+		where delete_flag=0 and ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update  t_s_role set delete_flag=1,update_date=now()
+		where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.system.TSRole">
+		insert into t_s_role (id, rolename, remark,
+		status, sorting, delete_flag,
+		create_by, create_date, update_by,
+		update_date,children_id)
+		values (#{id,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{status,jdbcType=SMALLINT}, #{sorting,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT},
+		#{createBy,jdbcType=VARCHAR}, now(), #{updateBy,jdbcType=VARCHAR},
+		now(),#{childrenId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.system.TSRole">
+		insert into t_s_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="rolename != null">
+				rolename,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="sorting != null">
+				sorting,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+				create_date,
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="childrenId != null">
+				children_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="rolename != null">
+				#{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=SMALLINT},
+			</if>
+			<if test="sorting != null">
+				#{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+				now(),
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+				now(),
+			<if test="childrenId != null">
+				#{childrenId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.system.TSRole">
+		update t_s_role
+		<set>
+			<if test="rolename != null">
+				rolename = #{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark!=''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=SMALLINT},
+			</if>
+			<if test="sorting != null">
+				sorting = #{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+				update_date =now(),
+			<if test="childrenId != null">
+				children_id = #{childrenId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.system.TSRole">
+		update t_s_role
+		set rolename = #{rolename,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		status = #{status,jdbcType=SMALLINT},
+		sorting = #{sorting,jdbcType=SMALLINT},
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		children_id = #{childrenId,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_role
+		<include refid="Example_Where_Clause" />
+		order by sorting ASC, rolename ASC limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from t_s_role
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="getRoleList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_role
+		where delete_flag = 0 and status = 0 order by sorting
+	</select>
+	
+	<select id="getCRoleList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_role
+		where delete_flag = 0 and status = 0 order by sorting
+	</select>
+	
+</mapper>

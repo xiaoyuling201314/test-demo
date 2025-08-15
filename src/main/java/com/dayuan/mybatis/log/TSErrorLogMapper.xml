@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.log.TSErrorLogMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.log.TSErrorLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+        <result column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="device_version" property="deviceVersion" jdbcType="VARCHAR"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="system_version" property="systemVersion" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.dayuan.bean.log.TSErrorLog" extends="BaseResultMap">
+        <result column="error_message" property="errorMessage" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.dayuan.model.log.TSErrorLogModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+        <result column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="device_version" property="deviceVersion" jdbcType="VARCHAR"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="system_version" property="systemVersion" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="TIMESTAMP"/>
+        <result column="createName" property="createName" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="error_message" property="errorMessage" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, device_type, device_code, device_version, serial_number, system_version, time,
+        create_by, create_date
+    </sql>
+    <sql id="Blob_Column_List">
+        error_message
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_s_error_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_s_error_log
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.log.TSErrorLog">
+        INSERT INTO t_s_error_log (id, device_type, device_code,
+                                   device_version, serial_number, system_version,
+                                   time, create_by, create_date,
+                                   error_message)
+        VALUES (#{id,jdbcType=INTEGER}, #{deviceType,jdbcType=VARCHAR}, #{deviceCode,jdbcType=VARCHAR},
+                #{deviceVersion,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{systemVersion,jdbcType=VARCHAR},
+                #{time,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+                #{errorMessage,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.log.TSErrorLog">
+        insert into t_s_error_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deviceType != null">
+                device_type,
+            </if>
+            <if test="deviceCode != null">
+                device_code,
+            </if>
+            <if test="deviceVersion != null">
+                device_version,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="systemVersion != null">
+                system_version,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="errorMessage != null">
+                error_message,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="deviceType != null">
+                #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceCode != null">
+                #{deviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceVersion != null">
+                #{deviceVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="systemVersion != null">
+                #{systemVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMessage != null">
+                #{errorMessage,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.log.TSErrorLog">
+        update t_s_error_log
+        <set>
+            <if test="deviceType != null">
+                device_type = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceCode != null">
+                device_code = #{deviceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceVersion != null">
+                device_version = #{deviceVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="systemVersion != null">
+                system_version = #{systemVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMessage != null">
+                error_message = #{errorMessage,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dayuan.bean.log.TSErrorLog">
+        UPDATE t_s_error_log
+        SET device_type    = #{deviceType,jdbcType=VARCHAR},
+            device_code    = #{deviceCode,jdbcType=VARCHAR},
+            device_version = #{deviceVersion,jdbcType=VARCHAR},
+            serial_number  = #{serialNumber,jdbcType=VARCHAR},
+            system_version = #{systemVersion,jdbcType=VARCHAR},
+            time           = #{time,jdbcType=TIMESTAMP},
+            create_by      = #{createBy,jdbcType=VARCHAR},
+            create_date    = #{createDate,jdbcType=TIMESTAMP},
+            error_message  = #{errorMessage,jdbcType=LONGVARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.log.TSErrorLog">
+        UPDATE t_s_error_log
+        SET device_type    = #{deviceType,jdbcType=VARCHAR},
+            device_code    = #{deviceCode,jdbcType=VARCHAR},
+            device_version = #{deviceVersion,jdbcType=VARCHAR},
+            serial_number  = #{serialNumber,jdbcType=VARCHAR},
+            system_version = #{systemVersion,jdbcType=VARCHAR},
+            time           = #{time,jdbcType=TIMESTAMP},
+            create_by      = #{createBy,jdbcType=VARCHAR},
+            create_date    = #{createDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 查询信息列表 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap2"
+            parameterType="Object">
+        SELECT
+        tsel.id,
+        tsel.device_type,
+        tsel.error_message,
+        tsel.device_code,
+        tsel.device_version,
+        tsel.serial_number,
+        tsel.system_version,
+        tsel.time,
+        tsel.create_date,
+        tsu.user_name AS createName
+        FROM t_s_error_log tsel
+        LEFT JOIN t_s_user tsu ON tsel.create_by = tsu.id
+        <include refid="baseWere"/>
+        ORDER BY tsel.time DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+    <sql id="baseWere">
+        <where>
+            <if test="obj.keyword != null and obj.keyword != ''">
+                (
+                tsu.user_name LIKE CONCAT('%', #{obj.keyword}, '%')
+                or
+                tsel.error_message LIKE CONCAT('%', #{obj.keyword}, '%')
+                )
+            </if>
+            <if test="obj.startTime != null and obj.startTime != ''">
+                AND tsel.time &gt;= #{obj.startTime}
+            </if>
+            <if test="obj.startTime != null and obj.endTime != ''">
+                AND tsel.time &lt;= #{obj.endTime}
+            </if>
+            <if test="obj.deviceType != null and obj.deviceType != ''">
+                AND tsel.device_type = #{obj.deviceType}
+            </if>
+        </where>
+    </sql>
+    <!-- 查询数据数量 -->
+    <select id="getRowTotal" resultType="java.lang.Integer"
+            parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM t_s_error_log tsel
+        LEFT JOIN t_s_user tsu ON tsel.create_by = tsu.id
+        <include refid="baseWere"/>
+    </select>
+    <!--查询错误日志中存在的所有仪器类型-->
+    <select id="selectAlldeviceType" resultType="java.lang.String">
+        SELECT DISTINCT device_type
+        FROM t_s_error_log
+        ORDER BY device_type ASC
+    </select>
+</mapper>

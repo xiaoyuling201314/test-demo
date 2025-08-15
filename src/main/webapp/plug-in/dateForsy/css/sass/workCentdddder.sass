@@ -1,0 +1,472 @@
+$f7: #f7f7f7
+$shadow: 5px 8px 15px 0px rgba(222, 222, 222, 0.5)
+$color236: #2367e3
+body
+  background: $f7
+
+.text_overflow
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+.li_hover
+  transition: all .3s ease 0s
+  transform: translate3d(0, 0, 0)
+  -moz-transform: translate3d(0, 0, 0)
+  -webkit-transform: translate3d(0, 0, 0)
+  &:hover
+    // box-shadow: $shadow
+    transition: all .3s ease 0s
+    transform: translate3d(0, -2px, 0)
+    -moz-transform: translate3d(0, -2px, 0)
+    -webkit-transform: translate3d(0, -2px, 0)
+
+.list_box
+  .list_h3
+    font-family: MicrosoftYaHei
+    font-size: 17px
+    font-weight: normal
+    font-stretch: normal
+    letter-spacing: 0px
+    color: #3476f0
+    padding: 0px 20px
+    line-height: 43px
+    height: 43px
+  .more
+    display: inline-block
+    float: right
+    background-color: #fff
+    border-radius: 5px
+    border: solid 1px #3476f0
+    width: 45px
+    height: 22px
+    text-align: center
+    font-size: 12px
+    line-height: 22px
+    font-family: MicrosoftYaHei
+    cursor: pointer
+    color: #3476f0
+    &:hover
+      background: #3476f0
+      color: #fff
+  .arc_list
+    background-color: #ffffff
+    box-shadow: $shadow
+    border-radius: 10px
+    padding: 20px 20px 16px 10px
+    min-height: 400px
+    // li
+    //   margin: 0 0 8px 0
+    //   &:hover
+    //     cursor: pointer
+    //     background: #e4effe !important
+    a
+      display: block
+      margin: 0 0 15px 0
+      &:hover
+        background: $f7
+      .list_left
+        width: 8%
+        height: 50px
+
+        box-sizing: border-box
+        img
+          width: 50px
+          height: 50px
+          border-radius: 50%
+          overflow: hidden
+          margin: 0 auto
+          display: block
+      .list_right
+        width: 90%
+        padding: 0 0 0 1%
+        .title
+          font-family: MicrosoftYaHei
+          font-size: 14px
+          font-weight: normal
+          font-stretch: normal
+          letter-spacing: 0px
+          color: #000000
+          line-height: 26px
+          @extend .text_overflow
+          max-width: 90%
+          &:hover
+            color: #2c6ce1
+
+        .list_timer
+          font-family: MicrosoftYaHei
+          font-size: 12px
+          font-weight: normal
+          font-stretch: normal
+          letter-spacing: 0px
+          color: #656262
+          line-height: 24px
+          max-width: 80%
+          @extend .text_overflow
+
+  .action_box
+    background-color: #ffffff
+    box-shadow: $shadow
+    border-radius: 10px
+    padding: 20px
+    height: 382px
+    -ms-overflow-style: none
+    &::-webkit-scrollbar
+      display: none
+
+    .link_item
+      float: left
+      width: 16.6%
+      margin: 0 0 24px 0
+      a
+        display: block
+        width: 52px
+        height: 52px
+        margin: 0 auto
+
+        text-align: center
+        border-radius: 50%
+        line-height: 52px
+        &:hover
+          background-color: #d3e2fc
+      h4
+        font-family: MicrosoftYaHei
+        font-size: 12px
+        font-weight: normal
+        font-stretch: normal
+        letter-spacing: 0px
+        color: #000000
+        line-height: 26px
+        text-align: center
+        width: 100%
+        @extend .text_overflow
+  .overflowY
+    overflow-y: auto
+    padding-bottom: 30px
+  .tabls
+    padding: 0 20px 0
+    li
+      float: left
+      font-family: MicrosoftYaHei
+      font-size: 17px
+      font-weight: normal
+      font-stretch: normal
+      letter-spacing: 0px
+      color: #949596
+      padding: 10px
+      line-height: 22px
+      .huibiao
+        padding: 3px 10px
+        background-color: #3476f0
+        border-radius: 9px
+        font-size: 14px
+        line-height: 22px
+        color: #fff
+      &:hover
+        cursor: pointer
+        color: $color236
+    .active
+      color: $color236
+  .moreSpan
+    display: inline-block
+    position: absolute
+    top: 12px
+    right: 20px
+    background-color: #fff
+    border-radius: 5px
+    border: solid 1px #3476f0
+    width: 45px
+    height: 22px
+    text-align: center
+    cursor: pointer
+    font: 12px/22px "MicrosoftYaHei"
+    color: #3476f0
+    &:hover
+      background: #3476f0
+      color: #fff
+  .tab_arc
+    display: none
+  .show
+    display: block
+.top_bg_box
+  padding: 10px
+  background: #fff
+  box-shadow: $shadow
+  border-radius: 10px
+  margin: 0 0 20px 0
+  .top_box
+    padding: 0 0 0 20px
+    min-height: 504px
+    background: url(../img/bg_top.png) no-repeat top left
+    background-size: cover
+    .work_warp
+      float: left
+      height: 400px
+      box-sizing: border-box
+      width: 14%
+      font-size: 1em !important
+    .work_item
+      // width: 14.2%
+      margin-right: 30px
+      background: #fff
+      .items_titele
+        width: 100%
+        text-align: center
+        font: 17px/30px MicrosoftYaHei
+        height: 60px
+        color: #fff
+        padding: 25px
+        box-sizing: border-box
+        background-size: 100%
+        // min-width: 196px
+      .item_center
+        max-height: 300px
+        background: #fff
+        box-shadow: 1px 1px 1px 0px #f1f2f5
+        padding: 10px 0
+        a
+          display: block
+          margin: 0px 0 10px 0
+          font: 15px/30px MicrosoftYaHei
+          height: 30px
+          text-align: center
+          color: #343434
+          width: 90%
+          overflow: hidden
+          &:hover
+            background: #e1f5fa
+            color: #2c6ce1
+      .overflowY
+        overflow-y: auto
+        background: #fff url('../img/bianjiao.png') no-repeat bottom right
+        border-bottom-right-radius: 53px
+        padding-bottom: 50px
+
+    .event
+      margin-top: 52px
+
+.date_box
+  padding: 20px 20px 20px 0
+  background-color: #ffffff
+  box-shadow: 5px 8px 15px 0px rgba(222,222,222,0.5)
+  border-radius: 10px
+  min-height: 395px
+
+  .date_center
+    padding: 0 20px 0 0
+
+  .date_top
+
+    height: 36px
+    padding: 0 20px
+
+    .tody
+      font-family: MicrosoftYaHei
+      font-size: 28px
+      font-weight: normal
+      font-stretch: normal
+      letter-spacing: 0px
+      color: #000000
+      line-height: 36px
+      margin-right: 20px
+    .date_action
+      margin: 12px 0 0
+      i
+        display: inline-block
+        font-size: 10px
+        cursor: pointer
+      .icon_left
+        transform: rotate(180deg)
+      span
+        font-family: MicrosoftYaHei
+        font-size: 14px
+        font-weight: normal
+        font-stretch: normal
+        letter-spacing: 0px
+        color: #a2a0a0
+    .rigth_action
+      line-height: 36px
+      span
+        width: 30px
+        height: 20px
+        background-color: #ffffff
+        border-radius: 5px
+        border: solid 1px #a2a0a0
+        cursor: pointer
+        padding: 5px 10px
+      .add
+        background-color: #2c6ce1
+        border-radius: 5px
+        margin: 0 0 0 10px
+        color: #fff
+  .date_header
+    height: 24px
+    .week_item
+      float: left
+      height: 24px
+      width: 14.28%
+      line-height: 24px
+      font-family: MicrosoftYaHei
+      font-size: 13px
+      font-weight: normal
+      font-stretch: normal
+      letter-spacing: 0px
+      color: #a2a0a0
+      text-align: center
+  .day_item
+    .day_list
+      float: left
+      width: 14.28%
+      height: 40px
+      text-align: center
+      padding: 10px 0 0 0
+      .day_center
+        width: 40px
+        height: 40px
+        border-radius: 50%
+        // border: 1px solid #2c6ce1
+        margin: 0 auto
+        cursor: pointer
+        position: relative
+        .dayone
+          font-family: MicrosoftYaHei
+          font-size: 16px
+          font-weight: normal
+          font-stretch: normal
+          letter-spacing: 0px
+          color: #000000
+          text-align: center
+          line-height: 22px
+        .daytwo
+          font-family: MicrosoftYaHei
+          font-size: 10px
+          font-weight: normal
+          font-stretch: normal
+          letter-spacing: 0px
+          color: #000000
+          text-align: center
+          display: block
+        .dayshark
+          width: 4px
+          height: 4px
+          background: rgb(66, 133, 244)
+          margin: 0 auto
+          display: inline-block
+          border-radius: 50%
+          position: absolute
+          bottom: 2px
+          left: 50%
+        &:hover
+          background: #2c6ce1
+          color: #fff
+          .dayone,.daytwo,.dayshark
+            color: #fff
+          .dayshark
+            background: #fff
+
+      .nullDom
+        display: none
+      .today
+        border: 1px solid #2c6ce1
+      .showdate
+        background: #2c6ce1
+        color: #fff
+        .dayone,.daytwo,.dayshark
+          color: #fff
+        .dayshark
+          background: #fff
+      .tips
+        background: #2c6ce1
+        color: #ffffff
+        padding: 5px
+
+  .right_riche_box
+    margin: 36px 0 0 0
+    height: 300px
+    overflow-y: auto
+    box-sizing: border-box
+
+    &::after
+      border-left: 1px solid #648eda
+      content: ''
+      clear: both
+      display: block
+      width: 1px
+      height: 90%
+      position: absolute
+      left: 13px
+      top: 43px
+      z-index: 1
+    .bootm_btns
+      position: absolute
+      width: 17px
+      height: 17px
+      bottom: -22px
+      left: 4px
+      cursor: pointer
+    .fichegn_item
+      padding: 0 0 10px 30px
+      position: relative
+      .icon_redeo
+        position: absolute
+        top: 0
+        left: 0
+        font-size: 17px
+        color: #648eda
+        background: #fff
+        z-index: 9
+      .richeng_time
+        font-family: MicrosoftYaHei
+        font-size: 13px
+        font-weight: normal
+        font-stretch: normal
+        letter-spacing: 0px
+        color: #000000
+        line-height: 12px
+        margin: 0 0 10px
+      .richeng_dec
+        font-family: MicrosoftYaHei
+        font-size: 13px
+        font-weight: normal
+        font-stretch: normal
+        letter-spacing: 0px
+        color: #000000
+        line-height: 14px
+        background-color: #dcf0f9
+        border-radius: 5px
+        padding: 5px 10px
+// 每一块
+// .warp_box
+//   margin: 170px 0 0 0
+//   padding: 10px 20px  30px 20px
+.flist_box
+  background-color: #ffffff
+  box-shadow: $shadow
+  border-radius: 10px
+  padding: 10px 10px 16px
+  min-height: 382px
+  box-sizing: border-box
+.fist_arc
+  box-shadow: none !important
+  padding: 10px 0px 0 10px !important
+  li
+    margin: 0 0 8px 0
+
+.min338
+  min-height: 338px
+  box-sizing: border-box
+@for $i from 1 through 7
+  .itembg-#{$i}
+    background: url("../img/top_title_bg#{$i}.png") no-repeat
+
+@media screen and (max-width: 1300px)
+  .h4_tips
+    display: none
+  .items_titele
+    width: 100%
+    text-align: center
+    font: 17px/30px MicrosoftYaHei
+    height: 40px !important
+    color: #fff
+    padding: 6px !important
+    box-sizing: border-box
+    background-size: 100%

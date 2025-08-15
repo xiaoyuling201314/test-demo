@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="食安科技">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>经营户</title>
+    <link rel="stylesheet" type="text/css" href="../iconfont/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/instrument.css"/>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<div class="top-bar is-flex">
+    <div class="top-back text-left"><a href="javascript:window.history.back();"><img src="../img/new.png" alt="">
+    </a><span id="pageTitle"></span>
+    </div>
+    <div class="top-btn text-right">
+    </div>
+</div>
+<div class="content">
+    <form id="busForm" autocomplete="off">
+        <input type="hidden" name="id">
+        <input type="hidden" name="regId">
+        <input type="hidden" name="creditRating" value="1"><!--信用等级,默认值A-->
+        <input type="hidden" name="monitoringLevel" value="1"><!--监控级别,默认值安全-->
+        <div class="form-group">
+            <div class="group-row">
+                <label>
+                    <span class="move-name"><i class="text-danger">*</i>摊位编号：</span>
+                    <input type="text" name="opeShopCode" maxlength="50">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name"><i class="text-danger">*</i>摊位名称：</span>
+                    <input type="text" name="opeShopName" maxlength="100">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">经营者：</span>
+                    <input type="text" name="opeName" maxlength="20">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">统一社会信用代码：</span>
+                    <input type="text" name="creditCode" maxlength="100">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">经营者身份证：</span>
+                    <input type="text" name="opeIdcard" maxlength="100">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">联系人：</span>
+                    <input type="text" name="contacts" maxlength="12">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">联系方式：</span>
+                    <input type="text" name="opePhone" maxlength="50">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">经营范围：</span>
+                    <input type="text" name="businessCope" maxlength="300">
+                </label>
+            </div>
+            <div class="group-row">
+                <label>
+                    <span class="move-name">备注：</span>
+                    <input type="text" name="remark" maxlength="200">
+                </label>
+            </div>
+            <div class="group-row group-row2">
+                <label>
+                    <span class="move-name">类型：</span>
+                    <select name="type">
+                        <option value="0">经营户</option>
+                        <option value="1">车辆</option>
+                    </select>
+                </label>
+            </div>
+            <div class="group-row group-row2">
+                <label>
+                    <span class="move-name">状态：</span>
+                    <select name="checked">
+                        <option value="1">已审核</option>
+                        <option value="0">未审核</option>
+                    </select>
+                </label>
+            </div>
+            <div class="btn-list">
+                <a href="javascript:window.history.back();" class="btn">取消</a>
+                <a class="btn" id="btnSave">确定</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="my-message"></div>
+<!-- 内容主体 结束 -->
+<!-- JavaScript -->
+<script src="../js/jquery.min1.11.3.js"></script>
+<script src="../common/js/common.js"></script>
+<!--表单校验和中文化-->
+<script src="../plug-in/validate/validate-1.14.0.min.js"></script>
+<script src="../plug-in/validate/messages_zh.js"></script>
+<!--用于表单回显-->
+<script src="../plug-in/easyui/jquery.easyui.min.js"></script>
+<script>$("#my-message").load("message.html");</script>
+<script>
+    let busId = GetQueryString('id');
+    let regId = GetQueryString('regId');
+    $("input[name=regId]").val(regId);
+    let regName = GetQueryString('regName');
+    $("#pageTitle").text((busId ? '编辑' : '新增') + '经营户（' + regName + '）');
+    let $btnSave = $("#btnSave");
+
+    $(function () {
+        if (busId) {
+            queryById();
+        }
+    });
+
+    //============================表单的校验和提交_start========================
+
+    // 表单校验规则
+    $("#busForm").validate({
+        rules: {
+            opeShopCode: {
+                required: true,
+            },
+            opeShopName: {
+                required: true,
+            }
+        },
+        messages: {　　　　//验证错误信息
+            opeShopCode: {
+                required: '请填写摊位编号',
+            },
+            opeShopName: {
+                required: '请填写摊位名称',
+            },
+        },
+        submitHandler: function (form) { //校验通过之后回调
+            submitForm();//提交表单
+        },
+        /* 重写错误显示消息方法,以message方式弹出错误消息 */
+        showErrors: function (errorMap, errorList) {
+            if (errorList && errorList.length > 0) {
+                message(errorList[0].message);
+                $btnSave.removeClass("notclick");
+            }
+        },
+        /* 失去焦点时不验证 */
+        onfocusout: false,
+        /*敲击键盘时不验证*/
+        onkeyup: false
+    });
+
+    $btnSave.click(function () {
+        $btnSave.addClass("notclick");
+        $("#busForm").submit();
+    });
+
+    //提交表单
+    function submitForm() {
+        let formData = new FormData($('#busForm')[0]);
+        formData.append("userToken",userToken);
+        formData.append("serialNumber",serialNumber);
+        $.ajax({
+            type: "POST",
+            url: "../../iRegulatory/Object/bus/",
+            contentType: false,
+            processData: false,
+            data: formData,
+            dataType: "json",
+            success: ({success, msg, obj}) => {
+                if (success) {
+                    message({message: msg, type: "success"});
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 600);
+                } else {
+                    message(msg);
+                }
+            }
+        });
+
+    }
+
+    //============================表单的校验和提交_end========================
+
+    //根据ID查询数据回显
+    function queryById() {
+        $.ajax({
+            type: "GET",
+            url: `../../iRegulatory/Object/bus/${busId}?userToken=${userToken}`,
+            dataType: "json",
+            success: ({success, msg, obj}) => {
+                if (success) {
+                    $('#busForm').form('load', obj);
+                } else {
+                    message(msg)
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

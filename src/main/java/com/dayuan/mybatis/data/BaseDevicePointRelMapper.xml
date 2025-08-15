@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseDevicePointRelMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseDevicePointRel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+		<result column="depart_id" property="departId" jdbcType="INTEGER" />
+		<result column="point_id" property="pointId" jdbcType="INTEGER" />
+		<result column="start_date" property="startDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, device_id, depart_id, point_id, start_date, end_date, delete_flag, create_by,
+		create_date, update_by, update_date
+	</sql>
+	<select id="selectByDeviceIds" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT r.device_id,r.depart_id,r.delete_flag, r.start_date,r.end_date FROM base_device_point_rel r
+		WHERE r.device_id=#{deviceId}
+		ORDER BY r.create_date DESC
+	</select>
+	<select id="selectByPointId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * from base_device_point_rel where delete_flag=0 and point_id=#{pointId}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from base_device_point_rel
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from base_device_point_rel
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.data.BaseDevicePointRel"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into base_device_point_rel (id, device_id, depart_id,
+		point_id, start_date, end_date,
+		delete_flag, create_by, create_date,
+		update_by, update_date)
+		values (#{id,jdbcType=INTEGER}, #{deviceId,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER},
+		#{pointId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE},
+		#{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseDevicePointRel"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into base_device_point_rel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="deviceId != null">
+				device_id,
+			</if>
+			<if test="departId != null">
+				depart_id,
+			</if>
+			<if test="pointId != null">
+				point_id,
+			</if>
+			<if test="startDate != null">
+				start_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="deviceId != null">
+				#{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="departId != null">
+				#{departId,jdbcType=INTEGER},
+			</if>
+			<if test="pointId != null">
+				#{pointId,jdbcType=INTEGER},
+			</if>
+			<if test="startDate != null">
+				#{startDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=DATE},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseDevicePointRel">
+		update base_device_point_rel
+		<set>
+			<if test="deviceId != null">
+				device_id = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="departId != null">
+				depart_id = #{departId,jdbcType=INTEGER},
+			</if>
+			<if test="pointId != null">
+				point_id = #{pointId,jdbcType=INTEGER},
+			</if>
+			<if test="startDate != null">
+				start_date = #{startDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=DATE},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseDevicePointRel">
+		update base_device_point_rel
+		set device_id = #{deviceId,jdbcType=VARCHAR},
+		depart_id = #{departId,jdbcType=INTEGER},
+		point_id = #{pointId,jdbcType=INTEGER},
+		start_date = #{startDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectByDeviceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from base_device_point_rel where device_id=#{deviceId} and delete_flag=0
+	</select>
+	
+	<!-- /**
+	 * 删除仪器与 项目的关联关系
+	 * @param departId
+	 * @author LuoYX
+	 * @date 2018年6月15日
+	 */ -->
+	<select id="removeRelation" parameterType="java.lang.Integer">
+		UPDATE base_device_point_rel rel SET delete_flag=1
+		WHERE rel.delete_flag=0 AND rel.depart_id in (
+			SELECT id FROM t_s_depart t1 WHERE t1.depart_code LIKE CONCAT((
+				SELECT depart_code FROM t_s_depart t2 WHERE id=#{departId}
+			),'%')
+		)
+	</select>
+	<select id="selectRelation" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM base_device_point_rel rel 
+		WHERE rel.delete_flag=0 AND rel.depart_id in (
+			SELECT id FROM t_s_depart t1 WHERE t1.depart_code LIKE CONCAT((
+				SELECT depart_code FROM t_s_depart t2 WHERE id=#{departId}
+			),'%')
+		)
+	</select>
+</mapper>

@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.common.mapper.InspectionUserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan3.common.bean.InspectionUserAccount">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="actual_money" property="actualMoney" />
+        <result column="gift_money" property="giftMoney" />
+        <result column="recharge_count" property="rechargeCount" />
+        <result column="last_recharge_date" property="lastRechargeDate" />
+        <result column="pay_password" property="payPassword" />
+        <result column="status" property="status" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="create_date" property="createDate" />
+        <result column="create_by" property="createBy" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_by" property="updateBy" />
+        <result column="param1" property="param1" />
+        <result column="param2" property="param2" />
+        <result column="param3" property="param3" />
+        <result column="total_money" property="totalMoney" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <resultMap id="BalanceModel" type="com.dayuan3.terminal.model.BalanceModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="actual_money" jdbcType="INTEGER" property="actualMoney"/>
+        <result column="gift_money" jdbcType="INTEGER" property="giftMoney"/>
+        <result column="total_money" jdbcType="INTEGER" property="totalMoney"/>
+        <result column="recharge_count" jdbcType="INTEGER" property="rechargeCount"/>
+        <result column="last_recharge_date" jdbcType="TIMESTAMP" property="lastRechargeDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="accountId" jdbcType="INTEGER" property="accountId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, actual_money, gift_money, total_money, recharge_count, last_recharge_date, pay_password,
+        status, delete_flag, create_date, create_by, update_date, update_by, param1, param2,
+        param3, version
+    </sql>
+  <!--  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_user_account
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM inspection_user_account
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan3.common.bean.InspectionUserAccount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO inspection_user_account (id, user_id, actual_money,
+                                             gift_money, total_money, recharge_count, last_recharge_date,
+                                             pay_password, status, delete_flag,
+                                             create_date, create_by, update_date,
+                                             update_by, param1, param2,
+                                             param3)
+        VALUES (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{actualMoney,jdbcType=DECIMAL},
+                                        #{giftMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL}, #{rechargeCount,jdbcType=INTEGER},
+                                        #{lastRechargeDate,jdbcType=TIMESTAMP},
+                                        #{payPassword,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT},
+                                        #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+                #{param3,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan3.common.bean.InspectionUserAccount" useGeneratedKeys="true" keyProperty="id">
+        insert into inspection_user_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="actualMoney != null">
+                actual_money,
+            </if>
+            <if test="giftMoney != null">
+                gift_money,
+            </if>
+            <if test="totalMoney != null">
+                total_money,
+            </if>
+            <if test="rechargeCount != null">
+                recharge_count,
+            </if>
+            <if test="lastRechargeDate != null">
+                last_recharge_date,
+            </if>
+            <if test="payPassword != null">
+                pay_password,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="actualMoney != null">
+                #{actualMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="giftMoney != null">
+                #{giftMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="totalMoney != null">
+                #{totalMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="rechargeCount != null">
+                #{rechargeCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastRechargeDate != null">
+                #{lastRechargeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payPassword != null">
+                #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        update inspection_user_account
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="actualMoney != null">
+                actual_money = #{actualMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="giftMoney != null">
+                gift_money = #{giftMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="totalMoney != null">
+                total_money = #{totalMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="rechargeCount != null">
+                recharge_count = #{rechargeCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastRechargeDate != null">
+                last_recharge_date = #{lastRechargeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payPassword != null">
+                pay_password = #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        UPDATE inspection_user_account
+        SET user_id            = #{userId,jdbcType=INTEGER},
+            actual_money       = #{actualMoney,jdbcType=DECIMAL},
+            gift_money         = #{giftMoney,jdbcType=DECIMAL},
+            total_money        = #{totalMoney,jdbcType=DECIMAL},
+            recharge_count     = #{rechargeCount,jdbcType=INTEGER},
+            last_recharge_date = #{lastRechargeDate,jdbcType=TIMESTAMP},
+            pay_password       = #{payPassword,jdbcType=VARCHAR},
+            status             = #{status,jdbcType=SMALLINT},
+            delete_flag        = #{deleteFlag,jdbcType=SMALLINT},
+            create_date        = #{createDate,jdbcType=TIMESTAMP},
+            create_by          = #{createBy,jdbcType=VARCHAR},
+            update_date        = #{updateDate,jdbcType=TIMESTAMP},
+            update_by          = #{updateBy,jdbcType=VARCHAR},
+            param1             = #{param1,jdbcType=VARCHAR},
+            param2             = #{param2,jdbcType=VARCHAR},
+            param3             = #{param3,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>-->
+    <!-- 根据用户ID查找账号信息 -->
+    <select id="queryAccountByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_user_account
+        where user_id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 	充值更新余额账户 add by xiaoyl 2019-11-02 -->
+    <update id="updateBanalceForRecharge" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        update inspection_user_account
+        <set>
+            <if test="actualMoney != null">
+                actual_money =actual_money+ #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="giftMoney != null">
+                gift_money =gift_money+ #{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="totalMoney != null">
+                total_money =total_money+ #{actualMoney,jdbcType=INTEGER}+#{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="rechargeCount != null">
+                recharge_count =recharge_count+ #{rechargeCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastRechargeDate != null">
+                last_recharge_date = #{lastRechargeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!-- 	支付时更新余额账户add by xiaoyl 2019-11-02 -->
+    <update id="updateBanalceForPay" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        update inspection_user_account
+        <set>
+            <if test="actualMoney != null">
+                actual_money =actual_money- #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="giftMoney != null">
+                gift_money =gift_money- #{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="totalMoney != null">
+                total_money =total_money- #{actualMoney,jdbcType=INTEGER}-#{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 	支付时更新余额账户 方式2 add by shit 2019-11-20 -->
+    <update id="updateBanalceForPay2" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        update inspection_user_account
+        <set>
+            <if test="actualMoney != null">
+                actual_money =actual_money- #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="giftMoney != null">
+                gift_money =gift_money- #{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="totalMoney != null">
+                total_money =total_money- #{actualMoney,jdbcType=INTEGER}-#{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            version = version+1,
+        </set>
+        where id = #{id,jdbcType=INTEGER} AND version = #{version,jdbcType=INTEGER}
+        <if test="actualMoney != null">
+            AND actual_money &gt;= #{actualMoney,jdbcType=INTEGER},
+        </if>
+        <if test="giftMoney != null">
+            AND gift_money &gt;= #{giftMoney,jdbcType=INTEGER},
+        </if>
+        <if test="totalMoney != null">
+            AND total_money &gt;=(#{actualMoney,jdbcType=INTEGER}+#{giftMoney,jdbcType=INTEGER}) ,
+        </if>
+    </update>
+
+    <!-- 	充值更新余额账户 方式2 add by shit 2019-11-20 -->
+    <update id="updateBanalceForRecharge2" parameterType="com.dayuan3.common.bean.InspectionUserAccount">
+        update inspection_user_account
+        <set>
+            <if test="actualMoney != null">
+                actual_money =actual_money+ #{actualMoney,jdbcType=INTEGER},
+            </if>
+            <if test="giftMoney != null">
+                gift_money =gift_money+ #{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="totalMoney != null">
+                total_money =total_money+ #{actualMoney,jdbcType=INTEGER}+#{giftMoney,jdbcType=INTEGER},
+            </if>
+            <if test="rechargeCount != null">
+                recharge_count =recharge_count+ #{rechargeCount,jdbcType=INTEGER},
+            </if>
+            <if test="lastRechargeDate != null">
+                last_recharge_date = #{lastRechargeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            version = version+1,
+        </set>
+        where id = #{id,jdbcType=INTEGER} AND version = #{version,jdbcType=INTEGER}
+    </update>
+
+    <!-- 余额管理分页查询 交易记录：flowCount 只记录成功的次数-->
+    <select id="loadDatagrid" resultMap="BalanceModel" parameterType="Object">
+        SELECT iua.id, iua.user_id userId, iua.actual_money actualMoney, iua.gift_money giftMoney,
+        iua.last_recharge_date lastRechargeDate,iua.update_date, iua.status,iua.total_money,
+        (SELECT count(1) FROM account_flow af LEFT JOIN income ic ON af.income_id = ic.id
+        WHERE af.delete_flag = 0 AND af.`status` = 1 AND af.flow_state = 1 AND ic.delete_flag = 0 AND ic.order_platform != 2 AND af.create_by
+        =iua.user_id) AS rechargeCount,
+        (SELECT count(1) FROM income WHERE delete_flag = 0 AND `status`=1 AND create_by = iua.user_id) AS flowCount,
+        iuu.real_name realName,iuu.user_name, iuu.phone,iuu.account,iuu.id AS accountId
+        FROM inspection_user_account iua
+        INNER JOIN inspection_unit_user iuu ON iua.user_id = iuu.id
+        WHERE iua.delete_flag = 0 AND iuu.delete_flag = 0
+        <if test="obj.phone != null and obj.phone != ''">
+            AND iuu.phone like CONCAT(#{obj.phone}, '%')
+        </if>
+        <if test="obj.ishave != null and obj.ishave != 0">
+            HAVING flowCount>0
+        </if>
+        ORDER BY iua.total_money DESC LIMIT #{rowOffset}, #{pageSize}
+    </select>
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM (
+        SELECT iua.id
+        <if test="obj.ishave != null and obj.ishave != 0">
+            ,(SELECT count(1) FROM income WHERE delete_flag = 0 AND `status`=1 AND create_by = iua.user_id) AS flowCount
+        </if>
+        FROM inspection_user_account iua
+        INNER JOIN inspection_unit_user iuu ON iua.user_id = iuu.id
+        WHERE iua.delete_flag = 0 AND iuu.delete_flag = 0
+        <if test="obj.phone != null and obj.phone != ''">
+            AND iuu.phone like CONCAT(#{obj.phone}, '%')
+        </if>
+        <if test="obj.ishave != null and obj.ishave != 0">
+            HAVING flowCount>0
+        </if>
+        ) tab1
+    </select>
+
+</mapper>

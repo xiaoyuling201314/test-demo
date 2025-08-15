@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BasePointUserMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BasePointUser">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="depart_id" property="departId" jdbcType="INTEGER"/>
+        <result column="point_id" property="pointId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="position_code" property="positionCode" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="param1" property="param1" jdbcType="VARCHAR"/>
+        <result column="param2" property="param2" jdbcType="VARCHAR"/>
+        <result column="param3" property="param3" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="joinBaseResultMap" type="com.dayuan.bean.data.BasePointUser" extends="BaseResultMap">
+        <result column="workerName" property="workerName" jdbcType="VARCHAR"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="mobilePhone" property="mobilePhone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="SMALLINT"/>
+        <result column="departName" property="departName" jdbcType="VARCHAR"/>
+        <result column="pointName" property="pointName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        bpu.id id, bpu.start_time startTime, bpu.end_time endTime, bpu.delete_flag deleteFlag, bpu.create_by createBy, bpu.create_date createDate,
+        bpu.update_by updateBy, bpu.update_date updateDate, bpu.param1 param1, bpu.param2 param2, bpu.param3 param3, bpu.position_code positionCode, bpu.remark remark,
+        bw.id userId, bw.worker_name workerName, bw.position position,
+        bw.mobile_phone mobilePhone, bw.email email, bw.status status,
+        tsd.id departId, tsd.depart_name departName,
+        bp.id pointId, bp.point_name pointName
+    </sql>
+    <select id="selectByPointId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM base_point_user
+        WHERE delete_flag = 0 AND point_id = #{pointId}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        where bpu.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+      delete from base_point_user
+      where id in
+     <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+          #{ids}
+     </foreach>
+    </delete> -->
+    <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+        update base_point_user
+        set delete_flag = 1
+        where id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </update>
+    <!--shit添加,把人员移除项目的时候添加结束时间-->
+    <update id="delete" parameterType="java.lang.String">
+        update base_point_user
+        set delete_flag = 1,
+        end_time = #{endDate}
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        AND delete_flag = 0
+    </update>
+
+    <!--shit添加, 根据人员id和人员状态为离职之后删除其中间表信息-->
+    <update id="deleteByUserId">
+        UPDATE base_point_user
+        SET delete_flag = 1,
+            end_time    = #{endTime}
+        WHERE user_id = #{userId} AND delete_flag = 0
+    </update>
+
+    <!-- shit添加,如果该项目完成或者终止那就保存结束时间到该项目对应的中间表 -->
+    <update id="updateByProjectId">
+        UPDATE base_point_user
+        SET delete_flag = 1,
+            end_time    = #{endTime}
+        WHERE depart_id = #{departId} AND delete_flag = 0
+    </update>
+
+    <insert id="insert" parameterType="com.dayuan.bean.data.BasePointUser">
+        INSERT INTO base_point_user (id, depart_id, point_id,
+                                     user_id, position_code, start_time,
+                                     end_time, remark, delete_flag,
+                                     create_by, create_date, update_by,
+                                     update_date, param1, param2,
+                                     param3)
+        VALUES (#{id,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER}, #{pointId,jdbcType=INTEGER},
+                                        #{userId,jdbcType=VARCHAR}, #{positionCode,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+                                        #{endTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=SMALLINT},
+                                        #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+                #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+                #{param3,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.data.BasePointUser">
+        insert into base_point_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="departId != null">
+                depart_id,
+            </if>
+            <if test="pointId != null">
+                point_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="positionCode != null">
+                position_code,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="departId != null">
+                #{departId,jdbcType=INTEGER},
+            </if>
+            <if test="pointId != null">
+                #{pointId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="positionCode != null">
+                #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BasePointUser">
+        update base_point_user
+        <set>
+            <if test="departId != null">
+                depart_id = #{departId,jdbcType=INTEGER},
+            </if>
+            <if test="pointId != null">
+                point_id = #{pointId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code = #{positionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null and startTime != ''">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null and endTime != ''">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null and deleteFlag != ''">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and createDate != ''">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null and updateDate != ''">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null and param1 != ''">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null and param2 != ''">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null and param3 != ''">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BasePointUser">
+        UPDATE base_point_user
+        SET depart_id     = #{departId,jdbcType=INTEGER},
+            point_id      = #{pointId,jdbcType=INTEGER},
+            user_id       = #{userId,jdbcType=VARCHAR},
+            position_code = #{positionCode,jdbcType=VARCHAR},
+            start_time    = #{startTime,jdbcType=TIMESTAMP},
+            end_time      = #{endTime,jdbcType=TIMESTAMP},
+            remark        = #{remark,jdbcType=VARCHAR},
+            delete_flag   = #{deleteFlag,jdbcType=SMALLINT},
+            create_by     = #{createBy,jdbcType=VARCHAR},
+            create_date   = #{createDate,jdbcType=TIMESTAMP},
+            update_by     = #{updateBy,jdbcType=VARCHAR},
+            update_date   = #{updateDate,jdbcType=TIMESTAMP},
+            param1        = #{param1,jdbcType=VARCHAR},
+            param2        = #{param2,jdbcType=VARCHAR},
+            param3        = #{param3,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where bpu.delete_flag = 0 and bw.delete_flag = 0 and bw.status = 0
+        <trim suffixOverrides=",">
+            <if test="obj.depart != null">
+                <if test="obj.depart.id != null and obj.depart.id != ''">
+                    and tsd.id = #{obj.depart.id}
+                </if>
+            </if>
+            <if test="obj.point != null">
+                <if test="obj.point.id != null and obj.point.id != ''">
+                    and bp.id = #{obj.point.id}
+                </if>
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="joinBaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        <include refid="Example_Where_Clause"/>
+        order by bpu.create_date ${order} limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 检测机构直属检测点成员 -->
+    <select id="getSubPointUsers" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        where bw.delete_flag = 0 and bp.depart_id = #{departId}
+        and bw.status = 0 and bw.delete_flag = 0 and bpu.delete_flag = 0
+    </select>
+
+    <!-- 检测点成员 -->
+    <select id="queryByPointId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        where bw.delete_flag = 0 and bp.id = #{pointId}
+        and bw.status = 0 and bw.delete_flag = 0 and bpu.delete_flag = 0
+    </select>
+
+    <!-- 检测机构成员 -->
+    <select id="queryByDepartId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+        LEFT JOIN base_point bp ON bpu.point_id = bp.id
+        where bw.delete_flag = 0 and tsd.id = #{departId} and (ISNULL(bpu.point_id) or bpu.point_id = '')
+        and bw.status = 0 and bw.delete_flag = 0 and bpu.delete_flag = 0
+    </select>
+
+    <!--  通过pointId、userId查询人员 -->
+    <!-- <select id="queryByPointAndUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select
+      <include refid="Base_Column_List" />
+      from base_point_user bpu
+          LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+          LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id
+          LEFT JOIN base_point bp ON bpu.point_id = bp.id
+      where bp.id = #{pointId} and bw.id = #{userId} and bpu.delete_flag = 0
+    </select> -->
+
+    <!--  通过departId、userId查询人员 -->
+    <!-- <select id="queryByDepartAndUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from base_point_user bpu 
+	    	LEFT JOIN base_workers bw ON bpu.user_id = bw.id 
+	    	LEFT JOIN t_s_depart tsd ON bpu.depart_id = tsd.id 
+	    	LEFT JOIN base_point bp ON bpu.point_id = bp.id 
+	    where tsd.id = #{departId} and bw.id = #{userId} 
+	    	and (ISNULL(bpu.point_id) or bpu.point_id = '') and bpu.delete_flag = 0
+	  </select> -->
+
+    <!--  通过departId或pointId查询机构人员 -->
+    <select id="queryByPoint" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select bpu.id id, bpu.start_time startTime, bpu.end_time endTime, bpu.delete_flag deleteFlag, bpu.create_by createBy, bpu.create_date
+        createDate,
+        bpu.update_by updateBy, bpu.update_date updateDate, bpu.param1 param1, bpu.param2 param2, bpu.param3 param3, bpu.position_code positionCode,
+        bpu.remark remark,
+        bw.id userId, bw.worker_name workerName, bw.position position,
+        bw.mobile_phone mobilePhone, bw.email email, bw.status status
+        from base_point_user bpu
+        LEFT JOIN base_workers bw ON bpu.user_id = bw.id
+        where bw.delete_flag=0 and bw.status=0 and bpu.delete_flag = 0
+        <if test="departId!=null and departId!=''">
+            and bpu.depart_id = #{departId}
+        </if>
+        <if test="pointId!=null and pointId!=''">
+            and bpu.point_id = #{pointId}
+        </if>
+    </select>
+    <select id="selectPosition" resultType="java.lang.String">
+        SELECT position
+        FROM ${db}.base_workers
+        WHERE id = #{userId}
+    </select>
+
+    <delete id="deleteDepartUsers" parameterType="java.lang.Integer">
+        DELETE FROM base_point_user
+        WHERE FIND_IN_SET(depart_id, getChildLst(#{departId}))
+    </delete>
+
+    <delete id="deletePointUsers" parameterType="java.lang.String">
+        delete from base_point_user where point_id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+</mapper>

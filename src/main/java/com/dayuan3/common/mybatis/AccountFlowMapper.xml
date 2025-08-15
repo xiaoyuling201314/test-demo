@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.common.mapper.AccountFlowMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan3.common.bean.AccountFlow">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="income_id" jdbcType="INTEGER" property="incomeId"/>
+        <result column="topup_id" jdbcType="INTEGER" property="topupId"/>
+        <result column="topup_detail_id" jdbcType="INTEGER" property="topupDetailId"/>
+        <result column="money" jdbcType="INTEGER" property="money"/>
+        <result column="balance" jdbcType="INTEGER" property="balance"/>
+        <result column="pay_date" jdbcType="TIMESTAMP" property="payDate"/>
+        <result column="flow_state" jdbcType="SMALLINT" property="flowState"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+        <result column="gift_money" jdbcType="INTEGER" property="giftMoney"/>
+    </resultMap>
+
+    <resultMap id="FlowModel" type="com.dayuan3.terminal.model.FlowModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="income_id" jdbcType="INTEGER" property="incomeId"/>
+        <result column="topup_id" jdbcType="INTEGER" property="topupId"/>
+        <result column="topup_detail_id" jdbcType="INTEGER" property="topupDetailId"/>
+        <result column="money" jdbcType="INTEGER" property="money"/>
+        <result column="gift_money" jdbcType="INTEGER" property="giftMoney"/>
+        <result column="balance" jdbcType="INTEGER" property="balance"/>
+        <result column="pay_date" jdbcType="TIMESTAMP" property="payDate"/>
+        <result column="flow_state" jdbcType="SMALLINT" property="flowState"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="userId" jdbcType="VARCHAR" property="userId"/>
+        <result column="activityTheme" jdbcType="VARCHAR" property="activityTheme"/>
+        <result column="activityMoney" jdbcType="INTEGER" property="activityMoney"/>
+        <result column="activityGiftMoney" jdbcType="INTEGER" property="activityGiftMoney"/>
+        <result column="payNumber" jdbcType="VARCHAR" property="payNumber"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="order_platform" jdbcType="SMALLINT" property="orderPlatform"/>
+        <result column="pay_type" jdbcType="SMALLINT" property="payType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, income_id, topup_id, topup_detail_id, money, gift_money, balance, pay_date, flow_state, status,
+        remark, delete_flag, create_by, create_date, update_by, update_date, param1, param2,
+        param3
+    </sql>
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_flow
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM account_flow
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan3.common.bean.AccountFlow" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO account_flow (id, income_id, topup_id,
+                                  topup_detail_id, money, balance,
+                                  pay_date, flow_state, status,
+                                  remark, delete_flag, create_by,
+                                  create_date, update_by, update_date,
+                                  param1, param2, param3,
+                                  gift_money)
+        VALUES (#{id,jdbcType=INTEGER}, #{incomeId,jdbcType=INTEGER}, #{topupId,jdbcType=INTEGER},
+                                        #{topupDetailId,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL},
+                                        #{payDate,jdbcType=TIMESTAMP}, #{flowState,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT},
+                                        #{remark,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR},
+                #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+                #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR},
+                #{giftMoney,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan3.common.bean.AccountFlow" useGeneratedKeys="true" keyProperty="id">
+        insert into account_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="incomeId != null">
+                income_id,
+            </if>
+            <if test="topupId != null">
+                topup_id,
+            </if>
+            <if test="topupDetailId != null">
+                topup_detail_id,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="payDate != null">
+                pay_date,
+            </if>
+            <if test="flowState != null">
+                flow_state,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+            <if test="giftMoney != null">
+                gift_money,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="incomeId != null">
+                #{incomeId,jdbcType=INTEGER},
+            </if>
+            <if test="topupId != null">
+                #{topupId,jdbcType=INTEGER},
+            </if>
+            <if test="topupDetailId != null">
+                #{topupDetailId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="payDate != null">
+                #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flowState != null">
+                #{flowState,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="giftMoney != null">
+                #{giftMoney,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.common.bean.AccountFlow">
+        update account_flow
+        <set>
+            <if test="incomeId != null">
+                income_id = #{incomeId,jdbcType=INTEGER},
+            </if>
+            <if test="topupId != null">
+                topup_id = #{topupId,jdbcType=INTEGER},
+            </if>
+            <if test="topupDetailId != null">
+                topup_detail_id = #{topupDetailId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="payDate != null">
+                pay_date = #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flowState != null">
+                flow_state = #{flowState,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="giftMoney != null">
+                gift_money = #{giftMoney,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan3.common.bean.AccountFlow">
+        UPDATE account_flow
+        SET income_id       = #{incomeId,jdbcType=INTEGER},
+            topup_id        = #{topupId,jdbcType=INTEGER},
+            topup_detail_id = #{topupDetailId,jdbcType=INTEGER},
+            money           = #{money,jdbcType=DECIMAL},
+            balance         = #{balance,jdbcType=DECIMAL},
+            pay_date        = #{payDate,jdbcType=TIMESTAMP},
+            flow_state      = #{flowState,jdbcType=SMALLINT},
+            status          = #{status,jdbcType=SMALLINT},
+            remark          = #{remark,jdbcType=VARCHAR},
+            delete_flag     = #{deleteFlag,jdbcType=SMALLINT},
+            create_by       = #{createBy,jdbcType=VARCHAR},
+            create_date     = #{createDate,jdbcType=TIMESTAMP},
+            update_by       = #{updateBy,jdbcType=VARCHAR},
+            update_date     = #{updateDate,jdbcType=TIMESTAMP},
+            param1          = #{param1,jdbcType=VARCHAR},
+            param2          = #{param2,jdbcType=VARCHAR},
+            param3          = #{param3,jdbcType=VARCHAR},
+            gift_money      = #{giftMoney,jdbcType=DECIMAL}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>-->
+    <!-- 根据交易流水ID查询余额交易信息 -->
+    <select id="queryByIncomeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+            fl.*,
+            detail.gift_money
+        FROM account_flow fl
+            LEFT JOIN topup_activities_detail detail ON fl.topup_detail_id = detail.id
+        WHERE income_id = #{id,jdbcType=INTEGER}
+    </select>
+    <resultMap id="ResultMapList" type="com.dayuan3.common.model.AccountFlowModel"/>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where inc.delete_flag=0 and inc.`status`=1
+        <trim suffixOverrides=",">
+            <if test="obj.userId!= null">
+                and inc.create_by=#{obj.userId}
+            </if>
+            <if test="obj.status!= null">
+                and flow.flow_state=#{obj.status}
+            </if>
+            <if test="obj.queryDate!= null">
+                and inc.pay_date like CONCAT(#{obj.queryDate}, '%')
+            </if>
+            <if test="obj.startDate!= null and obj.startDate!='' ">
+                and inc.pay_date &gt;= CONCAT(#{obj.startDate}, ' 00:00:00')
+            </if>
+            <if test="obj.endDate!= null and obj.endDate!='' ">
+                AND inc.pay_date &lt;= CONCAT(#{obj.endDate},' 23:59:59')
+            </if>
+        </trim>
+    </sql>
+    <select id="loadDatagrid" resultMap="ResultMapList" parameterType="Object">
+        SELECT inc.id,inc.number,inc.order_platform orderPlatform,inc.pay_type payType,inc.pay_number payNumber,inc.transaction_type
+        transactionType,inc.pay_date payDate,
+        inc.`status` status,inc.money money,inc.report_money reportMoney,flow.gift_money giftMoney,flow.balance balance,flow.flow_state flowState,flow.remark remark FROM
+        `account_flow` flow
+        right join income inc on flow.income_id=inc.id
+        <include refid="Example_Where_Clause"/>
+        order by inc.update_date desc limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        FROM `account_flow` flow
+        right join income inc on flow.income_id=inc.id
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 更新余额交易记录 add by xiaoyl 2019-11-02 -->
+    <update id="updateAccountFlow" parameterType="com.dayuan3.common.bean.AccountFlow">
+        update account_flow
+        <set>
+            <if test="incomeId != null">
+                income_id = #{incomeId,jdbcType=INTEGER},
+            </if>
+            balance = (select account.total_money from inspection_user_account account where account.user_id=#{updateBy} ),
+            <if test="payDate != null">
+                pay_date = #{payDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="giftMoney != null">
+                gift_money = #{giftMoney,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 余额流水分页查询 -->
+     <select id="loadDatagridBalance" resultMap="FlowModel" parameterType="Object">
+         SELECT ic.id, af.topup_id, af.topup_detail_id,
+        ic.money,ic.pay_date,
+        ic.pay_number payNumber,ic.number,ic.pay_type,ic.order_platform, ic.`status`, af.balance, af.gift_money, 
+        af.flow_state, af.remark, af.create_by userId
+
+        /*ti.theme activityTheme,tdi.actual_money activityMoney, tdi.gift_money activityGiftMoney*/
+
+        FROM income ic
+				left join account_flow af on ic.id=af.income_id
+        /*LEFT JOIN topup_activities ti ON af.topup_id = ti.id
+        LEFT JOIN topup_activities_detail tdi ON af.topup_detail_id = tdi.id*/
+        WHERE ic.delete_flag=0 AND ic.create_by = #{obj.userId} AND ic.status = 1
+        <if test="obj.payDateStart != null and obj.payDateStart !=''">
+            AND ic.pay_date &gt;= CONCAT(#{obj.payDateStart}, ' 00:00:00')
+        </if>
+        <if test="obj.payDateEnd != null and obj.payDateEnd !=''">
+            AND ic.pay_date &lt;= CONCAT(#{obj.payDateEnd}, ' 23:59:59')
+        </if>
+        <if test="obj.keyWords != null and obj.keyWords !=''">
+            AND ic.pay_number = #{obj.keyWords}
+        </if>
+        <if test="obj.isok >= 1">
+            AND ic.transaction_type = 2
+        </if>
+
+        <!-- 账号消费 - 消费流水 -->
+        <if test="obj.isok == 0">
+            AND ic.transaction_type IN (0,1,3)
+        </if>
+         ORDER BY ic.pay_date DESC
+    </select>
+    <select id="getRowTotalBalance" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM income ic
+		left join account_flow af on ic.id=af.income_id
+        LEFT JOIN topup_activities ti ON af.topup_id = ti.id
+        LEFT JOIN topup_activities_detail tdi ON af.topup_detail_id = tdi.id
+        WHERE ic.delete_flag=0 AND ic.create_by = #{obj.userId} AND ic.status = 1
+         <if test="obj.payDateStart != null and obj.payDateStart !=''">
+            AND ic.pay_date &gt;= CONCAT(#{obj.payDateStart}, ' 00:00:00')
+        </if>
+        <if test="obj.payDateEnd != null and obj.payDateEnd !=''">
+            AND ic.pay_date &lt;= CONCAT(#{obj.payDateEnd}, ' 23:59:59')
+        </if>
+        <if test="obj.keyWords != null and obj.keyWords !=''">
+            AND ic.pay_number = #{obj.keyWords}
+        </if>
+        <if test="obj.isok >= 1">
+            AND ic.order_platform != 2
+        </if>
+
+        <!-- 账号消费 - 消费流水 -->
+        <if test="obj.isok == 0">
+            AND ic.transaction_type IN (0,1,3)
+        </if>
+    </select>
+   <!--  delete by xiaoyl 2020-03-18 该方法只查询余额交易记录，不符合实际需求
+   <select id="loadDatagridBalance" resultMap="FlowModel" parameterType="Object">
+        SELECT af.id, af.income_id, af.topup_id, af.topup_detail_id,
+        af.money, af.balance, af.gift_money, af.pay_date,
+        af.flow_state, af.status, af.remark, af.create_by userId,
+        ti.theme activityTheme,
+        tdi.actual_money activityMoney, tdi.gift_money activityGiftMoney,
+        ic.pay_number payNumber,ic.number,ic.pay_type,ic.order_platform
+        FROM
+        (
+        SELECT id, income_id, topup_id,
+        topup_detail_id, money, balance,
+        gift_money, pay_date, flow_state,
+        STATUS, remark, create_by
+        FROM account_flow
+        WHERE delete_flag = 0 AND create_by = #{obj.userId} AND status = 1
+        <if test="obj.isok >= 1">
+             AND flow_state =1
+        </if>
+        <if test="obj.payDateStart != null and obj.payDateStart !=''">
+            AND pay_date &gt;= CONCAT(#{obj.payDateStart}, ' 00:00:00')
+        </if>
+        <if test="obj.payDateEnd != null and obj.payDateEnd !=''">
+            AND pay_date &lt;= CONCAT(#{obj.payDateEnd}, ' 23:59:59')
+        </if>
+        ORDER BY update_date ${order} LIMIT #{rowOffset}, #{pageSize}
+        ) af
+        LEFT JOIN topup_activities ti ON af.topup_id = ti.id
+        LEFT JOIN topup_activities_detail tdi ON af.topup_detail_id = tdi.id
+        LEFT JOIN income ic ON af.income_id = ic.id
+        WHERE 1=1
+        <if test="obj.keyWords != null and obj.keyWords !=''">
+            AND ic.pay_number = #{obj.keyWords}
+        </if>
+        <if test="obj.isok >= 1">
+            AND ic.order_platform != 2
+        </if>
+    </select>
+    <select id="getRowTotalBalance" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM account_flow af
+        LEFT JOIN income ic ON af.income_id = ic.id
+        WHERE af.delete_flag = 0 AND af.create_by = #{obj.userId}  AND af.status = 1
+        <if test="obj.isok >= 1">
+           AND af.flow_state =1
+        </if>
+        <if test="obj.payDateStart != null and obj.payDateStart !=''">
+            AND af.pay_date &gt;= CONCAT(#{obj.payDateStart}, ' 00:00:00')
+        </if>
+        <if test="obj.payDateEnd != null and obj.payDateEnd !=''">
+            AND af.pay_date &lt;= CONCAT(#{obj.payDateEnd}, ' 23:59:59')
+        </if>
+        <if test="obj.keyWords != null and obj.keyWords !=''">
+            AND ic.pay_number = #{obj.keyWords}
+        </if>
+    </select> -->
+
+
+</mapper>

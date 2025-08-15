@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.system.TSUserMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.system.TSUser">
+        <id property="id" column="id" />
+        <result property="workersId" column="workers_id" />
+        <result property="userName" column="user_name" />
+        <result property="password" column="password" />
+        <result property="editPwTime" column="edit_pw_time" />
+        <result property="realname" column="realname" />
+        <result property="roleId" column="role_id" />
+        <result property="status" column="status" />
+        <result property="sorting" column="sorting" />
+        <result property="createBy" column="create_by" />
+        <result property="createDate" column="create_date" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateDate" column="update_date" />
+        <result property="deleteFlag" column="delete_flag" />
+        <result property="loginCount" column="login_count" />
+        <result property="loginTime" column="login_time" />
+        <result property="departId" column="depart_id" />
+        <result property="pointId" column="point_id" />
+        <result property="regId" column="reg_id" />
+        <result property="remark" column="remark" />
+        <result property="signatureFile" column="signature_file" />
+        <result property="param1" column="param1" />
+        <result property="param2" column="param2" />
+        <result property="param3" column="param3" />
+        <result property="wxOpenid" column="wx_openid" />
+        <result property="wxNickname" column="wx_nickname" />
+        <result property="wxImage" column="wx_image" />
+        <result property="bindTime" column="bind_time" />
+        <result property="relieveTime" column="relieve_time" />
+        <!-- 非数据库字段 -->
+        <result column="departName" property="departName" jdbcType="VARCHAR"/>
+        <result column="pointName" property="pointName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="UserRoleMap" type="com.dayuan.model.system.UserRoleModel">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR"/>
+        <result column="sorting" property="sorting" jdbcType="VARCHAR"/>
+        <result column="loginCount" property="loginCount" jdbcType="SMALLINT"/>
+        <result column="loginTime" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="departName" property="departName" jdbcType="VARCHAR"/>
+        <result column="rolename" property="rolename" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="pointId" property="pointId" jdbcType="VARCHAR"/>
+        <result column="pointName" property="pointName" jdbcType="VARCHAR"/>
+        <result column="reg_id" property="regId" jdbcType="INTEGER"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,workers_id,user_name,password,edit_pw_time,realname,
+        role_id,status,sorting,create_by,create_date,
+        update_by,update_date,delete_flag,login_count,login_time,
+        depart_id,point_id,reg_id,remark,signature_file,
+        param1,param2,param3,wx_openid,wx_nickname,
+        wx_image,bind_time,relieve_time,
+        ( select tsd.depart_name from t_s_depart tsd where tsd.id = depart_id) departName,
+        ( select bp.point_name from base_point bp where bp.id = point_id) pointName
+    </sql>
+
+    <!-- 查询条件 <sql id="Example_Where_Clause"> where delete_flag = 0 <trim suffixOverrides=","> <if test="obj.baseBean != null"> <if test="obj.baseBean.departId
+        != null and obj.baseBean.departId != ''"> and depart_id = #{obj.baseBean.departId} </if> <if test="obj.baseBean.userName != null and
+        obj.baseBean.userName != ''"> and user_name like CONCAT('%', #{obj.baseBean.userName}, '%') or realname like CONCAT('%', #{obj.baseBean.userName},
+        '%') </if> </if> </trim> </sql> -->
+    <select id="queryByDepartId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE delete_flag = 0
+        <if test="subset == null or subset == 'N'.toString()">
+            AND depart_id = #{departId}
+        </if>
+        <if test="subset == 'Y'.toString()">
+            AND depart_id IN (SELECT id FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT((SELECT
+            depart_code FROM t_s_depart WHERE delete_flag = 0 AND id = #{departId}), '%'))
+        </if>
+        <if test="realname != null and realname != ''">
+            AND realname LIKE CONCAT('%', #{realname}, '%')
+        </if>
+        ORDER BY sorting ASC
+    </select>
+    <select id="queryByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE delete_flag = 0
+        <if test="roleId != null and roleId !='' ">
+            AND role_id = #{roleId}
+        </if>
+        <if test="realname != null and realname != ''">
+            AND realname LIKE CONCAT('%', #{realname}, '%')
+        </if>
+        ORDER BY sorting ASC
+    </select>
+
+    <select id="getUserAndRole" resultMap="UserRoleMap" parameterType="java.lang.String">
+        SELECT
+            u.id             id,
+            u.workers_id     workersId,
+            u.user_name      userName,
+            u.password       password,
+            u.depart_id      departId,
+            u.role_id        roleId,
+            u.realname       realname,
+            u.login_count    loginCount,
+            u.login_time     loginTime,
+            u.status         status,
+            u.point_id       pointId,
+            u.sorting        sorting,
+            u.reg_id         regId,
+            u.signature_file signatureFile,
+            u.param1,
+            u.param2,
+            u.param3,
+            d.depart_name    departName,
+            r.rolename       rolename,
+            r.remark         remark,
+            p.point_name     pointName,
+            bro.reg_name     regName
+        FROM t_s_user AS u
+
+            LEFT JOIN t_s_depart d ON u.depart_id = d.id
+            LEFT JOIN t_s_role r ON u.role_id = r.id
+            LEFT JOIN base_point p ON u.point_id = p.id
+            LEFT JOIN base_regulatory_object bro ON u.reg_id = bro.id
+        WHERE u.id = #{id,jdbcType=VARCHAR}
+    </select>
+<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">-->
+<!--        SELECT-->
+<!--        <include refid="Base_Column_List"/>-->
+<!--        FROM t_s_user-->
+<!--        WHERE id = #{id,jdbcType=VARCHAR}-->
+<!--    </select>-->
+<!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">-->
+<!--        UPDATE t_s_user SET delete_flag=1,update_date=now()-->
+<!--        WHERE id IN-->
+<!--        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">-->
+<!--            #{ids}-->
+<!--        </foreach>-->
+<!--    </delete>-->
+<!--    <update id="deleteByPrimaryKeys" parameterType="java.lang.String">-->
+<!--        UPDATE t_s_user SET delete_flag=1,status=1, update_date=now(), update_by = #{updateUserId}-->
+<!--        WHERE id IN-->
+<!--        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+<!--    <insert id="insert" parameterType="com.dayuan.bean.system.TSUser">-->
+<!--        INSERT INTO t_s_user (id, workers_id, user_name,-->
+<!--                              password, edit_pw_time, realname, depart_id,-->
+<!--                              point_id, role_id, status,-->
+<!--                              sorting, create_by, create_date,-->
+<!--                              update_by, update_date, delete_flag,-->
+<!--                              login_count, login_time, reg_id, remark, signature_file, param1, param2, param3)-->
+<!--        VALUES (#{id,jdbcType=VARCHAR}, #{workersId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},-->
+<!--                                        #{password,jdbcType=VARCHAR}, #{editPwTime,jdbcType=TIMESTAMP}, #{realname,jdbcType=VARCHAR},-->
+<!--                                        #{departId,jdbcType=INTEGER},-->
+<!--                                        #{pointId,jdbcType=INTEGER}, #{roleId,jdbcType=VARCHAR},-->
+<!--                                        #{status,jdbcType=SMALLINT},-->
+<!--                                        #{sorting,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR},-->
+<!--            #{createDate,jdbcType=TIMESTAMP},-->
+<!--            #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=SMALLINT},-->
+<!--            #{loginCount,jdbcType=SMALLINT}, #{loginTime,jdbcType=TIMESTAMP}, #{regId,jdbcType=INTEGER},-->
+<!--            #{remark,jdbcType=VARCHAR}, #{signatureFile,jdbcType=VARCHAR},-->
+<!--            #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})-->
+<!--    </insert>-->
+<!--    <insert id="insertSelective" parameterType="com.dayuan.bean.system.TSUser">-->
+<!--        INSERT INTO t_s_user-->
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                id,-->
+<!--            </if>-->
+<!--            <if test="workersId != null">-->
+<!--                workers_id,-->
+<!--            </if>-->
+<!--            <if test="userName != null">-->
+<!--                user_name,-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                PASSWORD,-->
+<!--            </if>-->
+<!--            <if test="editPwTime != null">-->
+<!--                edit_pw_time,-->
+<!--            </if>-->
+<!--            <if test="realname != null">-->
+<!--                realname,-->
+<!--            </if>-->
+<!--            <if test="departId != null">-->
+<!--                depart_id,-->
+<!--            </if>-->
+<!--            <if test="pointId != null">-->
+<!--                point_id,-->
+<!--            </if>-->
+<!--            <if test="roleId != null">-->
+<!--                role_id,-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                STATUS,-->
+<!--            </if>-->
+<!--            <if test="sorting != null">-->
+<!--                sorting,-->
+<!--            </if>-->
+<!--            <if test="createBy != null">-->
+<!--                create_by,-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                create_date,-->
+<!--            </if>-->
+<!--            <if test="updateBy != null">-->
+<!--                update_by,-->
+<!--            </if>-->
+<!--            <if test="updateDate != null">-->
+<!--                update_date,-->
+<!--            </if>-->
+<!--            <if test="deleteFlag != null">-->
+<!--                delete_flag,-->
+<!--            </if>-->
+<!--            <if test="loginCount != null">-->
+<!--                login_count,-->
+<!--            </if>-->
+<!--            <if test="loginTime != null">-->
+<!--                login_time,-->
+<!--            </if>-->
+<!--            <if test="regId != null">-->
+<!--                reg_id,-->
+<!--            </if>-->
+<!--            <if test="remark != null">-->
+<!--                remark,-->
+<!--            </if>-->
+<!--            <if test="signatureFile != null">-->
+<!--                signature_file,-->
+<!--            </if>-->
+<!--            <if test="param1 != null">-->
+<!--                param1,-->
+<!--            </if>-->
+<!--            <if test="param2 != null">-->
+<!--                param2,-->
+<!--            </if>-->
+<!--            <if test="param3 != null">-->
+<!--                param3,-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="id != null">-->
+<!--                #{id,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="workersId != null">-->
+<!--                #{workersId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="userName != null">-->
+<!--                #{userName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                #{password,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="editPwTime != null">-->
+<!--                #{editPwTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="realname != null">-->
+<!--                #{realname,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="departId != null">-->
+<!--                #{departId,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            <if test="pointId != null">-->
+<!--                #{pointId,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            <if test="roleId != null">-->
+<!--                #{roleId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                #{status,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="sorting != null">-->
+<!--                #{sorting,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="createBy != null">-->
+<!--                #{createBy,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                #{createDate,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="updateBy != null">-->
+<!--                #{updateBy,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="updateDate != null">-->
+<!--                #{updateDate,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="deleteFlag != null">-->
+<!--                #{deleteFlag,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="loginCount != null">-->
+<!--                #{loginCount,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="loginTime != null">-->
+<!--                #{loginTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="regId != null">-->
+<!--                #{regId,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            <if test="remark != null">-->
+<!--                #{remark,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="signatureFile != null">-->
+<!--                #{signature_file,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param1 != null">-->
+<!--                #{param1,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param2 != null">-->
+<!--                #{param2,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param3 != null">-->
+<!--                #{param3,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </insert>-->
+<!--    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.system.TSUser">-->
+<!--        UPDATE t_s_user-->
+<!--        <set>-->
+<!--            <if test="workersId != null">-->
+<!--                workers_id = #{workersId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="userName != null">-->
+<!--                user_name = #{userName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="password != null and password !='' ">-->
+<!--                PASSWORD = #{password,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="editPwTime != null ">-->
+<!--                edit_pw_time = #{editPwTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="realname != null">-->
+<!--                realname = #{realname,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="departId != null">-->
+<!--                depart_id = #{departId,jdbcType=INTEGER},-->
+<!--            </if>-->
+<!--            point_id = #{pointId,jdbcType=INTEGER},-->
+<!--            <if test="roleId != null">-->
+<!--                role_id = #{roleId,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                STATUS = #{status,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="sorting != null">-->
+<!--                sorting = #{sorting,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="createBy != null">-->
+<!--                create_by = #{createBy,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="createDate != null">-->
+<!--                create_date = #{createDate,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="updateBy != null">-->
+<!--                update_by = #{updateBy,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="updateDate != null">-->
+<!--                update_date = #{updateDate,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="deleteFlag != null">-->
+<!--                delete_flag = #{deleteFlag,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="loginCount != null">-->
+<!--                login_count = #{loginCount,jdbcType=SMALLINT},-->
+<!--            </if>-->
+<!--            <if test="loginTime != null">-->
+<!--                login_time = #{loginTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            reg_id = #{regId,jdbcType=INTEGER},-->
+<!--            <if test="remark != null">-->
+<!--                remark = #{remark,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="signatureFile != null">-->
+<!--                signature_file = #{signatureFile,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param1 != null">-->
+<!--                param1 = #{param1,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param2 != null">-->
+<!--                param2 = #{param2,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="param3 != null">-->
+<!--                param3 = #{param3,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="bindTime != null">-->
+<!--                bind_time = #{bindTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="relieveTime != null">-->
+<!--                relieve_time = #{relieveTime,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="wxOpenid != null">-->
+<!--                wx_openid = #{wxOpenid,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="wxNickname != null">-->
+<!--                wx_nickname = #{wxNickname,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="wxImage != null">-->
+<!--                wx_image = #{wxImage,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        WHERE id = #{id,jdbcType=VARCHAR}-->
+<!--    </update>-->
+<!--    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.system.TSUser">-->
+<!--        UPDATE t_s_user-->
+<!--        SET workers_id     = #{workersId,jdbcType=VARCHAR},-->
+<!--            user_name      = #{userName,jdbcType=VARCHAR},-->
+<!--            password       = #{password,jdbcType=VARCHAR},-->
+<!--            edit_pw_time   = #{editPwTime,jdbcType=TIMESTAMP},-->
+<!--            realname       = #{realname,jdbcType=VARCHAR},-->
+<!--            depart_id      = #{departId,jdbcType=INTEGER},-->
+<!--            point_id       = #{pointId,jdbcType=INTEGER},-->
+<!--            role_id        = #{roleId,jdbcType=VARCHAR},-->
+<!--            status         = #{status,jdbcType=SMALLINT},-->
+<!--            sorting        = #{sorting,jdbcType=SMALLINT},-->
+<!--            create_by      = #{createBy,jdbcType=VARCHAR},-->
+<!--            create_date    = #{createDate,jdbcType=TIMESTAMP},-->
+<!--            update_by      = #{updateBy,jdbcType=VARCHAR},-->
+<!--            update_date    = #{updateDate,jdbcType=TIMESTAMP},-->
+<!--            delete_flag    = #{deleteFlag,jdbcType=SMALLINT},-->
+<!--            login_count    = #{loginCount,jdbcType=SMALLINT},-->
+<!--            login_time     = #{loginTime,jdbcType=TIMESTAMP},-->
+<!--            reg_id         = #{regId,jdbcType=INTEGER},-->
+<!--            remark          = #{remark,jdbcType=VARCHAR},-->
+<!--            signature_file = #{signatureFile,jdbcType=VARCHAR},-->
+<!--            param1         = #{param1,jdbcType=VARCHAR},-->
+<!--            param2         = #{param2,jdbcType=VARCHAR},-->
+<!--            param3         = #{param3,jdbcType=VARCHAR},-->
+<!--            bind_time      = #{bindTime,jdbcType=TIMESTAMP},-->
+<!--            relieve_time   = #{relieveTime,jdbcType=TIMESTAMP},-->
+<!--            wx_openid      = #{wxOpenid,jdbcType=VARCHAR},-->
+<!--            wx_nickname    = #{wxNickname,jdbcType=VARCHAR},-->
+<!--            wx_image       = #{wxImage,jdbcType=VARCHAR}-->
+<!--        WHERE id = #{id,jdbcType=VARCHAR}-->
+<!--    </update>-->
+    <update id="unbind">
+        UPDATE t_s_user
+        SET wx_openid   = NULL,
+            wx_image    = NULL,
+            wx_nickname = NULL,
+            update_date = #{updateDate},
+            update_by   = #{updateBy}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 登录 -->
+    <select id="toLogin" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE user_name = #{userName,jdbcType=VARCHAR}
+        AND password = #{password,jdbcType=VARCHAR}
+        AND delete_flag = 0
+        AND status = 0
+    </select>
+
+    <select id="getUserByUserName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user WHERE user_name = #{userName}
+        <!--delete by xiaoyl 2022/07/20 用户管理增加了恢复已删除用户，所以新增或登录用户的时候不需要加未删除条件 -->
+        <!-- AND delete_flag = 0-->
+    </select>
+
+    <select id="loadDatagrid" resultMap="UserRoleMap" parameterType="Object">
+        SELECT u.id id , u.workers_id workersId , u.user_name userName, '' password, u.depart_id departId,
+        u.role_id roleId, u.realname realname, u.login_count loginCount, u.login_time loginTime, u.status status,
+        u.point_id pointId, u.sorting sorting, u.reg_id regId, u.remark remark, u.signature_file signatureFile,
+        u.param1,u.param2,u.param3,u.wx_openid AS wxOpenid,wx_nickname AS wxNickName,
+        d.depart_name departName,
+        r.rolename rolename,
+        p.point_name pointName,
+        bro.reg_name regName,
+        u.delete_flag,(select realname from t_s_user where id=u.create_by) create_by, u.create_date,
+        (select realname from t_s_user where id=u.update_by) update_by , u.update_date
+        FROM t_s_user AS u
+        LEFT JOIN t_s_depart d ON u.depart_id = d.id
+        LEFT JOIN t_s_role r ON u.role_id = r.id
+        LEFT JOIN base_point p ON u.point_id = p.id
+        LEFT JOIN base_regulatory_object bro ON u.reg_id = bro.id
+        WHERE 1 = 1 AND u.user_name IS NOT NULL AND u.depart_id IS NOT NULL
+        <!-- 未配置恢复用户权限则默认查询未删除的用户，配置了权限后根据删除状态查询，-1表示查询所有数据 -->
+        <choose>
+            <when test="obj.deleteFlag == 0"> AND u.delete_flag = 0 </when>
+            <when test="obj.deleteFlag == 1"> AND u.delete_flag = 1 </when>
+            <when test="obj.deleteFlag == -1"></when>
+            <otherwise> AND u.delete_flag = 0 </otherwise>
+        </choose>
+        <if test="obj.pointId !=null">
+            AND u.point_id=#{obj.pointId}
+        </if>
+        <choose>
+            <when test="obj.userType == 2">AND u.depart_id IS NOT NULL AND u.reg_id IS NULL AND u.point_id IS NULL
+            </when>
+            <when test="obj.userType == 3">AND u.point_id IS NOT NULL</when>
+            <when test="obj.userType == 4">AND u.reg_id IS NOT NULL</when>
+            <when test="obj.userType == 5">AND u.point_id IS NOT NULL AND p.point_type = 0 AND point_type_id = 1</when>
+            <when test="obj.userType == 6">AND u.point_id IS NOT NULL AND p.point_type = 1 AND point_type_id = 1</when>
+            <when test="obj.userType == 7">AND u.point_id IS NOT NULL AND p.point_type = 0 AND point_type_id != 1</when>
+        </choose>
+        <if test="obj.departCode !=null and obj.departCode != ''">
+            AND u.depart_id IN (SELECT id FROM t_s_depart WHERE depart_code LIKE CONCAT(#{obj.departCode},'%'))
+        </if>
+        <if test="obj.keyWords !=null and obj.keyWords != '' ">
+            AND (
+            u.user_name LIKE concat('%',#{obj.keyWords},'%')
+            OR d.depart_name LIKE concat('%',#{obj.keyWords},'%')
+            OR r.rolename LIKE concat('%',#{obj.keyWords},'%')
+            OR u.realname LIKE concat('%',#{obj.keyWords},'%')
+            OR p.point_name LIKE concat('%',#{obj.keyWords},'%')
+            OR bro.reg_name LIKE concat('%',#{obj.keyWords},'%')
+            )
+        </if>
+        ORDER BY d.depart_code ASC, d.sorting ASC, p.point_name ASC, bro.reg_name ASC, u.sorting ASC, u.user_name ASC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal FROM t_s_user AS u
+        LEFT JOIN t_s_depart d ON u.depart_id = d.id
+        LEFT JOIN t_s_role r ON u.role_id = r.id
+        LEFT JOIN base_point p ON u.point_id = p.id
+        LEFT JOIN base_regulatory_object bro ON u.reg_id = bro.id
+        WHERE 1 = 1 AND u.user_name IS NOT NULL AND u.depart_id IS NOT NULL
+        <!-- 未配置恢复用户权限则默认查询未删除的用户，配置了权限后根据删除状态查询，-1表示查询所有数据 -->
+        <choose>
+            <when test="obj.deleteFlag == 0"> AND u.delete_flag = 0 </when>
+            <when test="obj.deleteFlag == 1"> AND u.delete_flag = 1 </when>
+            <when test="obj.deleteFlag == -1"></when>
+            <otherwise> AND u.delete_flag = 0 </otherwise>
+        </choose>
+        <if test="obj.pointId !=null">
+            AND u.point_id=#{obj.pointId}
+        </if>
+        <choose>
+            <when test="obj.userType == 2">AND u.depart_id IS NOT NULL AND u.reg_id IS NULL AND u.point_id IS NULL
+            </when>
+            <when test="obj.userType == 3">AND u.point_id IS NOT NULL</when>
+            <when test="obj.userType == 4">AND u.reg_id IS NOT NULL</when>
+            <when test="obj.userType == 5">AND u.point_id IS NOT NULL AND p.point_type = 0 AND point_type_id = 1</when>
+            <when test="obj.userType == 6">AND u.point_id IS NOT NULL AND p.point_type = 1 AND point_type_id = 1</when>
+            <when test="obj.userType == 7">AND u.point_id IS NOT NULL AND p.point_type = 0 AND point_type_id != 1</when>
+        </choose>
+        <if test="obj.departCode !=null and obj.departCode != ''">
+            AND u.depart_id IN (SELECT id FROM t_s_depart WHERE depart_code LIKE CONCAT(#{obj.departCode},'%'))
+        </if>
+        <if test="obj.keyWords !=null and obj.keyWords != '' ">
+            AND (u.user_name LIKE concat('%',#{obj.keyWords},'%')
+            OR d.depart_name LIKE concat('%',#{obj.keyWords},'%')
+            OR r.rolename LIKE concat('%',#{obj.keyWords},'%')
+            OR u.realname LIKE concat('%',#{obj.keyWords},'%')
+            OR p.point_name LIKE concat('%',#{obj.keyWords},'%')
+            OR bro.reg_name LIKE concat('%',#{obj.keyWords},'%'))
+        </if>
+    </select>
+
+    <select id="querySampleUser" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user WHERE delete_flag=0 AND status=0
+        <if test="pointId !=null and pointId !=''">
+            AND point_id=#{pointId}
+        </if>
+        <if test="departId !=null and departId !='' ">
+            AND depart_id IN (SELECT id FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT((SELECT
+            depart_code FROM t_s_depart WHERE delete_flag = 0 AND id = ${departId}), '%'))
+        </if>
+    </select>
+    <select id="queryByPointId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE delete_flag=0 AND status=0 AND point_id=#{pointId}
+    </select>
+    <!--根据用户 微信openid、登录账号、登录密码 查询用户是否存在-->
+    <select id="selectByData" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE delete_flag = 0 AND status = 0
+        <if test="openid != null and openid != ''">
+            AND wx_openid = #{openid}
+        </if>
+        <if test="username != null and phone != ''">
+            AND user_name = #{username}
+        </if>
+        <if test="password != null and password != ''">
+            AND password = #{password}
+        </if>
+    </select>
+
+    <!--微信解绑-->
+    <update id="delOpenid">
+        UPDATE t_s_user
+        SET
+            update_by   = #{updateBy},
+            update_date = #{updateDate},
+            wx_openid   = NULL,
+            wx_image    = NULL,
+            wx_nickname = NULL
+        WHERE
+            id = #{id};
+    </update>
+
+    <!--所属机构下的用户的最大序号 shit-->
+    <select id="queryMaxSortByDepartId" resultType="java.lang.Short">
+        SELECT IFNULL(MAX(sorting), 0)
+        FROM t_s_user
+        WHERE depart_id = #{departId} AND delete_flag = 0
+    </select>
+
+    <!--
+    微信云服务-查询企业下所有用户
+    排序方式 根据监管对象拍前，已绑定拍前，更新时间拍前
+    -->
+    <select id="wxQueryUsers" resultMap="UserRoleMap" parameterType="Object">
+        SELECT
+        u.id id,
+        u.workers_id workersId,
+        u.user_name userName,
+        u.password `password`,
+        u.depart_id departId,
+        u.point_id pointId,
+        u.role_id roleId,
+        u.realname realname,
+        u.login_count loginCount,
+        u.login_time loginTime,
+        u.status `status`,
+        u.sorting sorting,
+        u.reg_id regId,
+        u.wx_openid wxOpenid,
+        u.signature_file signatureFile,
+        u.role_id IN('4028936e60395efb0160395f6f200005') isjg,
+        IF(u.wx_openid IS NULL, 0, 1) AS isBind
+        FROM t_s_user u
+        WHERE u.depart_id = #{departId} AND u.delete_flag = 0 AND u.`status` = 0
+        <if test="keyword != null and keyword !=''">
+            AND
+            (
+            u.user_name LIKE CONCAT('%',#{keyword},'%')
+            OR
+            u.realname LIKE CONCAT('%',#{keyword},'%')
+            )
+        </if>
+        ORDER BY isjg DESC,isBind DESC,u.sorting ASC, u.user_name ASC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+    <select id="queryByMiniOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_user
+        WHERE delete_flag=0 AND  wx_openid=#{miniOpenId}
+    </select>
+</mapper>

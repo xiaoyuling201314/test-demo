@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.common.mapper.TakeSamplingPriceMapper">
+  <resultMap id="BaseResultMap" type="com.dayuan3.common.bean.TakeSamplingPrice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="requester_unit_id" jdbcType="INTEGER" property="requesterUnitId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="checked" jdbcType="SMALLINT" property="checked" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="param1" jdbcType="VARCHAR" property="param1" />
+    <result column="param2" jdbcType="VARCHAR" property="param2" />
+    <result column="param3" jdbcType="VARCHAR" property="param3" />
+    <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="requester_name" jdbcType="TIMESTAMP" property="requesterUnit" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    a.id, a.requester_unit_id, a.price, a.checked, a.description, a.remark, a.param1, a.param2, 
+    a.param3, a.delete_flag, a.create_by, a.create_date, a.update_by, a.update_date
+    ,b.requester_name 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from take_sampling_price a
+    LEFT JOIN requester_unit b
+    on b.id = a.requester_unit_id  
+    where a.id = #{id,jdbcType=INTEGER}
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update take_sampling_price set delete_flag=1,update_date=now()
+    where id in
+       <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+           #{ids}
+       </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.dayuan3.common.bean.TakeSamplingPrice">
+    insert into take_sampling_price (id, requester_unit_id, price, 
+      checked, description, remark, 
+      param1, param2, param3, 
+      delete_flag, create_by, create_date, 
+      update_by, update_date)
+    values (#{id,jdbcType=INTEGER}, #{requesterUnitId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{checked,jdbcType=SMALLINT}, #{description,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan3.common.bean.TakeSamplingPrice">
+    insert into take_sampling_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="requesterUnitId != null">
+        requester_unit_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="checked != null">
+        checked,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="param1 != null">
+        param1,
+      </if>
+      <if test="param2 != null">
+        param2,
+      </if>
+      <if test="param3 != null">
+        param3,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="requesterUnitId != null">
+        #{requesterUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="checked != null">
+        #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="param1 != null">
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        #{param3,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.common.bean.TakeSamplingPrice">
+    update take_sampling_price
+    <set>
+      <if test="requesterUnitId != null">
+        requester_unit_id = #{requesterUnitId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="checked != null">
+        checked = #{checked,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="param1 != null">
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan3.common.bean.TakeSamplingPrice">
+    update take_sampling_price
+    set requester_unit_id = #{requesterUnitId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      checked = #{checked,jdbcType=SMALLINT},
+      description = #{description,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 根据委托单位ID查询报告费单价 -->
+  <select id="queryByRequestUnitId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select a.*
+    from take_sampling_price a  where 
+    a.checked=1 and a.delete_flag=0 
+    <choose>
+    	<when test="id!=null and id!=''"> and a.requester_unit_id=#{id} </when>
+    	<otherwise> and a.requester_unit_id=0 </otherwise>
+    </choose>
+   
+  </select>
+  
+  
+      <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+    select 
+    <include refid="Base_Column_List" />
+    from take_sampling_price a 
+    LEFT JOIN requester_unit b
+    on b.id = a.requester_unit_id
+    <include refid="base_where"/>
+    LIMIT #{rowOffset}, #{pageSize}
+    </select>
+  
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+    SELECT COUNT(1) as rowTotal
+	from take_sampling_price a
+	LEFT JOIN requester_unit b
+    on b.id = a.requester_unit_id  
+    <include refid="base_where"/>
+    </select>
+    
+    <sql id="base_where">
+    where a.delete_flag=0
+    <if test="obj.checked !=null">
+    and  a.checked = #{obj.checked}
+    </if>
+    <if test="obj.requesterUnit !=null and obj.requesterUnit !=''">
+    AND b.requester_name like '%${obj.requesterUnit}%'
+    </if>
+        <trim suffixOverrides=",">
+        </trim>
+    </sql>
+</mapper>

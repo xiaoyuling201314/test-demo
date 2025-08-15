@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.wx.inspection.InspectionInformationMapper">
+
+    <resultMap id="BaseResultMap" type="com.dayuan.model.wx.inspection.WxTbSamplingModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sampling_no" property="samplingNO" jdbcType="VARCHAR"/>
+        <result column="sampling_date" property="samplingDate" jdbcType="TIMESTAMP"/>
+        <result column="depart_id" property="departId" jdbcType="INTEGER"/>
+        <result column="point_id" property="pointId" jdbcType="INTEGER"/>
+        <result column="reg_name" property="regName" jdbcType="VARCHAR"/>
+        <result column="reg_link_phone" property="regLinkPhone" jdbcType="VARCHAR"/>
+        <result column="ope_shop_name" property="opeShopName" jdbcType="VARCHAR"/>
+        <result column="ope_phone" property="opePhone" jdbcType="VARCHAR"/>
+        <result column="qrcode" property="qrcode" jdbcType="VARCHAR"/>
+        <result column="sampling_username" property="samplingUsername" jdbcType="VARCHAR"/>
+        <result column="total" property="total" jdbcType="VARCHAR"/>
+        <result column="completionNum" property="completionNum" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.dayuan.model.wx.inspection.PointModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="depart_id" property="departId" jdbcType="INTEGER"/>
+        <result column="place_x" property="placeX" jdbcType="VARCHAR"/>
+        <result column="place_y" property="placeY" jdbcType="VARCHAR"/>
+        <result column="point_name" property="pointName" jdbcType="VARCHAR"/>
+        <result column="point_code" property="pointCode" jdbcType="VARCHAR"/>
+        <result column="point_type" property="pointType" jdbcType="VARCHAR"/>
+        <result column="region_id" property="regionId" jdbcType="SMALLINT"/>
+        <result column="manager_id" property="managerId" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="point_type_id" property="pointTypeId" jdbcType="INTEGER"/>
+        <result column="worker_name" property="managerName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询送检信息-->
+    <select id="selectInspection" resultType="com.dayuan.model.wx.inspection.WxTbSamplingModel">
+        SELECT
+        ts.id AS id,
+        ts.reg_link_phone regLinkPhone,
+        #联系电话
+        #ts.reg_id AS regId,
+        ts.reg_name AS regName,
+        #送检人名称
+        ts.qrcode AS qrcode,
+        #二维码图片
+        ts.sampling_date AS samplingDate,
+        #送检时间
+        ts.sampling_no AS samplingNO,
+        #抽样单号
+        (select count(1) from tb_sampling_detail where sampling_id=ts.id) as total,#送检总批次
+        (select count(1) from data_check_recording where sampling_id=ts.id and delete_flag=0) as completionNum
+        #已完成批次
+        /*(CASE (SELECT count(1)
+        FROM tb_sampling_detail
+        WHERE sampling_id = ts.id)
+        WHEN (SELECT count(1)
+        FROM data_check_recording
+        WHERE sampling_id = ts.id AND delete_flag = 0)
+        THEN '已完成'
+        ELSE '未完成' END) AS `inspectionStatus`*/ #检测状态
+        FROM
+        tb_sampling ts
+        WHERE
+        ts.delete_flag = 0 AND ts.personal = 1
+        AND ts.reg_link_phone = #{mobilePhone}
+        <if test="keyword != null and keyword != ''">
+            AND ts.sampling_no LIKE CONCAT(#{keyword},'%')
+        </if>
+        ORDER BY ts.sampling_date DESC
+    </select>
+    <!--查询送检信息2根据机构过滤-->
+    <select id="selectInspection2" resultType="com.dayuan.model.wx.inspection.WxTbSamplingModel">
+        SELECT
+        ts.id AS id,
+        ts.reg_link_phone regLinkPhone,
+        #联系电话
+        #ts.reg_id AS regId,
+        ts.reg_name AS regName,
+        #送检人名称
+        ts.qrcode AS qrcode,
+        #二维码图片
+        ts.sampling_date AS samplingDate,
+        #送检时间
+        ts.sampling_no AS samplingNO,
+        #抽样单号
+        (select count(1) from tb_sampling_detail where sampling_id=ts.id) as total,#送检总批次
+        (select count(1) from data_check_recording where sampling_id=ts.id and delete_flag=0) as completionNum
+        #已完成批次
+        /*(CASE (SELECT count(1)
+        FROM tb_sampling_detail
+        WHERE sampling_id = ts.id)
+        WHEN (SELECT count(1)
+        FROM data_check_recording
+        WHERE sampling_id = ts.id AND delete_flag = 0)
+        THEN '已完成'
+        ELSE '未完成' END) AS `inspectionStatus`*/ #检测状态
+        FROM
+        tb_sampling ts
+        WHERE
+        ts.delete_flag = 0 AND ts.personal = 1
+        AND ts.reg_link_phone = #{mobilePhone}
+        AND ts.depart_id IN
+        <foreach collection="departs" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="keyword != null and keyword != ''">
+            AND ts.sampling_no LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="date != null and date != ''">
+            AND ts.sampling_date >= #{date}
+        </if>
+        ORDER BY ts.sampling_date DESC
+    </select>
+
+    <!--根据送检单id查询其抽样信息-->
+    <select id="selectSamplingDetail" resultType="com.dayuan.model.wx.inspection.WxTbSamplingModel">
+        SELECT
+            ts.id,
+            ts.sampling_no       AS samplingNO,
+            #送检单号
+            ts.sampling_date     AS samplingDate,
+            #送检时间
+            #ts.reg_id as regId,
+            ts.reg_name          AS regName,
+            #送检人
+            #ts.sampling_userid as samplingUserid,
+            ts.sampling_username AS samplingUsername,
+            #抽样人
+            #ts.point_id as pointId,
+            bp.point_name        AS pointName,
+            #抽样单位
+            ts.ope_shop_name     AS opeShopName,
+            #地址
+            ts.ope_phone         AS opePhone,
+            #微信
+            ts.reg_link_phone    AS regLinkPhone #联系电话
+        FROM
+            tb_sampling ts LEFT JOIN (SELECT *
+                                      FROM base_point
+                                      WHERE delete_flag = 0) bp ON ts.point_id = bp.id
+        WHERE
+            ts.delete_flag = 0 AND ts.id = #{id} AND ts.personal = 1 #状态1表示为送样单
+    </select>
+
+    <!--根据送检单id查询其抽样信息明细-->
+    <select id="selectSamplingDetails" resultType="com.dayuan.model.wx.inspection.WxTbSamplingDetailModel">
+        SELECT
+            tsd.id            id,
+            tsd.food_name     foodName,
+            #样品名称
+            tsd.item_name     itemName,
+            #检测项目
+            tsd.ope_shop_name opeShopName,
+            #档口名称
+            dcr.conclusion    conclusion,
+            #检测结果
+            dcr.check_result  checkResult #检测值
+        FROM
+            tb_sampling_detail tsd
+            LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE tsd.sampling_id = #{id}
+    </select>
+
+    <!--查询检测结果 id:4281用于测试-->
+    <select id="selectInspectionResult" resultType="com.dayuan.model.wx.inspection.WxDataCheckRecordingModel">
+        SELECT
+        dcr.rid id,
+        #主键
+        dcr.food_name foodName,
+        #样品名称
+        dcr.check_result checkResult,
+        #检测值
+        dcr.conclusion conclusion,
+        #结果
+        dcr.item_name itemName,
+        #检测项目
+        dcr.check_date checkDate,
+        #检测时间
+        dcr.point_name pointName #检测单位
+        FROM
+        data_check_recording dcr
+        LEFT JOIN tb_sampling ts ON ts.id = dcr.sampling_id
+        WHERE
+        dcr.delete_flag = 0 AND dcr.data_type = 1 AND ts.personal = 1
+        AND ts.reg_link_phone = #{mobilePhone}
+        <if test="keyword != null and keyword != ''">
+            AND dcr.food_name LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        ORDER BY dcr.check_date DESC
+    </select>
+    <!--查询检测结果2 id:4281用于测试 根据机构id过滤-->
+    <select id="selectInspectionResult2" resultType="com.dayuan.model.wx.inspection.WxDataCheckRecordingModel">
+        SELECT
+        dcr.rid id,
+        #主键
+        dcr.food_name foodName,
+        #样品名称
+        dcr.check_result checkResult,
+        #检测值
+        dcr.conclusion conclusion,
+        #结果
+        dcr.item_name itemName,
+        #检测项目
+        dcr.check_date checkDate,
+        #检测时间
+        dcr.point_name pointName #检测单位
+        FROM
+        data_check_recording dcr
+        LEFT JOIN tb_sampling ts ON ts.id = dcr.sampling_id
+        WHERE
+        dcr.delete_flag = 0 AND dcr.data_type = 1 AND ts.personal = 1
+        AND ts.reg_link_phone = #{mobilePhone}
+        AND dcr.depart_id IN
+        <foreach collection="departs" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="keyword != null and keyword != ''">
+            AND
+            (
+            dcr.food_name LIKE CONCAT('%',#{keyword},'%')
+            OR
+            dcr.item_name LIKE CONCAT('%',#{keyword},'%')
+            )
+        </if>
+        <if test="date != null and date != ''">
+            AND dcr.check_date >= #{date}
+        </if>
+        ORDER BY dcr.check_date DESC
+    </select>
+
+    <!--根据检测结果数据id查询其检测结果详情信息(data_check_recording.rid) rid = 238770 用于测试 -->
+    <select id="selectInspectionResultDetail" resultType="com.dayuan.model.wx.inspection.WxDataCheckRecordingModel">
+        SELECT
+        dcr.rid id,#主键
+        dcr.check_result checkResult,#检测结果(检测值)------------------
+        dcr.conclusion conclusion,#检测结果---------------
+        dcr.check_date checkDate,#检测时间----------
+        dcr.check_username checkUsername,#检测人员----------
+        dcr.depart_name departName,#检测结构---------------------
+        dcr.device_model deviceModel,#检测模块-----------------------
+        dcr.device_method deviceMethod,#检测方法--------------------
+        dcr.device_name deviceName,#仪器名称--------------
+        dcr.device_company deviceCompany,#仪器厂家---------------------
+        dcr.data_source dataSource,#数据来源0检测工作站，2监管通app，1.仪器上传,3平台上传，4导入
+        dcr.item_name itemName,#检测项目---------------------------
+        dcr.food_name foodName,#样品名称-------------------------
+        dcr.point_name pointName,#检测单位------------------
+        #<!-- 抽检单表 -->
+        tbs.id samplingId,
+        tbs.sampling_no samplingNo,#抽样单号-------------
+        tbs.reg_link_phone regLinkPhone,#联系电话--------------------
+        tbs.ope_phone opePhone,#微信号----------------------------
+        tbs.sampling_date samplingDate,#抽样时间
+        tbs.reg_name regName,#送检人------------------------------
+        tbs.ope_shop_name AS opeShopName #地址---------------------
+        FROM
+        data_check_recording dcr
+        LEFT JOIN tb_sampling tbs ON tbs.id = dcr.sampling_id
+        WHERE dcr.data_type = 1 AND tbs.personal = 1 AND dcr.rid = #{id}
+    </select>
+
+
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+            tb1.*,
+            (SELECT count(1)
+             FROM tb_sampling_detail
+             WHERE sampling_id = tb1.id)                     AS total,
+            (SELECT count(1)
+             FROM data_check_recording
+             WHERE sampling_id = tb1.id AND delete_flag = 0) AS completionNum,
+            bp.point_name                                       pointName
+        FROM tb_sampling tb1 LEFT JOIN base_point bp ON tb1.point_id = bp.id
+        WHERE tb1.reg_link_phone = #{obj.mobilePhone}
+        ORDER BY tb1.sampling_date DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM tb_sampling tb1
+        WHERE tb1.reg_link_phone = #{obj.mobilePhone}
+    </select>
+
+    <!--根据机构id查询该机构下的所有子机构-->
+    <select id="selectSonDepartIdById" resultType="java.lang.Integer">
+        SELECT id
+        FROM t_s_depart
+        WHERE depart_code LIKE CONCAT(
+                (SELECT depart_code
+                 FROM t_s_depart
+                 WHERE id = #{departId}), '%')
+    </select>
+    <!--微信你送我检地图: 查询该数组机构下所有检测点-->
+    <select id="selectPointByType" resultMap="BaseResultMap2">
+        select
+        bp.id, bp.point_name, bp.point_code, bp.point_type, bp.depart_id, bp.region_id, bp.manager_id,
+        bp.phone, bp.address, bp.place_x, bp.place_y,bp.point_type_id,bw.worker_name
+        from base_point bp
+        LEFT JOIN (select * FROM base_workers where delete_flag = 0) bw ON bp.manager_id = bw.id
+        where bp.delete_flag=0 AND bp.point_type=#{pointType} AND bp.sample_delivery = 1
+        AND bp.depart_id in
+        <foreach item="item" index="index" collection="departs" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="keyword != null and keyword != ''">
+            AND bp.point_name LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        order by bp.sorting
+    </select>
+</mapper>

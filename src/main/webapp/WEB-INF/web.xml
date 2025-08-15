@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1" metadata-complete="true">
+	<display-name>dykjfw</display-name>
+	<!-- 设置框架基本配置加载项 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring-common.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name >webAppRootKey</param-name >
+		<param-value >webapps.dykjfw</param-value >
+	</context-param >
+	<!-- 图片验证码配置开始 -->
+	<servlet>
+		<servlet-name>ImageServlet</servlet-name>
+		<servlet-class>com.dayuan.servlet.ImageServlet</servlet-class>
+		<init-param>
+			<param-name>width</param-name>
+			<param-value>65</param-value>
+		</init-param>
+		<init-param>
+			<param-name>height</param-name>
+			<param-value>23</param-value>
+		</init-param>
+		<init-param>
+			<param-name>codeCount</param-name>
+			<param-value>4</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ImageServlet</servlet-name>
+		<url-pattern>/ImageServlet</url-pattern>
+	</servlet-mapping>
+	<!-- 图片验证码配置结束 -->
+	<servlet>
+		<servlet-name>SystemConfigServlet</servlet-name>
+		<servlet-class>com.dayuan3.common.servlet.SystemConfigServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 加载log4j配置文件 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
+	<filter>
+		<filter-name>SaTokenFilter</filter-name>
+		<filter-class>cn.dev33.satoken.filter.SaServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SaTokenFilter</filter-name>
+		<url-pattern>/api/**</url-pattern>
+	</filter-mapping>
+	<!-- druid 拦截器 -->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>HostCleanFilter</filter-name>
+		<filter-class>com.dayuan.filter.HostCleanFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HostCleanFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SaTokenContextFilterForServlet</filter-name>
+		<filter-class>com.dayuan.filter.SaTokenContextFilterForServlet</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SaTokenContextFilterForServlet</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 启动OPTIONS方法 -->
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+		<auth-constraint></auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- Spring MVC Servlet -->
+	<!-- 前端控制器DispatcherServlet，负责将请求分派給对应控制器 -->
+	<servlet>
+		<servlet-name>Spring-Servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:spring-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<!-- 允许清空统计数据 -->
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<!-- 用户名 -->
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<!-- 密码 -->
+			<param-name>loginPassword</param-name>
+			<param-value>Da_uanXinXi#</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Spring-Servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	<!-- <welcome-file-list>
+		<welcome-file>/WEB-INF/view/login.jsp</welcome-file>
+	</welcome-file-list> -->
+	<welcome-file-list>
+		<welcome-file>toLogin</welcome-file>
+	</welcome-file-list>
+	<servlet-mapping>
+		<servlet-name>Spring-Servlet</servlet-name>
+		<url-pattern>/toLogin</url-pattern>
+	</servlet-mapping>
+	<!--错误提示页面 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<!-- 配置Session失效时间 -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+</web-app>

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.data.BasePointVideoSurveillanceMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.data.BasePointVideoSurveillance">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="depart_id" jdbcType="INTEGER" property="departId" />
+		<result column="depart_name" jdbcType="VARCHAR" property="departName" />
+		<result column="point_id" jdbcType="INTEGER" property="pointId" />
+		<result column="point_name" jdbcType="VARCHAR" property="pointName" />
+		<result column="surveillance_name" jdbcType="VARCHAR" property="surveillanceName" />
+		<result column="ip" jdbcType="VARCHAR" property="ip" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="pwd" jdbcType="VARCHAR" property="pwd" />
+		<result column="dev" jdbcType="VARCHAR" property="dev" />
+		<result column="account_phone" jdbcType="VARCHAR" property="accountPhone" />
+		<result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+		<result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="video_type" jdbcType="SMALLINT" property="videoType" />
+		<result column="autostart" jdbcType="SMALLINT" property="autostart" />
+		<result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+		<result column="sorting" jdbcType="SMALLINT" property="sorting" />
+		<!--add by xiaoyl 2022/07/18 乐橙云摄像头增加在线状态和最后一次状态同步时间字段 start-->
+		<result column="online_status" jdbcType="SMALLINT" property="onlineStatus" />
+		<result column="sync_status_date" jdbcType="TIMESTAMP" property="syncStatusDate" />
+		<result column="storage_type" jdbcType="SMALLINT" property="storageType" />
+		<!--add by xiaoyl 2022/07/18 乐橙云摄像头增加在线状态和最后一次状态同步时间字段 end-->
+		<result column="param1" jdbcType="VARCHAR" property="param1" />
+  		<result column="param2" jdbcType="VARCHAR" property="param2" />
+    	<result column="param3" jdbcType="VARCHAR" property="param3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, depart_id,
+		(select depart_name from t_s_depart d where d.id=depart_id) depart_name,
+		point_id,point_name, surveillance_name, ip, user_name, pwd, dev,  account_phone, register_date, delete_flag,
+		create_by, create_date, update_by, update_date,video_type,autostart,video_url,sorting,online_status,sync_status_date,
+		storage_type,param1, param2, param3
+	</sql>
+	<select id="selectByPointId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_point_video_surveillance
+		where delete_flag=0 and point_id = #{pointId,jdbcType=INTEGER}
+		order by sorting asc
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_point_video_surveillance
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- delete from base_point_video_surveillance
+		where id = #{id,jdbcType=INTEGER} -->
+		update base_point_video_surveillance set delete_flag=1 where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+		#{ids}
+	</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.data.BasePointVideoSurveillance">
+		insert into base_point_video_surveillance (id, depart_id,point_id,point_name,
+		surveillance_name,
+		ip, user_name, pwd,
+		dev,  account_phone,register_date, delete_flag,
+		create_by, create_date,
+		update_by,update_date,video_type,autostart,video_url,sorting,
+		online_status,sync_status_date,storage_type,param1,param2, param3)
+		values (#{id,jdbcType=INTEGER}, #{departId,jdbcType=INTEGER},#{pointId,jdbcType=INTEGER},#{pointName,jdbcType=VARCHAR},
+		#{surveillanceName,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{pwd,jdbcType=VARCHAR},
+		#{dev,jdbcType=VARCHAR},#{accountPhone,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP},
+		#{deleteFlag,jdbcType=SMALLINT},
+		#{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=VARCHAR},#{updateDate,jdbcType=TIMESTAMP},
+		#{videoType,jdbcType=SMALLINT},#{autostart,jdbcType=SMALLINT},
+		#{videoUrl,jdbcType=VARCHAR},#{sorting,jdbcType=SMALLINT},
+		#{onlineStatus,jdbcType=SMALLINT},#{syncStatusDate,jdbcType=TIMESTAMP},#{storageType,jdbcType=SMALLINT},
+		 #{param1,jdbcType=VARCHAR},#{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.data.BasePointVideoSurveillance">
+		insert into base_point_video_surveillance
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="departId != null">
+				depart_id,
+			</if>
+			<if test="pointId != null">
+				point_id,
+			</if>
+			<if test="pointName != null">
+				point_name,
+			</if>
+			<if test="surveillanceName != null">
+				surveillance_name,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="pwd != null">
+				pwd,
+			</if>
+			<if test="dev != null">
+				dev,
+			</if>
+			 <if test="accountPhone != null">
+		        account_phone,
+		      </if>
+			<if test="registerDate != null">
+				register_date,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="videoType != null">
+				video_type,
+			</if>
+			<if test="autostart != null">
+				autostart,
+			</if>
+			<if test="videoUrl != null">
+				video_url,
+			</if>
+			<if test="sorting != null">
+				sorting,
+			</if>
+			<if test="onlineStatus != null">
+				online_status,
+			</if>
+			<if test="syncStatusDate != null">
+				sync_status_date,
+			</if>
+			<if test="storageType != null">
+				storage_type,
+			</if>
+			<if test="param1 != null">
+		        param1,
+		      </if>
+		      <if test="param2 != null">
+		        param2,
+		      </if>
+		      <if test="param3 != null">
+		        param3,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="departId != null">
+				#{departId,jdbcType=INTEGER},
+			</if>
+			<if test="pointId != null">
+				#{pointId,jdbcType=INTEGER},
+			</if>
+			<if test="pointName != null">
+				#{pointName,jdbcType=VARCHAR},
+			</if>
+			<if test="surveillanceName != null">
+				#{surveillanceName,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="dev != null">
+				#{dev,jdbcType=VARCHAR},
+			</if>
+			<if test="accountPhone != null">
+		        #{accountPhone,jdbcType=VARCHAR},
+		      </if>
+			<if test="registerDate != null">
+				#{registerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="videoType != null">
+				#{videoType,jdbcType=SMALLINT},
+			</if>
+			<if test="autostart != null">
+				#{autostart,jdbcType=SMALLINT},
+			</if>
+			<if test="videoUrl != null">
+				#{videoUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="sorting != null">
+				#{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="onlineStatus != null">
+				#{onlineStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="syncStatusDate != null">
+				#{syncStatusDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="storageType != null">
+				#{storageType,jdbcType=SMALLINT},
+			</if>
+			 <if test="param1 != null">
+		        #{param1,jdbcType=VARCHAR},
+		      </if>
+		      <if test="param2 != null">
+		        #{param2,jdbcType=VARCHAR},
+		      </if>
+		      <if test="param3 != null">
+		        #{param3,jdbcType=VARCHAR},
+		      </if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BasePointVideoSurveillance">
+		update base_point_video_surveillance
+		<set>
+			<if test="departId != null">
+				depart_id = #{departId,jdbcType=INTEGER},
+			</if>
+			<if test="pointId != null">
+				point_id = #{pointId,jdbcType=INTEGER},
+			</if>
+			<if test="pointName != null">
+				point_name = #{pointName,jdbcType=VARCHAR},
+			</if>
+			<if test="surveillanceName != null">
+				surveillance_name = #{surveillanceName,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="dev != null">
+				dev = #{dev,jdbcType=VARCHAR},
+			</if>
+			 <if test="accountPhone != null">
+		        account_phone = #{accountPhone,jdbcType=VARCHAR},
+		      </if>
+			<if test="registerDate != null">
+				register_date = #{registerDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="videoType != null">
+				video_type = #{videoType,jdbcType=SMALLINT},
+			</if>
+			<if test="autostart != null">
+				autostart = #{autostart,jdbcType=SMALLINT},
+			</if>
+			<if test="videoUrl != null">
+				video_url = #{videoUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="sorting != null">
+				sorting = #{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="onlineStatus != null">
+				online_status=#{onlineStatus,jdbcType=SMALLINT},
+			</if>
+			<if test="syncStatusDate != null">
+				sync_status_date=#{syncStatusDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="storageType != null">
+				storage_type=#{storageType,jdbcType=SMALLINT},
+			</if>
+			 <if test="param1 != null">
+		        param1 = #{param1,jdbcType=VARCHAR},
+		      </if>
+		      <if test="param2 != null">
+		        param2 = #{param2,jdbcType=VARCHAR},
+		      </if>
+		      <if test="param3 != null">
+		        param3 = #{param3,jdbcType=VARCHAR},
+		      </if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BasePointVideoSurveillance">
+		update base_point_video_surveillance
+		set
+		depart_id = #{departId,jdbcType=INTEGER},
+		point_id = #{pointId,jdbcType=INTEGER},
+		point_name = #{pointName,jdbcType=VARCHAR},
+		surveillance_name = #{surveillanceName,jdbcType=VARCHAR},
+		ip = #{ip,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		pwd =#{pwd,jdbcType=VARCHAR},
+		dev = #{dev,jdbcType=VARCHAR},
+		account_phone = #{accountPhone,jdbcType=VARCHAR},
+		register_date =#{registerDate,jdbcType=TIMESTAMP},
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+		create_by =#{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by =#{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		video_type = #{videoType,jdbcType=SMALLINT},
+		autostart = #{autostart,jdbcType=SMALLINT},
+		video_url = #{videoUrl,jdbcType=VARCHAR},
+		sorting = #{sorting,jdbcType=SMALLINT},
+		online_status=#{onlineStatus,jdbcType=SMALLINT},
+		sync_status_date=#{syncStatusDate,jdbcType=TIMESTAMP},
+		storage_type=#{storageType,jdbcType=SMALLINT},
+		param1 = #{param1,jdbcType=VARCHAR},
+        param2 = #{param2,jdbcType=VARCHAR},
+        param3 = #{param3,jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+		select count(1) as rowTotal
+		from base_point_video_surveillance
+		where delete_flag = 0
+		<if test="obj.pointId !=null">
+			and point_id=#{obj.pointId}
+		</if>
+		<!-- <trim suffixOverrides=",">
+			<if test="obj.departIds != null">
+				and depart_id in 
+				<foreach item="item" index="index" collection="obj.departIds" open="(" separator="," close=")">
+				#{item}
+				</foreach>
+			</if>
+		</trim> -->
+	</select>
+	<select id="loadDatagrid" parameterType="Object" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from base_point_video_surveillance
+		where delete_flag = 0
+		<if test="obj.pointId !=null">
+			and point_id=#{obj.pointId}
+		</if>
+		<!-- <trim suffixOverrides=",">
+			<if test="obj.departIds != null">
+				and depart_id in 
+				<foreach item="item" index="index" collection="obj.departIds" open="(" separator="," close=")">
+				#{item}
+				</foreach>
+			</if>
+		</trim> -->
+		order by sorting asc, update_date desc limit #{rowOffset}, #{pageSize}
+	</select>
+	<!--add by xiaoyl 2022/07/18 查询所有乐橙云相关的摄像头或者根据传入的设备号查询数据-->
+	<select id="queryLeChengVideo" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_point_video_surveillance
+		where delete_flag=0 and video_type=0
+		and dev!=''
+		<if test="dev!=null">
+			and dev=#{dev}
+		</if>
+	</select>
+	<!--查询所有乐橙API的在线设备，用于东营可视化大屏进行播放-->
+	<select id="queryAllOnlineVideo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select video.*
+		from base_point_video_surveillance video
+		left join base_point p on video.point_id=p.id
+		where p.delete_flag=0 and video.delete_flag = 0 and video_type=0 and dev!='' and online_status=1  and param2=0
+		and video.depart_id  in
+		(SELECT id FROM t_s_depart
+		WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{departId}),'%'))
+		order by video.sorting asc, video.update_date desc
+	</select>
+</mapper>

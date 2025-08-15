@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.statistics.DataMonthlyStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.statistics.DataMonthlyStatistics" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="yyyy_mm" property="yyyyMm" jdbcType="VARCHAR" />
+    <result column="depart_id" property="departId" jdbcType="INTEGER" />
+    <result column="sampling_number" property="samplingNumber" jdbcType="INTEGER" />
+    <result column="check_number" property="checkNumber" jdbcType="INTEGER" />
+    <result column="unqualified_number" property="unqualifiedNumber" jdbcType="INTEGER" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="param3" property="param3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, yyyy_mm, depart_id, sampling_number, check_number, unqualified_number, delete_flag, 
+    create_by, create_date, update_by, update_date, param1, param2, param3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_monthly_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_monthly_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.statistics.DataMonthlyStatistics" >
+    insert into data_monthly_statistics (id, yyyy_mm, depart_id, 
+      sampling_number, check_number, unqualified_number, 
+      delete_flag, create_by, create_date, 
+      update_by, update_date, param1, 
+      param2, param3)
+    values (#{id,jdbcType=INTEGER}, #{yyyyMm,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER}, 
+      #{samplingNumber,jdbcType=INTEGER}, #{checkNumber,jdbcType=INTEGER}, #{unqualifiedNumber,jdbcType=INTEGER}, 
+      #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, 
+      #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.statistics.DataMonthlyStatistics" >
+    insert into data_monthly_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="yyyyMm != null" >
+        yyyy_mm,
+      </if>
+      <if test="departId != null" >
+        depart_id,
+      </if>
+      <if test="samplingNumber != null" >
+        sampling_number,
+      </if>
+      <if test="checkNumber != null" >
+        check_number,
+      </if>
+      <if test="unqualifiedNumber != null" >
+        unqualified_number,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="param1 != null" >
+        param1,
+      </if>
+      <if test="param2 != null" >
+        param2,
+      </if>
+      <if test="param3 != null" >
+        param3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yyyyMm != null" >
+        #{yyyyMm,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        #{departId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingNumber != null" >
+        #{samplingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkNumber != null" >
+        #{checkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="unqualifiedNumber != null" >
+        #{unqualifiedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        #{param3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.statistics.DataMonthlyStatistics" >
+    update data_monthly_statistics
+    <set >
+      <if test="yyyyMm != null" >
+        yyyy_mm = #{yyyyMm,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        depart_id = #{departId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingNumber != null" >
+        sampling_number = #{samplingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkNumber != null" >
+        check_number = #{checkNumber,jdbcType=INTEGER},
+      </if>
+      <if test="unqualifiedNumber != null" >
+        unqualified_number = #{unqualifiedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.statistics.DataMonthlyStatistics" >
+    update data_monthly_statistics
+    set yyyy_mm = #{yyyyMm,jdbcType=VARCHAR},
+      depart_id = #{departId,jdbcType=INTEGER},
+      sampling_number = #{samplingNumber,jdbcType=INTEGER},
+      check_number = #{checkNumber,jdbcType=INTEGER},
+      unqualified_number = #{unqualifiedNumber,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

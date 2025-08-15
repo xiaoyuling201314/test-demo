@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.wx.inspection.InspectionUserMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.wx.inspection.InspectionUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickName"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+        <result column="bind_number" jdbcType="INTEGER" property="bindNumber"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="headimgurl" jdbcType="VARCHAR" property="headimgurl"/>
+        <result column="depart_id" jdbcType="INTEGER" property="departId"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="bind_time" jdbcType="TIMESTAMP" property="bindTime"/>
+        <result column="relieve_time" jdbcType="TIMESTAMP" property="relieveTime"/>
+        <!-- 表外字段，关注数量 -->
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="date" jdbcType="VARCHAR" property="date"/>
+    </resultMap>
+    <resultMap id="BaseResultMaps" type="com.dayuan.model.wx.inspection.InspectionUserModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="inspectionNumber" jdbcType="INTEGER" property="inspectionNumber"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="bind_number" jdbcType="INTEGER" property="bindNumber"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="headimgurl" jdbcType="VARCHAR" property="headimgurl"/>
+        <result column="depart_id" jdbcType="INTEGER" property="departId"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickName"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="bind_time" jdbcType="TIMESTAMP" property="bindTime"/>
+        <result column="relieve_time" jdbcType="TIMESTAMP" property="relieveTime"/>
+    </resultMap>
+    <!-- 2018-11-9 胡 -->
+    <sql id="Base_Column_List">
+        id, username, password, openid, mobile_phone, bind_number, sex, province, city, country,
+        headimgurl, depart_id, nickname, app_id, bind_time, relieve_time, delete_flag, create_by,
+        create_date, update_by, update_date, param1, param2, param3
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        and delete_flag=0
+        <if test="obj != null">
+            <if test="obj.appId !=null and obj.appId !=''">
+                and app_id = #{obj.appId}
+            </if>
+            <if test="obj.search !=null and obj.search !=''">
+                and (mobile_phone like CONCAT('%', #{obj.search}, '%')
+                or nickname like CONCAT('%', #{obj.search}, '%')
+                or province like CONCAT('%', #{obj.search}, '%')
+                or sex like CONCAT('%',#{obj.search}, '%')
+                )
+            </if>
+            <if test="obj.dateStart !=null and obj.dateStart !=''">
+                and bind_time &gt;= #{obj.dateStart}
+            </if>
+            <if test="obj.dateEnd !=null and obj.dateEnd !=''">
+                and bind_time &lt;= #{obj.dateEnd}
+            </if>
+        </if>
+    </sql>
+    <!-- 页面显示,使用模型对象 -->
+    <select id="loadDatagrid" resultMap="BaseResultMaps"
+            parameterType="Object">
+        SELECT
+        *,
+        (SELECT count(*)
+        FROM tb_sampling
+        WHERE reg_link_phone = mobile_phone) AS inspectionNumber
+        FROM wx_inspection_user
+        <include refid="Example_Where_Clause"/>
+        <if test="order!=null">
+            order by bind_time ${order}
+        </if>
+
+        limit #{rowOffset}, #{pageSize}
+    </select>
+    <!-- 根据appid查询关注人数 返回日期用param1存储 -->
+    <select id="selectByAppid" resultMap="BaseResultMap" parameterType="Object">
+        SELECT
+        COUNT(1) as count,
+        DATE_FORMAT(create_date, '%Y-%m-%d') AS date
+        FROM
+        wx_inspection_user
+        WHERE
+        app_id = #{appId}
+        <if test="dateStart !=null and dateStart !=''">
+            AND create_date &gt;== #{dateStart}
+        </if>
+        <if test="dateEnd !=null and dateEnd !=''">
+            AND create_date &lt;=#{dateEnd}
+        </if>
+        GROUP BY
+        date
+        limit 0, 30
+    </select>
+    <!-- 查询出总页数 -->
+    <select id="getRowTotal" resultType="java.lang.Integer"
+            parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM
+        wx_inspection_user
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        SELECT *
+        FROM wx_inspection_user
+        WHERE id = #{id,jdbcType=INTEGER} AND delete_flag = 0
+    </select>
+
+    <!--根据账号密码查询用户信息-->
+    <select id="selectUserByUserNameOrPassword" resultType="com.dayuan.bean.wx.inspection.InspectionUser">
+        SELECT
+            id,
+            username,
+            password,
+            mobile_phone AS mobilePhone,
+            openid,
+            nickname     AS nickName
+        FROM wx_inspection_user
+        WHERE delete_flag = 0 AND username = #{userName} AND password = #{password} AND openid = #{openid}
+    </select>
+
+    <!--根据电话号码查询用户信息-->
+    <select id="selectInspectionUser" resultType="com.dayuan.bean.wx.inspection.InspectionUser">
+        SELECT
+            id,
+            username,
+            password,
+            mobile_phone,
+            openid,
+            nickname AS nickName
+        FROM wx_inspection_user
+        WHERE delete_flag = 0 AND mobile_phone = #{mobilePhone}
+    </select>
+
+    <!--通过账号名称查询用户-->
+    <select id="selectUserByUsername" resultType="com.dayuan.bean.wx.inspection.InspectionUser">
+        SELECT id
+        FROM wx_inspection_user
+        WHERE delete_flag = 0 AND username = #{username}
+    </select>
+
+    <!--通过手机号码和用户名查询用户-->
+    <select id="selectUserByPhone" resultType="com.dayuan.bean.wx.inspection.InspectionUser">
+        SELECT id
+        FROM wx_inspection_user
+        WHERE delete_flag = 0 AND mobile_phone = #{mobilePhone}
+    </select>
+    <!--根据openid查询是否授权-->
+    <select id="selectByOpenid" resultMap="BaseResultMap">
+        SELECT *
+        FROM wx_inspection_user
+        WHERE
+            delete_flag = 0 AND
+            openid = #{openid,jdbcType=VARCHAR}
+    </select>
+    <!-- 查询用户-->
+    <select id="selectUserPhoneAndOpenid" resultMap="BaseResultMap">
+        SELECT *
+        FROM wx_inspection_user
+        WHERE
+            delete_flag = 0
+            AND mobile_phone = #{mobilePhone}
+    </select>
+
+    <!-- 查询用户2-->
+    <select id="selectUserPhoneAndOpenid2" resultMap="BaseResultMap">
+        SELECT *
+        FROM wx_inspection_user
+        WHERE
+            delete_flag = 0
+            AND mobile_phone = #{mobilePhone}
+            AND depart_id = #{departId}
+    </select>
+
+    <!-- 删除和批量删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        UPDATE
+        wx_inspection_user
+        set delete_flag = 1
+        where id in
+        <foreach collection="array" item="ids" index="index" open="("
+                 close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!--解绑用户-->
+    <delete id="deleteOpenidById">
+        UPDATE
+            wx_inspection_user
+        SET openid = NULL
+        WHERE id = #{id}
+
+    </delete>
+
+    <!--注册用户-->
+    <insert id="insert" parameterType="com.dayuan.bean.wx.inspection.InspectionUser">
+        INSERT INTO
+            wx_inspection_user
+            (username, password, mobile_phone, openid, nickname, sex, city, country, headimgurl, province, depart_id, create_date, bind_time, app_id)
+        VALUES
+            (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR},
+                                           #{openid,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+                                           #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR},
+                                           #{province,jdbcType=VARCHAR}, #{departId,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP},
+             #{bindTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR})
+    </insert>
+
+    <!--
+    <update id="updateByPrimaryKey" parameterType="com.dayuan2.bean.train.TrainCenter">
+        UPDATE
+            wx_inspection_user
+        SET
+            update_by   = #{updateBy,jdbcType=VARCHAR},
+            update_date = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    -->
+    <update id="changePassword">
+        UPDATE
+            wx_inspection_user
+        SET
+            password = #{password}
+        WHERE id = #{userId}
+    </update>
+    <!--跟换手机号码-->
+    <update id="replacePhoneByUser">
+        UPDATE
+            wx_inspection_user
+        SET
+            mobile_phone = #{mobilePhone}
+        WHERE id = #{id}
+    </update>
+
+    <update id="replacePhoneInSamping">
+        UPDATE
+            tb_sampling
+        SET
+            reg_link_phone = #{mobilePhone}
+        WHERE reg_link_phone = #{oldPhone}
+    </update>
+
+
+    <update id="replacePhoneInSamping2">
+        UPDATE
+        tb_sampling
+        SET
+        reg_link_phone = #{mobilePhone}
+        WHERE reg_link_phone = #{oldPhone}
+        AND depart_id IN
+        <foreach collection="departIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--微信界面解绑操作-->
+    <update id="untieUser">
+        UPDATE
+            wx_inspection_user
+        SET
+            status       = #{status},
+            update_date  = now(),
+            relieve_time = now(),
+            openid       = #{openid}
+        WHERE id = #{id}
+    </update>
+
+    <!--绑定过的二次绑定的编辑SQL 此时解绑时间为空-->
+    <update id="updateBindUser">
+        UPDATE
+        wx_inspection_user
+        <set>
+            update_date = #{updateDate},
+            bind_time = #{bindTime},
+            relieve_time = null,
+            openid = #{openid},
+            <if test="departId != null and departId !=''">
+                depart_id = #{departId},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="nickName != null">
+                nickname = #{nickName},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="headimgurl != null">
+                headimgurl = #{headimgurl},
+            </if>
+            <if test="country != null">
+                country = #{country}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--编辑地址的操作-->
+    <update id="saveAddress">
+        UPDATE
+        wx_inspection_user
+        <set>
+            <if test="address != null">
+                address=#{address},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="nickName != null">
+                nickname = #{nickName},
+            </if>
+            <if test="city != null">
+                username = #{userName},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

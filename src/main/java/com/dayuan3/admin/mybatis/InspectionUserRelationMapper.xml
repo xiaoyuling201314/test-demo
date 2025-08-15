@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.admin.mapper.InspectionUserRelationMapper">
+  <resultMap id="BaseResultMap" type="com.dayuan3.admin.bean.InspectionUserRelation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="inspection_id" jdbcType="INTEGER" property="inspectionId" />
+    <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, inspection_id, delete_flag, create_date, create_by, update_date, update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from inspection_user_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inspection_user_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan3.admin.bean.InspectionUserRelation">
+    insert into inspection_user_relation (id, user_id, inspection_id,
+      delete_flag, create_date, create_by, 
+      update_date, update_by)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{inspectionId,jdbcType=INTEGER}, 
+      #{deleteFlag,jdbcType=SMALLINT}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan3.admin.bean.InspectionUserRelation">
+    insert into inspection_user_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="inspectionId != null">
+        inspection_id,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionId != null">
+        #{inspectionId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.admin.bean.InspectionUserRelation">
+    update inspection_user_relation
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionId != null">
+        inspection_id = #{inspectionId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan3.admin.bean.InspectionUserRelation">
+    update inspection_user_relation
+    set user_id = #{userId,jdbcType=INTEGER},
+      inspection_id = #{inspectionId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+     update inspection_user_relation set delete_flag=1,update_date=now()
+    where user_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="saveBath" parameterType="com.dayuan3.admin.bean.InspectionUserRelation">
+    insert into inspection_user_relation (user_id, inspection_id,
+      delete_flag, create_date, update_date)
+    values
+    <foreach collection="list" item="bean" index="index" separator=",">
+      (#{bean.userId,jdbcType=INTEGER}, #{bean.inspectionId,jdbcType=INTEGER},
+     #{bean.createDate,jdbcType=TIMESTAMP},#{bean.updateDate,jdbcType=TIMESTAMP})
+    </foreach>
+
+  </insert>
+</mapper>

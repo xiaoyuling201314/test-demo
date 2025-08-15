@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.terminal.mapper.ReqUnitStatisticDailyMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan3.terminal.bean.ReqUnitStatisticDaily">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="ins_uint_id" jdbcType="INTEGER" property="insUintId"/>
+        <result column="ins_uint_name" jdbcType="VARCHAR" property="insUintName"/>
+        <result column="check_number" jdbcType="INTEGER" property="checkNumber"/>
+        <result column="unqualified_number" jdbcType="INTEGER" property="unqualifiedNumber"/>
+        <result column="unqualified_statistic" jdbcType="VARCHAR" property="unqualifiedStatistic"/>
+        <result column="param1" jdbcType="VARCHAR" property="param1"/>
+        <result column="param2" jdbcType="VARCHAR" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag"/>
+        <result column="check_number_daily" jdbcType="INTEGER" property="checkNumberDaily"/>
+        <result column="unit_type" jdbcType="INTEGER" property="unitType"/>
+         <result column="coverage_type" jdbcType="SMALLINT" property="coverageType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, date, ins_uint_id, ins_uint_name, check_number, unqualified_number, unqualified_statistic,
+        param1, param2, param3, create_by, create_date, update_by, update_date, delete_flag,
+        check_number_daily
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from req_unit_statistic_daily
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM req_unit_statistic_daily
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan3.terminal.bean.ReqUnitStatisticDaily">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into req_unit_statistic_daily (date, ins_uint_id, ins_uint_name,
+        check_number, unqualified_number, unqualified_statistic,
+        param1, param2, param3,
+        create_by, create_date, update_by,
+        update_date, delete_flag, check_number_daily
+        )
+        values (#{date,jdbcType=DATE}, #{insUintId,jdbcType=INTEGER}, #{insUintName,jdbcType=VARCHAR},
+        #{checkNumber,jdbcType=INTEGER}, #{unqualifiedNumber,jdbcType=INTEGER}, #{unqualifiedStatistic,jdbcType=VARCHAR},
+        #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR},
+        #{createBy,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER},
+        #{updateDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=SMALLINT}, #{checkNumberDaily,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan3.terminal.bean.ReqUnitStatisticDaily">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into req_unit_statistic_daily
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="date != null">
+                date,
+            </if>
+            <if test="insUintId != null">
+                ins_uint_id,
+            </if>
+            <if test="insUintName != null">
+                ins_uint_name,
+            </if>
+            <if test="checkNumber != null">
+                check_number,
+            </if>
+            <if test="unqualifiedNumber != null">
+                unqualified_number,
+            </if>
+            <if test="unqualifiedStatistic != null">
+                unqualified_statistic,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="checkNumberDaily != null">
+                check_number_daily,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="date != null">
+                #{date,jdbcType=DATE},
+            </if>
+            <if test="insUintId != null">
+                #{insUintId,jdbcType=INTEGER},
+            </if>
+            <if test="insUintName != null">
+                #{insUintName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkNumber != null">
+                #{checkNumber,jdbcType=INTEGER},
+            </if>
+            <if test="unqualifiedNumber != null">
+                #{unqualifiedNumber,jdbcType=INTEGER},
+            </if>
+            <if test="unqualifiedStatistic != null">
+                #{unqualifiedStatistic,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="checkNumberDaily != null">
+                #{checkNumberDaily,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.terminal.bean.ReqUnitStatisticDaily">
+        update req_unit_statistic_daily
+        <set>
+            <if test="date != null">
+                date = #{date,jdbcType=DATE},
+            </if>
+            <if test="insUintId != null">
+                ins_uint_id = #{insUintId,jdbcType=INTEGER},
+            </if>
+            <if test="insUintName != null">
+                ins_uint_name = #{insUintName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkNumber != null">
+                check_number = #{checkNumber,jdbcType=INTEGER},
+            </if>
+            <if test="unqualifiedNumber != null">
+                unqualified_number = #{unqualifiedNumber,jdbcType=INTEGER},
+            </if>
+            <if test="unqualifiedStatistic != null">
+                unqualified_statistic = #{unqualifiedStatistic,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="checkNumberDaily != null">
+                check_number_daily = #{checkNumberDaily,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan3.terminal.bean.ReqUnitStatisticDaily">
+        UPDATE req_unit_statistic_daily
+        SET date                  = #{date,jdbcType=DATE},
+            ins_uint_id           = #{insUintId,jdbcType=INTEGER},
+            ins_uint_name         = #{insUintName,jdbcType=VARCHAR},
+            check_number          = #{checkNumber,jdbcType=INTEGER},
+            unqualified_number    = #{unqualifiedNumber,jdbcType=INTEGER},
+            unqualified_statistic = #{unqualifiedStatistic,jdbcType=VARCHAR},
+            param1                = #{param1,jdbcType=VARCHAR},
+            param2                = #{param2,jdbcType=VARCHAR},
+            param3                = #{param3,jdbcType=VARCHAR},
+            create_by             = #{createBy,jdbcType=INTEGER},
+            create_date           = #{createDate,jdbcType=TIMESTAMP},
+            update_by             = #{updateBy,jdbcType=INTEGER},
+            update_date           = #{updateDate,jdbcType=TIMESTAMP},
+            delete_flag           = #{deleteFlag,jdbcType=SMALLINT},
+            check_number_daily    = #{checkNumberDaily,jdbcType=INTEGER}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 历史统计-分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from req_unit_statistic_daily
+        <include refid="Example_Where_Clause"/>
+        order by check_number ${order}, check_number_daily ${order} limit #{rowOffset}, #{pageSize}
+    </select>
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        from req_unit_statistic_daily
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+
+    <sql id="Example_Where_Clause"> <!-- 2020-1-17 仅在此方法内 startDateStr 代替keyword 使用；  endDateStr 代表委托单位id；huht -->
+        WHERE delete_flag = 0 AND date = #{obj.keyWords}
+        <if test="obj.startDateStr!=null and obj.startDateStr!=''">
+            and ins_uint_name like CONCAT('%',#{obj.startDateStr},'%')
+        </if>
+        <if test="obj.endDateStr!=null and obj.endDateStr!=''">
+            and ins_uint_id =#{obj.endDateStr}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            and ins_uint_id in(SELECT id FROM requester_unit WHERE depart_id in(SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code LIKE
+            CONCAT((SELECT depart_code FROM t_s_depart WHERE id=#{obj.departId} ) ,'%')))
+        </if>
+    </sql>
+
+    <!-- 实时统计-分页基础查询 -->
+    <select id="loadDatagrid1" resultMap="BaseResultMap" parameterType="Object">
+        SELECT tb1.check_number,
+        ru.id insUintId,ru.requester_name ins_uint_name, ru.check_num check_number_daily,ru.unit_type
+        FROM requester_unit ru
+        LEFT JOIN (
+        SELECT tsr.request_id reg_id, COUNT(1) check_number
+        #SUM(IF(dcr.conclusion = '不合格' AND dcr.delete_flag = 0, 1, 0)) unqualified_number
+        FROM tb_sampling_detail tsd
+        INNER JOIN tb_sampling ts ON ts.id = tsd.sampling_id
+        INNER JOIN tb_sampling_requester tsr ON tsr.sampling_id = ts.id
+        #LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+        WHERE ts.delete_flag = 0 AND ts.delete_flag = 0 AND ts.order_status = 2
+        AND ts.sampling_date BETWEEN CONCAT(#{obj.keyWords}, ' 00:00:00') AND CONCAT(#{obj.keyWords}, ' 23:59:59')
+        GROUP BY tsr.request_id
+        ) tb1 ON ru.id = tb1.reg_id
+        WHERE ru.delete_flag = 0
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.unitTypeArr != null">
+            AND ru.unit_type IN
+            <foreach collection="obj.unitTypeArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+        <!-- 2020-1-17 仅在此方法内 startDateStr 代替keyword使用 ;endDateStr 代表委托单位id  huht -->
+        <if test="obj.startDateStr!=null and obj.startDateStr!=''">
+            and ru.requester_name like CONCAT('%',#{obj.startDateStr},'%')
+        </if>
+        <if test="obj.endDateStr!=null and obj.endDateStr!=''">
+            and ru.id =#{obj.endDateStr}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            and ru.depart_id in(SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE
+            id=#{obj.departId} ) ,'%'))
+        </if>
+        ORDER BY tb1.check_number ${order}, ru.check_num ${order} ,ru.id ASC
+        <if test="obj.noPage != 1">
+            LIMIT #{rowOffset}, #{pageSize}
+        </if>
+    </select>
+    <select id="getRowTotal1" resultType="java.lang.Integer" parameterType="Object">
+        SELECT COUNT(1) AS rowTotal
+        FROM requester_unit
+        WHERE delete_flag = 0
+        <if test="obj.unitType != null">
+            AND unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.unitTypeArr != null">
+            AND unit_type IN
+            <foreach collection="obj.unitTypeArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+    </select>
+
+
+    <!-- 实时统计-分页基础查询 -->
+    <select id="loadDatagrid2" resultMap="BaseResultMap" parameterType="Object">
+        SELECT rusd.*,ru.unit_type
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0 AND rusd.date = #{obj.keyWords}
+        <if test="obj.startDateStr!=null and obj.startDateStr!=''">
+            and rusd.ins_uint_name like CONCAT('%',#{obj.startDateStr},'%')
+        </if>
+        <if test="obj.endDateStr!=null and obj.endDateStr!=''">
+            and rusd.ins_uint_id =#{obj.endDateStr}
+        </if>
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.unitTypeArr != null">
+            AND ru.unit_type IN
+            <foreach collection="obj.unitTypeArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN ( SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code
+            LIKE CONCAT(( SELECT depart_code FROM t_s_depart WHERE id=#{obj.departId} ), '%')))
+        </if>
+        ORDER BY rusd.check_number ${order}, rusd.check_number_daily ${order},ru.id ASC
+        <if test="obj.noPage != 1">
+            LIMIT #{rowOffset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getRowTotal2" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) as rowTotal
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0 AND rusd.date = #{obj.keyWords}
+        <if test="obj.startDateStr!=null and obj.startDateStr!=''">
+            and rusd.ins_uint_name like CONCAT('%',#{obj.startDateStr},'%')
+        </if>
+        <if test="obj.endDateStr!=null and obj.endDateStr!=''">
+            and rusd.ins_uint_id =#{obj.endDateStr}
+        </if>
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.unitTypeArr != null">
+            AND ru.unit_type IN
+            <foreach collection="obj.unitTypeArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN ( SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code
+            LIKE CONCAT(( SELECT depart_code FROM t_s_depart WHERE id=#{obj.departId} ), '%')))
+        </if>
+    </select>
+
+
+    <select id="selectByDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM req_unit_statistic_daily
+        WHERE date = #{date,jdbcType=DATE}
+        <if test="unitId != null">
+            AND ins_uint_id = #{unitId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectByDate2" parameterType="java.lang.Object" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM req_unit_statistic_daily
+        WHERE date &gt;= #{start,jdbcType=DATE}
+        AND date &lt;= #{end,jdbcType=DATE}
+        <if test="unitId != null">
+            AND ins_uint_id = #{unitId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--根据日期段查询委托单位统计(微信端) shit 因为查询历史，所有AND ru.delete_flag = 0 不需要-->
+    <select id="selectByDate3" resultMap="BaseResultMap">
+        SELECT rusd.*,ru.unit_type
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0
+        #AND ru.delete_flag = 0
+        AND rusd.date &gt;= #{start}
+        AND rusd.date &lt;= #{end}
+        AND ru.unit_type IN
+        <foreach collection="array" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+        AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN ( SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code
+        LIKE CONCAT(#{departCode}, '%')))
+    </select>
+
+
+    <resultMap id="reqMap" type="com.dayuan3.terminal.model.ReqStatisModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="requester_name" jdbcType="VARCHAR" property="reqName"/>
+        <result column="planCheckNum" jdbcType="INTEGER" property="planCheckNum"/>
+        <result column="planCheckNum" jdbcType="INTEGER" property="checkNumDaily"/>
+        <result column="unit_type" jdbcType="SMALLINT" property="unitType"/>
+        <result column="depart_name" jdbcType="VARCHAR" property="departName"/>
+        <result column="unitTypeName" jdbcType="VARCHAR" property="unitTypeName"/>
+        <collection property="reqSSmList" ofType="com.dayuan3.terminal.model.ReqStatisSonModel" columnPrefix="r_">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="conclusion" property="conclusion" jdbcType="VARCHAR"/>
+            <result column="conclusion2" property="conclusion2" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectDataToday" resultMap="reqMap">
+        SELECT *
+        FROM
+            (
+                SELECT
+                    ru.id,
+                    ru.requester_name,
+                    d.depart_name,
+                    ru.unit_type,
+                    rut.unit_type AS unitTypeName,
+                    ru.check_num     AS planCheckNum,
+                    tab1.id          AS r_id,
+                    tab1.conclusion  AS r_conclusion,
+                    tab1.conclusion2 AS r_conclusion2
+                FROM requester_unit ru LEFT JOIN
+                    (
+                        SELECT
+                            tsd.id,
+                            tsr.request_id,
+                            CASE
+                            WHEN dcr.conclusion = '合格'
+                                THEN '合格'
+                            WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= #{checkNumber}
+                                THEN '不合格'
+                            ELSE '' END AS conclusion,
+                            CASE
+                            WHEN dcr.conclusion = '合格'
+                                THEN 1
+                            WHEN dcr.conclusion = '不合格' AND dcr.reload_flag >= 2
+                                THEN 0
+                            ELSE 2 END  AS conclusion2
+                        FROM
+                            tb_sampling_detail tsd
+                            INNER JOIN tb_sampling ts ON tsd.sampling_id = ts.id
+                            INNER JOIN tb_sampling_requester tsr ON tsr.sampling_id = ts.id
+                            LEFT JOIN data_check_recording dcr ON tsd.id = dcr.sampling_detail_id
+                        WHERE
+                            ts.delete_flag = 0 AND tsr.delete_flag = 0
+                            AND ts.personal = 2
+                            AND ts.order_status = 2
+                            AND ts.sampling_date LIKE CONCAT(#{today}, '%')
+                    ) tab1 ON ru.id = tab1.request_id
+                    JOIN t_s_depart d ON ru.depart_id = d.id AND d.delete_flag =0
+                    JOIN requester_unit_type rut ON ru.unit_type=rut.id
+                WHERE ru.delete_flag = 0 AND ru.depart_id IN (
+                    SELECT id
+                    FROM t_s_depart
+                    WHERE delete_flag = 0
+                          AND depart_code LIKE CONCAT(
+                            (SELECT depart_code
+                             FROM t_s_depart
+                             WHERE id = #{did}), '%'))
+                <if test="obj.requesterName != null and obj.requesterName != ''">
+                    AND ru.requester_name LIKE CONCAT('%',#{obj.requesterName},'%')
+                </if>
+            ) tab2
+        ORDER BY tab2.planCheckNum DESC, tab2.id ASC
+    </select>
+
+
+    <resultMap id="reqHistoryMap" type="com.dayuan3.terminal.model.ReqStatisModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="reqName" jdbcType="VARCHAR" property="reqName"/>
+        <result column="checkNum" jdbcType="INTEGER" property="checkNum"/>
+        <result column="unit_type" jdbcType="SMALLINT" property="unitType"/>
+        <result column="planCheckNum" jdbcType="INTEGER" property="planCheckNum"/>
+        <result column="check_num" jdbcType="INTEGER" property="checkNumDaily"/>
+        <result column="unqualifiedNum" jdbcType="INTEGER" property="unqualifiedNum"/>
+        <result column="depart_name" jdbcType="VARCHAR" property="departName"/>
+        <result column="unitTypeName" jdbcType="VARCHAR" property="unitTypeName"/>
+    </resultMap>
+
+    <!--查询历史所有委托单位的数据，包含合格与不合格，以及送检数量 shit-->
+    <select id="selectDataHistory" resultMap="reqHistoryMap">
+        SELECT
+            rusd.ins_uint_id             AS id,
+            rusd.ins_uint_name           AS reqName,
+            d.depart_name,
+            ru.unit_type,
+            rut.unit_type AS unitTypeName,
+            ru.check_num,
+            SUM(rusd.check_number)       AS checkNum,
+            SUM(rusd.check_number_daily) AS planCheckNum,
+            SUM(rusd.unqualified_number) AS unqualifiedNum
+        FROM
+            req_unit_statistic_daily rusd
+            JOIN requester_unit ru ON rusd.ins_uint_id = ru.id
+            JOIN requester_unit_type rut ON ru.unit_type=rut.id
+            JOIN t_s_depart d ON ru.depart_id = d.id
+        WHERE
+            rusd.delete_flag = 0
+            AND rusd.date &gt;= #{start}
+            AND rusd.date &lt;= #{end}
+            AND ru.depart_id IN (
+                SELECT id
+                FROM
+                    t_s_depart
+                WHERE
+                    delete_flag = 0
+                    AND depart_code LIKE CONCAT((SELECT depart_code
+                                                 FROM t_s_depart
+                                                 WHERE id = #{did}), '%')
+            )
+        <if test="obj.requesterName != null and obj.requesterName != ''">
+            AND ru.requester_name LIKE CONCAT('%',#{obj.requesterName},'%')
+        </if>
+        GROUP BY rusd.ins_uint_id
+        ORDER BY checkNum DESC, planCheckNum DESC, ru.id ASC
+    </select>
+	<!-- 报告监控覆盖率查询数据 add by xiaoyl 2020-06-29 -->
+	 <!-- 实时统计-分页基础查询 -->
+    <select id="loadDatagridToday" resultMap="BaseResultMap" parameterType="Object">
+        SELECT (SELECT COUNT(1) check_number
+        FROM tb_sampling_detail tsd
+        INNER JOIN tb_sampling ts ON ts.id = tsd.sampling_id
+        INNER JOIN tb_sampling_requester tsr ON tsr.sampling_id = ts.id
+        WHERE ts.delete_flag = 0 AND ts.delete_flag = 0 AND ts.order_status = 2
+        AND ts.sampling_date BETWEEN CONCAT(#{obj.startDateStr}, ' 00:00:00') AND CONCAT(#{obj.endDateStr}, ' 23:59:59')
+        and tsr.request_id=ru.id
+        ) check_number,
+        ru.id insUintId,ru.requester_name ins_uint_name, ru.check_num check_number_daily,ru.unit_type,#{obj.coverageType} coverage_type
+        FROM requester_unit ru
+     <!--    LEFT JOIN (
+        SELECT tsr.request_id reg_id, COUNT(1) check_number
+        FROM tb_sampling_detail tsd
+        INNER JOIN tb_sampling ts ON ts.id = tsd.sampling_id
+        INNER JOIN tb_sampling_requester tsr ON tsr.sampling_id = ts.id
+        WHERE ts.delete_flag = 0 AND ts.delete_flag = 0 AND ts.order_status = 2
+        AND ts.sampling_date BETWEEN CONCAT(#{obj.startDateStr}, ' 00:00:00') AND CONCAT(#{obj.endDateStr}, ' 23:59:59')
+        GROUP BY tsr.request_id
+        ) tb1 ON ru.id = tb1.reg_id -->
+        WHERE ru.delete_flag = 0
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            and ru.depart_id in 
+			<foreach collection="obj.departArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+        ORDER BY check_number ${order}, ru.requester_name  ${order} ,ru.id ASC
+        <if test="obj.noPage != 1">
+            LIMIT #{rowOffset}, #{pageSize}
+        </if>
+    </select>
+    <select id="getRowTotalToday" resultType="java.lang.Integer" parameterType="Object">
+        SELECT COUNT(1) AS rowTotal
+        FROM requester_unit
+        WHERE delete_flag = 0
+        <if test="obj.unitType != null">
+            AND unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            and depart_id in 
+			<foreach collection="obj.departArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>
+        </if>
+    </select>
+    
+    <!-- 历史统计-分页基础查询 -->
+    <select id="loadDatagridHistory" resultMap="BaseResultMap" parameterType="Object">
+        SELECT sum(rusd.check_number) check_number,rusd.ins_uint_id insUintId,rusd.ins_uint_name ins_uint_name,ru.unit_type,#{obj.coverageType} coverage_type
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0 AND ru.delete_flag=0 AND rusd.date BETWEEN CONCAT(#{obj.startDateStr}, ' 00:00:00') AND CONCAT(#{obj.endDateStr}, ' 23:59:59')
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN  
+			<foreach collection="obj.departArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>)
+        </if>
+        GROUP BY rusd.ins_uint_id
+        ORDER BY check_number ${order}, rusd.ins_uint_name ${order},ru.id ASC
+        <if test="obj.noPage != 1">
+            LIMIT #{rowOffset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getRowTotalHistory" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) as rowTotal
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0 AND ru.delete_flag=0  AND rusd.date BETWEEN CONCAT(#{obj.startDateStr}, ' 00:00:00') AND CONCAT(#{obj.endDateStr}, ' 23:59:59')
+        <if test="obj.unitType != null">
+            AND ru.unit_type = #{obj.unitType}
+        </if>
+        <if test="obj.departId!=null and obj.departId!=''">
+            AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN  
+			<foreach collection="obj.departArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>)
+        </if>
+    </select>
+    
+     <!-- 历史统计-根据时间范围、监控类型、覆盖类型查询历史送检情况 -->
+    <select id="queryHistoryByDate" resultMap="BaseResultMap" parameterType="Object">
+        SELECT sum(rusd.check_number) check_number,rusd.ins_uint_id insUintId,rusd.ins_uint_name ins_uint_name,ru.unit_type,#{coverageType} coverage_type
+        FROM req_unit_statistic_daily rusd
+        JOIN requester_unit ru
+        ON rusd.ins_uint_id = ru.id
+        WHERE rusd.delete_flag = 0 AND ru.delete_flag=0 AND rusd.date BETWEEN CONCAT(#{startDateStr}, ' 00:00:00') AND CONCAT(#{endDateStr}, ' 23:59:59')
+        <if test="unitType != null">
+            AND ru.unit_type = #{unitType}
+        </if>
+        <if test="departId!=null and departId!=''">
+            AND rusd.ins_uint_id IN ( SELECT id FROM requester_unit WHERE depart_id IN  
+			<foreach collection="departArr" item="ids" open="(" separator="," close=")">
+                #{ids}
+            </foreach>)
+        </if>
+        GROUP BY rusd.ins_uint_id
+        ORDER BY check_number desc, rusd.ins_uint_name
+    </select>
+</mapper>

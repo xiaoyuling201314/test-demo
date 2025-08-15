@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.regulatory.BaseRegulatoryObjectMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="depart_id" property="departId" jdbcType="INTEGER" />
+		<result column="reg_name" property="regName" jdbcType="VARCHAR" />
+		<result column="reg_type" property="regType" jdbcType="VARCHAR" />
+		<result column="link_user" property="linkUser" jdbcType="VARCHAR" />
+		<result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+		<result column="link_idcard" property="linkIdcard" jdbcType="VARCHAR" />
+		<result column="credit_code" property="creditCode" jdbcType="VARCHAR" />
+		<result column="fax" property="fax" jdbcType="VARCHAR" />
+		<result column="post" property="post" jdbcType="VARCHAR" />
+		<result column="region_id" property="regionId" jdbcType="DOUBLE" />
+		<result column="reg_address" property="regAddress" jdbcType="VARCHAR" />
+		<result column="place_x" property="placeX" jdbcType="VARCHAR" />
+		<result column="place_y" property="placeY" jdbcType="VARCHAR" />
+		<result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="checked" property="checked" jdbcType="SMALLINT" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+		<result column="sorting" property="sorting" jdbcType="SMALLINT" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="param1" property="param1" jdbcType="VARCHAR" />
+		<result column="param2" property="param2" jdbcType="VARCHAR" />
+		<result column="param3" property="param3" jdbcType="VARCHAR" />
+		<result column="management_type" property="managementType" jdbcType="VARCHAR" />
+		<result column="yiwanc" property="yiwanc" jdbcType="INTEGER" />
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />
+		<result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+		<result column="business_cope" property="businessCope" jdbcType="VARCHAR" />
+		 <result column="reg_first_letter" jdbcType="VARCHAR" property="regFirstLetter" />
+   		 <result column="reg_full_letter" jdbcType="VARCHAR" property="regFullLetter" />
+		<result column="depart_name" property="departName" jdbcType="VARCHAR" />
+		<result column="businessNumber" property="businessNumber" jdbcType="INTEGER" />
+		<result column="task_type" property="taskType" jdbcType="SMALLINT" />
+	</resultMap>
+	<resultMap id="JoinResultMap" type="com.dayuan.bean.regulatory.BaseRegulatoryObject"
+		extends="BaseResultMap">
+		<result column="businessNumber" property="businessNumber" jdbcType="INTEGER" />
+		<result column="unqualifiedNumber" property="unqualifiedNumber" jdbcType="INTEGER" />
+		<!-- 经营户账号 -->
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="regTypeName" property="regTypeName" jdbcType="VARCHAR" />
+		<result column="showBusiness" property="showBusiness" jdbcType="SMALLINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		bro.id id, bro.depart_id departId, bro.reg_name regName, bro.reg_type regType, bro.link_user linkUser,
+		bro.link_phone linkPhone,
+		bro.link_idcard linkIdcard,bro.credit_code creditCode, bro.fax fax, bro.post post, bro.region_id regionId, bro.reg_address regAddress,
+		bro.place_x placeX, bro.place_y placeY, bro.qrcode qrcode, bro.remark remark, bro.checked checked,
+		bro.delete_flag deleteFlag, bro.sorting sorting,
+		bro.create_by createBy, bro.create_date createDate, bro.update_by updateBy, bro.update_date updateDate,
+		bro.param1 param1, bro.param2 param2, bro.param3 param3,bro.management_type managementType,bro.task_type
+		,tsd.depart_name departName,bro.legal_person legalPerson,bro.company_name companyName,bro.business_cope businessCope
+		<!-- 2018.6.1 删除营业执照表信息 -->
+		<!-- , brl.license_code regLicence, brl.legal_person legalPerson, brl.license_edate licenseEdate -->
+	</sql>
+	<select id="queryRegByDIdAndRegName" parameterType="Object" resultMap="BaseResultMap">
+ 		select o.*,d.depart_name
+		from base_regulatory_object o
+		LEFT JOIN t_s_depart d ON o.depart_id=d.id
+		where o.delete_flag =0 and o.reg_type=#{regType}
+		and o.depart_id in (
+		SELECT id FROM t_s_depart
+		WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart t2 WHERE t2.id=#{departId}),'%'))
+		<if test="regName != null and regName != ''">
+			and reg_name like CONCAT('%', #{regName}, '%')
+		</if>
+ 	</select>
+	<select id="queryRegByDIdAndRegName2New" parameterType="Object" resultMap="BaseResultMap">
+		select o.*,d.depart_name
+		from base_regulatory_object o
+		LEFT JOIN t_s_depart d ON o.depart_id=d.id
+		where o.delete_flag =0
+		<if test="regType!=null and regType!=''">
+			and FIND_IN_SET(o.reg_type,#{regType})
+		</if>
+		and o.depart_id in (
+		SELECT id FROM t_s_depart
+		WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart t2 WHERE t2.id=#{departId}),'%'))
+		<if test="regName != null and regName != ''">
+			and reg_name like CONCAT('%', #{regName}, '%')
+		</if>
+	</select>
+	<select id="selectByDepartCodeAndRegName" resultMap="BaseResultMap" parameterType="Object">
+		select *
+		from base_regulatory_object bo
+		LEFT JOIN t_s_depart td
+		ON bo.depart_id=td.id
+		where bo.delete_flag = 0 and td.delete_flag = 0
+		and reg_name=#{regName} and td.depart_name=#{departName}
+		AND td.depart_code LIKE CONCAT(#{departCode},'%')
+		<if test="regType !=null">
+			and reg_type=#{regType}
+		</if>
+		<!-- and FIND_IN_SET(depart_id,getChildDepartLst(#{departId})) -->
+	</select>
+
+	<sql id="sql_selectByPrimaryKey">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM base_regulatory_object bro
+		LEFT JOIN (
+		    SELECT tb1.id id, tb1.license_name license_name, tb1.license_code license_code,
+				tb1.legal_person legal_person, tb1.source_id source_id, tb1.license_edate license_edate
+			FROM base_regulatory_license tb1
+		    	WHERE tb1.license_type = 0 AND tb1.source_type = '0' AND tb1.delete_flag = 0 GROUP BY tb1.source_id) brl ON bro.id = brl.source_id
+		LEFT JOIN t_s_depart tsd ON bro.depart_id = tsd.id
+		WHERE bro.delete_flag = 0
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		<include refid="sql_selectByPrimaryKey"/>
+		AND bro.id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="queryByIds" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		<include refid="sql_selectByPrimaryKey"/>
+		  AND bro.id IN
+			<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update base_regulatory_object set delete_flag=1, update_date=now()
+		where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</update>
+	<update id="deleteData" parameterType="java.lang.Object">
+		update base_regulatory_object set delete_flag=1, update_date=now(), update_by=#{userId,jdbcType=VARCHAR}
+		where id in
+		<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</update>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+		insert into base_regulatory_object (id, depart_id, reg_name,
+		reg_type, link_user, link_phone,
+		link_idcard, credit_code,fax, post,
+		region_id, reg_address, place_x,
+		place_y, qrcode, remark, checked,
+		delete_flag, sorting, create_by,
+		create_date, update_by, update_date,
+		param1, param2, param3,management_type,legal_person,business_cope,company_name
+		, reg_first_letter,reg_full_letter,task_type)
+		values (#{id,jdbcType=INTEGER}, #{departId,jdbcType=INTEGER}, #{regName,jdbcType=VARCHAR},
+		#{regType,jdbcType=SMALLINT}, #{linkUser,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR},
+		#{linkIdcard,jdbcType=VARCHAR},#{creditCode,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR},
+		#{regionId,jdbcType=DOUBLE}, #{regAddress,jdbcType=VARCHAR}, #{placeX,jdbcType=VARCHAR},
+		#{placeY,jdbcType=VARCHAR}, #{qrcode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{checked,jdbcType=SMALLINT},
+		#{deleteFlag,jdbcType=SMALLINT}, #{sorting,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+		#{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR}
+		, #{managementType,jdbcType=VARCHAR},#{legalPerson,jdbcType=VARCHAR},#{businessCope,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR}
+		, #{regFirstLetter,jdbcType=VARCHAR},  #{regFullLetter,jdbcType=VARCHAR},  #{taskType,jdbcType=SMALLINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryObject" useGeneratedKeys="true" keyProperty="id">
+		insert into base_regulatory_object
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="departId != null">
+				depart_id,
+			</if>
+			<if test="regName != null">
+				reg_name,
+			</if>
+			<if test="regType != null">
+				reg_type,
+			</if>
+			<if test="linkUser != null">
+				link_user,
+			</if>
+			<if test="linkPhone != null">
+				link_phone,
+			</if>
+			<if test="linkIdcard != null">
+				link_idcard,
+			</if>
+			<if test="creditCode != null">
+				credit_code,
+			</if>
+			<if test="fax != null">
+				fax,
+			</if>
+			<if test="post != null">
+				post,
+			</if>
+			<if test="regionId != null">
+				region_id,
+			</if>
+			<if test="regAddress != null">
+				reg_address,
+			</if>
+			<if test="placeX != null">
+				place_x,
+			</if>
+			<if test="placeY != null">
+				place_y,
+			</if>
+			<if test="qrcode != null">
+				qrcode,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="checked != null">
+				checked,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="sorting != null">
+				sorting,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="param1 != null">
+				param1,
+			</if>
+			<if test="param2 != null">
+				param2,
+			</if>
+			<if test="param3 != null">
+				param3,
+			</if>
+			<if test="managementType != null">
+				management_type,
+			</if>
+			<if test="legalPerson != null">
+				legal_person,
+			</if>
+			<if test="businessCope != null">
+				business_cope,
+			</if>
+			<if test="companyName != null">
+				company_name,
+			</if>
+			<if test="regFirstLetter != null">
+		        reg_first_letter,
+		      </if>
+		      <if test="regFullLetter != null">
+		        reg_full_letter,
+		      </if>
+			<if test="taskType != null">
+				task_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="departId != null">
+				#{departId,jdbcType=INTEGER},
+			</if>
+			<if test="regName != null">
+				#{regName,jdbcType=VARCHAR},
+			</if>
+			<if test="regType != null">
+				#{regType,jdbcType=SMALLINT},
+			</if>
+			<if test="linkUser != null">
+				#{linkUser,jdbcType=VARCHAR},
+			</if>
+			<if test="linkPhone != null">
+				#{linkPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="linkIdcard != null">
+				#{linkIdcard,jdbcType=VARCHAR},
+			</if>
+			<if test="creditCode != null">
+				#{creditCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				#{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="post != null">
+				#{post,jdbcType=VARCHAR},
+			</if>
+			<if test="regionId != null">
+				#{regionId,jdbcType=DOUBLE},
+			</if>
+			<if test="regAddress != null">
+				#{regAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="placeX != null">
+				#{placeX,jdbcType=VARCHAR},
+			</if>
+			<if test="placeY != null">
+				#{placeY,jdbcType=VARCHAR},
+			</if>
+			<if test="qrcode != null">
+				#{qrcode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="checked != null">
+				#{checked,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="sorting != null">
+				#{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="param1 != null">
+				#{param1,jdbcType=VARCHAR},
+			</if>
+			<if test="param2 != null">
+				#{param2,jdbcType=VARCHAR},
+			</if>
+			<if test="param3 != null">
+				#{param3,jdbcType=VARCHAR},
+			</if>
+			<if test="managementType != null">
+				#{managementType,jdbcType=VARCHAR},
+			</if>
+			<if test="legalPerson != null">
+				#{legalPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="businessCope != null">
+				#{businessCope,jdbcType=VARCHAR},
+			</if>
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="regFirstLetter != null">
+		        #{regFirstLetter,jdbcType=VARCHAR},
+		      </if>
+		      <if test="regFullLetter != null">
+		        #{regFullLetter,jdbcType=VARCHAR},
+		      </if>
+			<if test="taskType != null">
+				#{taskType,jdbcType=SMALLINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+		update base_regulatory_object
+		<set>
+			<if test="departId != null">
+				depart_id = #{departId,jdbcType=INTEGER},
+			</if>
+			<if test="regName != null">
+				reg_name = #{regName,jdbcType=VARCHAR},
+			</if>
+			<if test="regType != null">
+				reg_type = #{regType,jdbcType=SMALLINT},
+			</if>
+			<if test="linkUser != null">
+				link_user = #{linkUser,jdbcType=VARCHAR},
+			</if>
+			<if test="linkPhone != null">
+				link_phone = #{linkPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="linkIdcard != null">
+				link_idcard = #{linkIdcard,jdbcType=VARCHAR},
+			</if>
+			<if test="creditCode != null">
+				credit_code = #{creditCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null">
+				fax = #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="post != null">
+				post = #{post,jdbcType=VARCHAR},
+			</if>
+			<if test="regionId != null">
+				region_id = #{regionId,jdbcType=DOUBLE},
+			</if>
+			<if test="regAddress != null">
+				reg_address = #{regAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="placeX != null">
+				place_x = #{placeX,jdbcType=VARCHAR},
+			</if>
+			<if test="placeY != null">
+				place_y = #{placeY,jdbcType=VARCHAR},
+			</if>
+			<if test="qrcode != null">
+				qrcode = #{qrcode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="checked != null">
+				checked = #{checked,jdbcType=SMALLINT},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+			</if>
+			<if test="sorting != null">
+				sorting = #{sorting,jdbcType=SMALLINT},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="param1 != null">
+				param1 = #{param1,jdbcType=VARCHAR},
+			</if>
+			<if test="param2 != null">
+				param2 = #{param2,jdbcType=VARCHAR},
+			</if>
+			<if test="param3 != null">
+				param3 = #{param3,jdbcType=VARCHAR},
+			</if>
+			<if test="managementType != null">
+				management_type = #{managementType,jdbcType=VARCHAR},
+			</if>
+			<if test="legalPerson != null">
+				legal_person = #{legalPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="businessCope != null">
+				business_cope = #{businessCope,jdbcType=VARCHAR},
+			</if>
+			<if test="companyName != null">
+				company_name = #{companyName,jdbcType=VARCHAR},
+			</if>
+			 <if test="regFirstLetter != null">
+		        reg_first_letter = #{regFirstLetter,jdbcType=VARCHAR},
+		      </if>
+		      <if test="regFullLetter != null">
+		        reg_full_letter = #{regFullLetter,jdbcType=VARCHAR},
+		      </if>
+			<if test="taskType != null">
+				task_type = #{taskType,jdbcType=SMALLINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+		update base_regulatory_object
+		set depart_id = #{departId,jdbcType=INTEGER},
+		reg_name = #{regName,jdbcType=VARCHAR},
+		reg_type = #{regType,jdbcType=SMALLINT},
+		link_user = #{linkUser,jdbcType=VARCHAR},
+		link_phone = #{linkPhone,jdbcType=VARCHAR},
+		link_idcard = #{linkIdcard,jdbcType=VARCHAR},
+		credit_code = #{creditCode,jdbcType=VARCHAR},
+		fax = #{fax,jdbcType=VARCHAR},
+		post = #{post,jdbcType=VARCHAR},
+		region_id = #{regionId,jdbcType=DOUBLE},
+		reg_address = #{regAddress,jdbcType=VARCHAR},
+		place_x = #{placeX,jdbcType=VARCHAR},
+		place_y = #{placeY,jdbcType=VARCHAR},
+		qrcode = #{qrcode,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		checked = #{checked,jdbcType=SMALLINT},
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+		sorting = #{sorting,jdbcType=SMALLINT},
+		<!--
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		-->
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		param1 = #{param1,jdbcType=VARCHAR},
+		param2 = #{param2,jdbcType=VARCHAR},
+		param3 = #{param3,jdbcType=VARCHAR},
+		management_type = #{managementType,jdbcType=VARCHAR},
+		legal_person = #{legalPerson,jdbcType=VARCHAR},
+		business_cope = #{businessCope,jdbcType=VARCHAR},
+		company_name = #{companyName,jdbcType=VARCHAR},
+		task_type = #{taskType,jdbcType=SMALLINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where bro.delete_flag = 0  and bt.checked=1 and bt.delete_flag=0 <!-- and brl.license_type = 0 and brl.delete_flag = 0 -->
+		<trim suffixOverrides=",">
+			<if test="obj.regulatoryObject != null">
+				<if test="obj.regulatoryObject.regName != null and obj.regulatoryObject.regName != ''">
+					and bro.reg_name like concat('%',#{obj.regulatoryObject.regName},'%')
+				</if>
+				<choose>
+					<when test="obj.regulatoryObject.regType != null and obj.regulatoryObject.regType.indexOf(',')!=-1">
+						and FIND_IN_SET(bro.reg_type,#{obj.regulatoryObject.regType})
+					</when>
+					<when test="obj.regulatoryObject.regType != null">
+						and bro.reg_type = #{obj.regulatoryObject.regType}
+					</when>
+				</choose>
+				<if test="obj.regulatoryObject.id != null">
+					and bro.id = #{obj.regulatoryObject.id}
+				</if>
+			</if>
+				<if test="obj.map != null">
+					and bro.place_x is NOT NULL and bro.place_y IS NOT NULL and bro.place_x!=''and bro.place_y!='' AND bro.checked = 1
+				</if>
+		</trim>
+	</sql>
+
+	<!-- 分页查询 --> <!-- 2019-4-24 监管对象添加账号查看 胡 -->
+	<select id="loadDatagrid" resultMap="JoinResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> , brb.businessNumber businessNumber, bt.reg_type  regTypeName, bt.show_business showBusiness,
+		(SELECT username from base_ledger_user user WHERE user.reg_id=bro.id  and user.type=1)as username,
+			(SELECT SUM( CASE WHEN t.delete_flag = 0 AND t.taiCount > 0 THEN 1
+			ELSE 0 END ) yiwanc 	FROM ( SELECT tb2.delete_flag, tb2.reg_id, (
+			SELECT COUNT(1) FROM base_ledger_stock s WHERE s.businessId = tb2.id 	AND s.delete_flag = 0
+			and  s.stockDate &gt; #{obj.startTime} and s.stockDate &lt; NOW() ) taiCount
+			FROM base_regulatory_business tb2 ) t
+			WHERE t.reg_id = bro.id ) AS yiwanc
+			<if test="obj.isQueryUnqualified==1"><!-- add by xiaoyl 2020-08-28 是否查询检测点当天的不合格检测数 -->
+				,(select count(1) from data_check_recording dcr where  dcr.check_date>=#{obj.startDateStr} and dcr.check_date&lt;=#{obj.endDateStr}
+				and dcr.reg_id=bro.id and dcr.conclusion='不合格' and dcr.delete_flag=0  ) unqualifiedNumber
+			</if>
+		from base_regulatory_object bro
+		<if test="obj.departCode != null">
+			INNER JOIN (SELECT id, depart_name, depart_code, sorting FROM t_s_depart WHERE depart_code LIKE CONCAT(#{obj.departCode}, '%')) tsd ON bro.depart_id = tsd.id
+		</if>
+		<!-- 2018.6.1 删除关联监管对象证照表 -->
+	<!-- 	LEFT JOIN (select tb1.id id, tb1.license_name license_name, tb1.license_code license_code,
+			tb1.legal_person legal_person, tb1.source_id source_id, tb1.license_edate license_edate
+			from base_regulatory_license tb1
+			where tb1.license_type = 0 and tb1.source_type = '0' and tb1.delete_flag = 0 group by tb1.source_id) brl
+			ON bro.id = brl.source_id -->
+		LEFT JOIN (select tb2.reg_id regId, count(1) businessNumber from base_regulatory_business tb2 where
+			tb2.delete_flag = 0 group by tb2.reg_id) brb ON brb.regId = bro.id
+		INNER JOIN base_regulatory_type bt on bt.id=bro.reg_type
+		<include refid="Example_Where_Clause" />
+		order by bro.checked desc,
+		<if test="obj.departCode != null">
+			 tsd.depart_code ASC, tsd.sorting ASC,
+		</if>
+		bro.depart_id ASC, yiwanc desc, bro.sorting ${order}
+		limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<!-- 总数 -->
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from base_regulatory_object bro
+		<if test="obj.departCode != null">
+			INNER JOIN (SELECT id, depart_name, sorting FROM t_s_depart WHERE depart_code LIKE CONCAT(#{obj.departCode}, '%')) tsd ON bro.depart_id = tsd.id
+		</if>
+		LEFT JOIN (select tb1.id id, tb1.license_name license_name, tb1.license_code license_code,
+			tb1.legal_person legal_person, tb1.source_id source_id, tb1.license_edate license_edate
+			from base_regulatory_license tb1 where tb1.license_type = 0 and tb1.source_type = '0' and
+			tb1.delete_flag = 0 limit 0,1 ) brl
+			ON bro.id = brl.source_id
+		INNER JOIN base_regulatory_type bt on bt.id=bro.reg_type
+		<include refid="Example_Where_Clause" />
+	</select>
+
+
+	<!-- 分页查询-->
+	<select id="loadDatagrid2" resultMap="JoinResultMap" parameterType="Object">
+		SELECT
+			bro.id id, bro.depart_id departId, bro.reg_name regName, bro.reg_type regType, bro.reg_address regAddress,
+			bro.place_x placeX, bro.place_y placeY, bro.qrcode qrcode, bro.checked checked,
+			bro.param1 param1, bro.param2 param2, bro.param3 param3, bro.management_type managementType,
+			bro.legal_person legalPerson, bro.company_name companyName, bro.business_cope businessCope,bro.task_type,
+			tsd.depart_name departName,
+			(SELECT COUNT(1) FROM base_regulatory_business WHERE delete_flag = 0 AND reg_id = bro.id) businessNumber,
+			bt.reg_type regTypeName, bt.show_business showBusiness
+
+			<if test="obj.isQueryUnqualified==1"><!--查询监管对象不合格检测数 -->
+				,(select count(1) from data_check_recording dcr where  dcr.check_date>=#{obj.startDateStr} and dcr.check_date&lt;=#{obj.endDateStr}
+				and dcr.reg_id=bro.id and dcr.conclusion='不合格' and dcr.delete_flag=0) unqualifiedNumber
+			</if>
+		FROM base_regulatory_object bro
+		<if test="obj.regulatoryObject != null">
+			<choose>
+				<when test="obj.regulatoryObject.departId != null">
+					INNER JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id =#{obj.regulatoryObject.departId}), '%')) tsd ON bro.depart_id = tsd.id
+				</when>
+				<otherwise>
+					INNER JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0) tsd ON bro.depart_id = tsd.id
+				</otherwise>
+			</choose>
+		</if>
+		INNER JOIN base_regulatory_type bt on bt.id=bro.reg_type
+		WHERE bro.delete_flag = 0  and bt.checked=1 and bt.delete_flag=0
+		<if test="obj.regulatoryObject != null">
+			<if test="obj.regulatoryObject.regName != null and obj.regulatoryObject.regName != ''">
+				and bro.reg_name like concat('%',#{obj.regulatoryObject.regName},'%')
+			</if>
+			<if test="obj.regulatoryObject.id != null">
+				and bro.id = #{obj.regulatoryObject.id}
+			</if>
+			<choose>
+				<when test="obj.regulatoryObject.regType != null and obj.regulatoryObject.regType.indexOf(',')!=-1">
+					and FIND_IN_SET(bro.reg_type,#{obj.regulatoryObject.regType})
+				</when>
+				<when test="obj.regulatoryObject.regType != null">
+					and bro.reg_type = #{obj.regulatoryObject.regType}
+				</when>
+			</choose>
+		</if>
+		<if test="obj.map != null">
+			and bro.place_x is NOT NULL and bro.place_y IS NOT NULL and bro.place_x!=''and bro.place_y!='' AND bro.checked = 1
+		</if>
+		ORDER BY bro.checked DESC, tsd.depart_code ASC, bro.sorting ASC
+		limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<!-- 总数 -->
+	<select id="getRowTotal2" resultType="java.lang.Integer" parameterType="Object">
+		SELECT COUNT(1) AS rowTotal
+		FROM base_regulatory_object bro
+		<if test="obj.regulatoryObject != null">
+			<choose>
+				<when test="obj.regulatoryObject.departId != null">
+					INNER JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id =#{obj.regulatoryObject.departId}), '%')) tsd ON bro.depart_id = tsd.id
+				</when>
+				<otherwise>
+					INNER JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0) tsd ON bro.depart_id = tsd.id
+				</otherwise>
+			</choose>
+		</if>
+		INNER JOIN base_regulatory_type bt on bt.id=bro.reg_type
+		WHERE bro.delete_flag=0  and bt.checked=1 and bt.delete_flag=0
+		<if test="obj.regulatoryObject != null">
+			<if test="obj.regulatoryObject.regName != null and obj.regulatoryObject.regName != ''">
+				and bro.reg_name like concat('%',#{obj.regulatoryObject.regName},'%')
+			</if>
+			<if test="obj.regulatoryObject.id != null">
+				and bro.id = #{obj.regulatoryObject.id}
+			</if>
+			<choose>
+				<when test="obj.regulatoryObject.regType != null and obj.regulatoryObject.regType.indexOf(',')!=-1">
+					and FIND_IN_SET(bro.reg_type,#{obj.regulatoryObject.regType})
+				</when>
+				<when test="obj.regulatoryObject.regType != null">
+					and bro.reg_type = #{obj.regulatoryObject.regType}
+				</when>
+			</choose>
+		</if>
+		<if test="obj.map != null">
+			and bro.place_x is NOT NULL and bro.place_y IS NOT NULL and bro.place_x!=''and bro.place_y!='' AND bro.checked = 1
+		</if>
+	</select>
+
+	<select id="queryByDepartId" resultMap="BaseResultMap" parameterType="Object">
+		SELECT * FROM base_regulatory_object WHERE delete_flag = 0
+		<if test="departId!=null">
+			and depart_id in (SELECT id FROM t_s_depart WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{departId}), '%'))
+		</if>
+		<if test="checked!=null"> AND checked = #{checked}</if>
+		ORDER BY create_date ASC
+	</select>
+
+	<select id="queryByDepartId1" resultMap="BaseResultMap" parameterType="Object">
+		SELECT * FROM base_regulatory_object WHERE delete_flag = 0
+		<if test="departId!=null">
+			AND depart_id = #{departId}
+		</if>
+		<if test="checked!=null">
+		 	AND checked = #{checked}
+		</if>
+	</select>
+
+	<select id="queryRegByDepartId" resultMap="BaseResultMap" parameterType="Object">
+		SELECT * from base_regulatory_object where depart_id=#{departId}
+		and delete_flag = 0 and checked=1
+		<if test="regualtoryTypeId!=null">
+			and reg_type=#{regualtoryTypeId}
+		</if>
+	</select>
+
+	<select id="queryRegByDepartIds" resultMap="BaseResultMap" parameterType="Object">
+		SELECT * from base_regulatory_object where delete_flag = 0 and checked=1
+		and reg_type=#{regualtoryTypeId}
+		<if test="departArr != null and departArr.length > 0">
+			and depart_id in
+			<foreach item="item" index="index" collection="departArr" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+			order by sorting
+		</if>
+	</select>
+	<!-- 根据机构code查询市场 2018-11-19 胡洪涛 -->
+		<select id="queryRegByDepartCode" resultMap="BaseResultMap" parameterType="Object">
+			SELECT * FROM base_regulatory_object obj LEFT JOIN t_s_depart d on obj.depart_id=d.id
+			WHERE
+			obj.delete_flag = 0 and obj.checked=1
+			and obj.reg_type=#{regualtoryTypeId}
+			and d.depart_code LIKE CONCAT(#{departCode},'%')
+			 limit 0,50
+	</select>
+	<!-- /**
+	 * 查询机构 下的所有 监管对象
+	 * @param subDepartIds 机构id及子机构id
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年4月27日
+	 */ -->
+	<select id="queryRegIdsByDepartIds" resultType="java.lang.Integer" parameterType="Object">
+		SELECT id FROM base_regulatory_object where delete_flag=0 AND checked=1
+		AND depart_id in
+		<if test="subDepartIds != null and subDepartIds.size() > 0">
+			<foreach item="item" index="index" collection="subDepartIds" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="subDepartIds == null or subDepartIds.size() == 0">
+			(0)
+		</if>
+ 	</select>
+
+ 	<!--
+ 	/**
+	 * 查询机构下的市场
+	 * @param departId 部门ID
+	 * @param subset 是否包含子机构
+	 * @param regName 市场名称
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年5月14日
+	 */
+ 	<select id="queryRegByDepartIdAndRegName" parameterType="Object" resultMap="BaseResultMap">
+ 		select
+		*
+		from base_regulatory_object
+		where delete_flag = '0'
+		<if test="subset == null or subset == 'N'.toString()">
+			and depart_id = #{departId}
+		</if>
+		<if test="subset == 'Y'.toString()">
+			and FIND_IN_SET(depart_id,getChildDepartLst(#{departId}))
+		</if>
+		<if test="regName != null and regName != ''">
+			and reg_name like CONCAT('%', #{regName}, '%')
+		</if>
+ 	</select>
+ 	-->
+ 	<!-- 根据dipartId查询全部object  2018-12-20 hu 增加监管对象类型条件查询-->
+ 	<select id="queryAllByDepartId" parameterType="Object" resultMap="BaseResultMap">
+ 		SELECT  *
+ 		from base_regulatory_object  WHERE depart_id in (
+		SELECT id from t_s_depart WHERE depart_code
+		 LIKE CONCAT((SELECT depart_code from t_s_depart WHERE id=#{departId}),'%')
+		)
+		and  delete_flag=0 and checked=1
+		<if test="regType != null and regType != ''">
+		 and reg_type=#{regType}
+		 </if>
+		<if test="id != null and id != ''">
+			and id =#{id}
+		</if>
+		<if test="managementType != null and managementType != ''">
+			and  management_type=#{managementType}
+		</if>
+		order BY reg_name
+ 	</select>
+
+ 	<!-- /**
+	 * 查询机构下的市场
+	 * @param departCode 机构编号
+	 * @param subset 是否查询子机构下的
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年5月30日
+	 */ -->
+	 <!-- wtt 2019/1/23因柯桥项目修改 -->
+ 	<select id="queryRegMapByDepartCode" parameterType="Object" resultType="java.util.Map">
+ 		SELECT o.id,reg_name,o.reg_type,COUNT(reg_name) count,t.show_business
+		FROM base_regulatory_object o
+		LEFT JOIN base_regulatory_type t ON t.id=o.reg_type
+		WHERE o.delete_flag=0
+		AND depart_id in (
+			SELECT id FROM t_s_depart WHERE depart_code
+			<if test="subset != null and subset == 'Y'.toString()">
+				LIKE CONCAT(#{departCode},'%')
+			</if>
+			<if test="subset != null and subset == 'N'.toString()">
+				=#{departCode}
+			</if>
+		)
+		GROUP BY reg_name
+ 	</select>
+
+	<!-- 根据机构ID和监管对象编码查询监管对象  -->
+	<select id="queryByOtherCode" resultMap="BaseResultMap" parameterType="Object">
+		SELECT id, depart_id, reg_name, reg_type, link_user, link_phone, link_idcard,
+			fax, post, region_id, reg_address, place_x, place_y, qrcode, remark, checked,
+			delete_flag, sorting, create_by, create_date, update_by, update_date,
+			param1, param2, param3, credit_rating, monitoring_level, management_type,
+			credit_code, company_name, legal_person, business_cope
+		FROM base_regulatory_object
+		WHERE delete_flag = 0 AND depart_id = #{departId} AND param1 = #{otherCode}
+	</select>
+	<select id="queryByLastUpdateTime" resultMap="BaseResultMap" parameterType="Object">
+		SELECT * FROM base_regulatory_object WHERE delete_flag = 0
+		<if test="departId!=null">
+			and depart_id in (SELECT id FROM t_s_depart WHERE depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{departId}), '%'))
+		</if>
+		<if test="checked!=null"> AND checked = #{checked}</if>
+		<if test="lastUpdateTime!=null">
+		and update_date &gt;= #{lastUpdateTime}
+		</if>
+	</select>
+
+	<select id="queryById2Print" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		bro.*
+		,(SELECT COUNT(1) FROM base_regulatory_business WHERE delete_flag = 0 AND reg_id = bro.id) businessNumber
+		from base_regulatory_object bro
+		where bro.delete_flag = 0 and bro.id = #{id,jdbcType=INTEGER}
+	</select>
+
+    <resultMap id="deviceResultMap" type="com.dayuan.model.regulatory.BaseRegObjDeviceModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="depart_id" property="departId" jdbcType="INTEGER"/>
+        <result column="reg_name" property="regName" jdbcType="VARCHAR"/>
+        <result column="reg_type" property="regType" jdbcType="VARCHAR"/>
+        <result column="reg_address" property="regAddress" jdbcType="VARCHAR"/>
+        <result column="checked" property="checked" jdbcType="SMALLINT"/>
+        <result column="management_type" property="managementType" jdbcType="VARCHAR"/>
+        <result column="businessNumber" property="businessNumber" jdbcType="INTEGER"/>
+        <result column="regTypeName" property="regTypeName" jdbcType="VARCHAR"/>
+        <result column="showBusiness" property="showBusiness" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <!--
+    仪器端嵌套网页的分页查询-查询列表
+    @author：shit
+    @date 2022-03-11
+    按中文拼音排序 CONVERT(bro.reg_name USING GBK) ASC
+    -->
+    <select id="loadDatagridDevice" resultMap="deviceResultMap" parameterType="Object">
+        SELECT
+        bro.id id,
+        bro.depart_id departId,
+        bro.reg_name regName,
+        bro.reg_address regAddress,
+        bro.checked checked,
+        bro.management_type managementType,
+        (SELECT COUNT(1)
+        FROM base_regulatory_business
+        WHERE delete_flag = 0 AND reg_id = bro.id) businessNumber,
+        bro.reg_type regType,
+        bt.reg_type regTypeName,
+        bt.show_business showBusiness
+        FROM
+        base_regulatory_object bro
+        JOIN base_regulatory_type bt ON bt.id = bro.reg_type
+        <if test="obj.id == null and obj.departId != null">
+            JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0 AND
+            depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id
+            =#{obj.departId}), '%')) tsd ON bro.depart_id = tsd.id
+        </if>
+        WHERE
+        bro.delete_flag = 0
+        AND bt.checked = 1
+        AND bt.delete_flag = 0
+
+        <if test="obj.regName != null and obj.regName != ''">
+            AND bro.reg_name LIKE concat('%',#{obj.regName},'%')
+        </if>
+
+        <if test="obj.regType != null">
+            AND bro.reg_type = #{obj.regType}
+        </if>
+		<if test="obj.id != null">
+			AND bro.id = #{obj.id}
+		</if>
+        ORDER BY
+        bro.checked DESC,
+        <if test="obj.id == null and obj.departId != null">
+            tsd.depart_code ASC,
+        </if>
+        bro.sorting ASC,
+        bro.update_date DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <!--
+    仪器端嵌套网页的分页查询-查询总数
+    @author：shit
+    @date 2022-03-11
+    -->
+    <select id="getRowTotalDevice" resultType="java.lang.Integer" parameterType="Object">
+        SELECT COUNT(1) AS rowTotal
+        FROM base_regulatory_object bro
+        <if test="obj.id == null and obj.departId != null">
+            JOIN (SELECT id, depart_name, depart_code FROM t_s_depart WHERE delete_flag = 0 AND
+            depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id
+            =#{obj.departId}), '%')) tsd ON bro.depart_id = tsd.id
+        </if>
+        WHERE
+        bro.delete_flag = 0
+        <if test="obj.regName != null and obj.regName != ''">
+            AND bro.reg_name LIKE concat('%',#{obj.regName},'%')
+        </if>
+        <if test="obj.regType != null">
+            AND bro.reg_type = #{obj.regType}
+        </if>
+		<if test="obj.id != null">
+			AND bro.id = #{obj.id}
+		</if>
+    </select>
+
+    <!--用于仪器嵌入的网页端新增被检单位时的唯一校验 shit:2022-03-14-->
+    <select id="reqName" resultType="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+        SELECT
+        id,
+        reg_name
+        FROM base_regulatory_object
+        WHERE
+        delete_flag = 0 AND reg_name = #{name}
+        AND reg_type = #{type}
+        AND depart_id = #{departId}
+        <if test="id != null">
+            AND id != #{id}
+        </if>
+    </select>
+
+	<select id="queryByIdForTemplate4" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		bro.*
+		,(SELECT COUNT(1) FROM base_regulatory_business WHERE delete_flag = 0 AND reg_id = bro.id) businessNumber
+		from base_regulatory_object bro
+		where bro.delete_flag = 0 and bro.id = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

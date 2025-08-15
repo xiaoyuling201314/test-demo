@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.admin.mapper.InspectionUnitMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan3.admin.bean.InspectionUnit">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="cold_unit_id" jdbcType="INTEGER" property="coldUnitId" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+        <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
+        <result column="company_type" jdbcType="SMALLINT" property="companyType" />
+        <result column="credit_code" jdbcType="VARCHAR" property="creditCode" />
+        <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
+        <result column="legal_phone" jdbcType="VARCHAR" property="legalPhone" />
+        <result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
+        <result column="link_user" jdbcType="VARCHAR" property="linkUser" />
+        <result column="link_phone" jdbcType="VARCHAR" property="linkPhone" />
+        <result column="qrcode" jdbcType="VARCHAR" property="qrcode" />
+        <result column="scan_num" jdbcType="SMALLINT" property="scanNum" />
+        <result column="business_cope" jdbcType="VARCHAR" property="businessCope" />
+        <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+        <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+        <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="checked" jdbcType="SMALLINT" property="checked" />
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+        <result column="sorting" jdbcType="SMALLINT" property="sorting" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+        <result column="param1" jdbcType="VARCHAR" property="param1" />
+        <result column="param2" jdbcType="VARCHAR" property="param2" />
+        <result column="param3" jdbcType="VARCHAR" property="param3" />
+        <!--非数据库字段-->
+        <result column="userNumber" jdbcType="INTEGER" property="userNumber"/>
+        <result column="reqNumber" jdbcType="INTEGER" property="reqNumber"/>
+        <result column="coldUnitName" jdbcType="VARCHAR" property="coldUnitName" />
+    </resultMap>
+    <resultMap id="JoinResultMap" type="com.dayuan3.admin.bean.InspectionUnit" extends="BaseResultMap">
+
+        <result column="companyName" property="companyName"/>
+        <result column="companyCode" property="companyCode"/>
+        <result column="companyType" property="companyType"/>
+        <result column="creditCode" property="creditCode"/>
+
+        <result column="companyAddress" property="companyAddress"/>
+        <result column="legalPerson" property="legalPerson"/>
+        <result column="legalPhone" property="legalPhone"/>
+        <result column="linkUser" property="linkUser"/>
+        <result column="linkPhone" property="linkPhone"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+       id, cold_unit_id, company_name, company_code, company_type, credit_code, legal_person,
+    legal_phone, company_address, link_user, link_phone, qrcode, scan_num, business_cope,
+    longitude, latitude, file_path, remark, checked, delete_flag, sorting, create_by,
+    create_date, update_by, update_date, param1, param2, param3
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryByCreditCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit
+        where credit_code = #{creditCode,jdbcType=VARCHAR} and delete_flag=0 order by create_date desc limit 0,1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update inspection_unit set delete_flag=1,update_date=now()
+        where id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.dayuan3.admin.bean.InspectionUnit" useGeneratedKeys="true" keyProperty="id">
+        insert into inspection_unit (id, cold_unit_id, company_name,
+      company_code, company_type, credit_code,
+      legal_person, legal_phone, company_address,
+      link_user, link_phone, qrcode,
+      scan_num, business_cope, longitude,
+      latitude, file_path, remark,
+      checked, delete_flag, sorting,
+      create_by, create_date, update_by,
+      update_date, param1, param2,
+      param3)
+    values (#{id,jdbcType=INTEGER}, #{coldUnitId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR},
+      #{companyCode,jdbcType=VARCHAR}, #{companyType,jdbcType=SMALLINT}, #{creditCode,jdbcType=VARCHAR},
+      #{legalPerson,jdbcType=VARCHAR}, #{legalPhone,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR},
+      #{linkUser,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{qrcode,jdbcType=VARCHAR},
+      #{scanNum,jdbcType=SMALLINT}, #{businessCope,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR},
+      #{latitude,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{checked,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, #{sorting,jdbcType=SMALLINT},
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+      #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+      #{param3,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan3.admin.bean.InspectionUnit" useGeneratedKeys="true" keyProperty="id">
+        insert into inspection_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="coldUnitId != null">
+                cold_unit_id,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="companyCode != null">
+                company_code,
+            </if>
+            <if test="companyType != null">
+                company_type,
+            </if>
+            <if test="creditCode != null">
+                credit_code,
+            </if>
+            <if test="legalPerson != null">
+                legal_person,
+            </if>
+            <if test="legalPhone != null">
+                legal_phone,
+            </if>
+            <if test="companyAddress != null">
+                company_address,
+            </if>
+            <if test="linkUser != null">
+                link_user,
+            </if>
+            <if test="linkPhone != null">
+                link_phone,
+            </if>
+            <if test="qrcode != null">
+                qrcode,
+            </if>
+            <if test="scanNum != null">
+                scan_num,
+            </if>
+            <if test="businessCope != null">
+                business_cope,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="filePath != null">
+                file_path,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="checked != null">
+                checked,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="sorting != null">
+                sorting,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="coldUnitId != null">
+                #{coldUnitId,jdbcType=INTEGER},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyType != null">
+                #{companyType,jdbcType=SMALLINT},
+            </if>
+            <if test="creditCode != null">
+                #{creditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPerson != null">
+                #{legalPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPhone != null">
+                #{legalPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="companyAddress != null">
+                #{companyAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUser != null">
+                #{linkUser,jdbcType=VARCHAR},
+            </if>
+            <if test="linkPhone != null">
+                #{linkPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcode != null">
+                #{qrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="scanNum != null">
+                #{scanNum,jdbcType=SMALLINT},
+            </if>
+            <if test="businessCope != null">
+                #{businessCope,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                #{filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="checked != null">
+                #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.admin.bean.InspectionUnit">
+        update inspection_unit
+        <set>
+            <if test="coldUnitId != null">
+                cold_unit_id = #{coldUnitId,jdbcType=INTEGER},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null">
+                company_code = #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyType != null">
+                company_type = #{companyType,jdbcType=SMALLINT},
+            </if>
+            <if test="creditCode != null">
+                credit_code = #{creditCode,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPerson != null">
+                legal_person = #{legalPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPhone != null">
+                legal_phone = #{legalPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="companyAddress != null">
+                company_address = #{companyAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUser != null">
+                link_user = #{linkUser,jdbcType=VARCHAR},
+            </if>
+            <if test="linkPhone != null">
+                link_phone = #{linkPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcode != null">
+                qrcode = #{qrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="scanNum != null">
+                scan_num = #{scanNum,jdbcType=SMALLINT},
+            </if>
+            <if test="businessCope != null">
+                business_cope = #{businessCope,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                file_path = #{filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="checked != null">
+                checked = #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sorting != null">
+                sorting = #{sorting,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan3.admin.bean.InspectionUnit">
+        update inspection_unit
+    set cold_unit_id = #{coldUnitId,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_code = #{companyCode,jdbcType=VARCHAR},
+      company_type = #{companyType,jdbcType=SMALLINT},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      legal_phone = #{legalPhone,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      link_user = #{linkUser,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      scan_num = #{scanNum,jdbcType=SMALLINT},
+      business_cope = #{businessCope,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      checked = #{checked,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      sorting = #{sorting,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="JoinResultMap" parameterType="Object">
+        SELECT iu.id, iu.credit_code creditCode,iu.company_type companyType,iu.company_name companyName,iu.company_code companyCode,
+        iu.company_address companyAddress,iu.checked,iu.legal_person legalPerson, iu.legal_phone legalPhone, iu.link_user linkUser, iu.link_phone linkPhone,
+        (SELECT count(1) FROM inspection_unit_requester_unit iuru JOIN requester_unit ru ON iuru.request_id = ru.id
+        WHERE iuru.delete_flag = 0 AND ru.delete_flag = 0 AND iuru.inspection_id = iu.id ) AS reqNumber,
+        SUM(IF(iuu.id IS NULL, 0, 1)) userNumber
+        FROM
+        (SELECT id, company_name,  credit_code, company_type,
+        checked, legal_person, legal_phone,company_code,company_address,link_user,link_phone
+        FROM inspection_unit
+        WHERE delete_flag = 0
+        <if test="obj.keyWords!=null and obj.keyWords!=''">
+            and (company_name like CONCAT('%',#{obj.keyWords},'%') or credit_code like CONCAT('%',#{obj.keyWords},'%') )
+        </if>
+        <if test="obj.coldUnitId!=null">
+            and cold_unit_id=#{obj.coldUnitId}
+        </if>
+        <if test="obj.companyType!=null">
+            and company_type=#{obj.companyType}
+        </if>
+        LIMIT #{rowOffset}, #{pageSize}) iu
+        LEFT JOIN inspection_unit_user iuu ON iu.id = iuu.inspection_id  AND iuu.delete_flag = 0
+        GROUP BY iu.id
+        ORDER BY iu.id ${order}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM inspection_unit
+        WHERE delete_flag = 0
+        <if test="obj.keyWords!=null and obj.keyWords!=''">
+            and (company_name like CONCAT('%',#{obj.keyWords},'%') or credit_code like CONCAT('%',#{obj.keyWords},'%') )
+        </if>
+        <if test="obj.companyType!=null">
+            and company_type=#{obj.companyType}
+        </if>
+    </select>
+
+    <!--
+       * 进行导出数据的查询
+       * @author shit
+       *-->
+    <select id="quaryList" resultMap="BaseResultMap">
+        SELECT
+        iu.id, iu.cold_unit_id,iu.company_name , iu.company_code ,iu.company_type, iu.credit_code ,
+        iu.checked,iu.legal_person ,
+        iu.legal_phone, iu.link_user,iu.link_phone,iu.remark,iu.company_address
+        FROM
+        (SELECT *
+        FROM inspection_unit
+        WHERE delete_flag = 0
+        <if test="keyWords!=null and keyWords!=''">
+            and (company_name like CONCAT('%',#{keyWords},'%') or credit_code like CONCAT('%',#{keyWords},'%') )
+        </if>
+        <if test="companyType!=null">
+            and company_type= #{companyType}
+        </if>
+        ORDER BY id ASC ) iu
+        LEFT JOIN inspection_unit_user iuu ON iu.id = iuu.inspection_id
+        GROUP BY iu.id;
+    </select>
+    <!-- 查询更新的送检用户 -->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit
+        where delete_flag = 0
+        <if test="lastUpdateTime!=null">
+            and update_date&gt;=#{lastUpdateTime}
+        </if>
+    </select>
+    
+        <!-- 查询更新的送检用户 -->
+    <select id="getReqInsUtil" resultMap="BaseResultMap">
+        select
+		a.id,
+		a.company_name
+        from inspection_unit a
+        where a.delete_flag = 0
+        AND not  EXISTS
+	   ( SELECT inspection_unit_id  FROM  inspection_report_price  b  
+	   where b.delete_flag=0 and b.id != '0' 
+	   <if test="id!=null and id !=''">
+	   and b.id != #{id} 
+	   </if>
+	   and a.id = b.inspection_unit_id)
+    </select>
+
+    <select id="queryByColdId" resultType="com.dayuan3.api.vo.InspectionUnitRespVo">
+		 select id,company_name companyName,company_code companyCode,company_type  companyType,
+		 credit_code creditCode,legal_person legalPerson,legal_phone legalPhone,company_address companyAddress,link_user linkUser,link_phone linkPhone
+			from inspection_unit where delete_flag=0 and cold_unit_id=#{coldUnitID}
+        <if test="companyCode!=null and companyCode !=''">
+            and (company_name like CONCAT('%',#{companyCode},'%') or company_code like CONCAT('%',#{companyCode},'%') )
+        </if>
+    </select>
+    <select id="queryByCompanyCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit
+        where delete_flag = 0 and cold_unit_id=#{coldUnitId}
+        and company_name=#{companyName} and company_code=#{companyCode}
+    </select>
+    <select id="queryUnitById" resultMap="BaseResultMap">
+        select unit.*,(select reg_name from cold_chain_unit where id=unit.cold_unit_id) coldUnitName
+        from inspection_unit unit
+        where delete_flag = 0 and id=#{id}
+    </select>
+</mapper>

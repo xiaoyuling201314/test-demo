@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.dataCheck.CheckReportDataMapper">
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.dataCheck.CheckReportData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="recording_id" jdbcType="INTEGER" property="recordingId" />
+    <result column="std_code" jdbcType="VARCHAR" property="stdCode" />
+    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+    <result column="point_phone" jdbcType="VARCHAR" property="pointPhone" />
+    <result column="review_image" jdbcType="VARCHAR" property="reviewImage" />
+    <result column="approve_image" jdbcType="VARCHAR" property="approveImage" />
+    <result column="signature_image" jdbcType="VARCHAR" property="signatureImage" />
+    <result column="param1" jdbcType="VARCHAR" property="param1" />
+    <result column="param2" jdbcType="VARCHAR" property="param2" />
+    <result column="param3" jdbcType="VARCHAR" property="param3" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, recording_id, std_code, point_address, point_phone, review_image, approve_image, 
+    signature_image, param1, param2, param3
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_report_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from check_report_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.dataCheck.CheckReportData">
+    insert into check_report_data (id, recording_id, std_code, 
+      point_address, point_phone, review_image, 
+      approve_image, signature_image, param1, 
+      param2, param3)
+    values (#{id,jdbcType=INTEGER}, #{recordingId,jdbcType=INTEGER}, #{stdCode,jdbcType=VARCHAR}, 
+      #{pointAddress,jdbcType=VARCHAR}, #{pointPhone,jdbcType=VARCHAR}, #{reviewImage,jdbcType=VARCHAR}, 
+      #{approveImage,jdbcType=VARCHAR}, #{signatureImage,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, 
+      #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.dataCheck.CheckReportData">
+    insert into check_report_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="recordingId != null">
+        recording_id,
+      </if>
+      <if test="stdCode != null">
+        std_code,
+      </if>
+      <if test="pointAddress != null">
+        point_address,
+      </if>
+      <if test="pointPhone != null">
+        point_phone,
+      </if>
+      <if test="reviewImage != null">
+        review_image,
+      </if>
+      <if test="approveImage != null">
+        approve_image,
+      </if>
+      <if test="signatureImage != null">
+        signature_image,
+      </if>
+      <if test="param1 != null">
+        param1,
+      </if>
+      <if test="param2 != null">
+        param2,
+      </if>
+      <if test="param3 != null">
+        param3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordingId != null">
+        #{recordingId,jdbcType=INTEGER},
+      </if>
+      <if test="stdCode != null">
+        #{stdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointAddress != null">
+        #{pointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pointPhone != null">
+        #{pointPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewImage != null">
+        #{reviewImage,jdbcType=VARCHAR},
+      </if>
+      <if test="approveImage != null">
+        #{approveImage,jdbcType=VARCHAR},
+      </if>
+      <if test="signatureImage != null">
+        #{signatureImage,jdbcType=VARCHAR},
+      </if>
+      <if test="param1 != null">
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        #{param3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.dataCheck.CheckReportData">
+    update check_report_data
+    <set>
+      <if test="recordingId != null">
+        recording_id = #{recordingId,jdbcType=INTEGER},
+      </if>
+      <if test="stdCode != null">
+        std_code = #{stdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointAddress != null">
+        point_address = #{pointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pointPhone != null">
+        point_phone = #{pointPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewImage != null">
+        review_image = #{reviewImage,jdbcType=VARCHAR},
+      </if>
+      <if test="approveImage != null">
+        approve_image = #{approveImage,jdbcType=VARCHAR},
+      </if>
+      <if test="signatureImage != null">
+        signature_image = #{signatureImage,jdbcType=VARCHAR},
+      </if>
+      <if test="param1 != null">
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null">
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null">
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.dataCheck.CheckReportData">
+    update check_report_data
+    set recording_id = #{recordingId,jdbcType=INTEGER},
+      std_code = #{stdCode,jdbcType=VARCHAR},
+      point_address = #{pointAddress,jdbcType=VARCHAR},
+      point_phone = #{pointPhone,jdbcType=VARCHAR},
+      review_image = #{reviewImage,jdbcType=VARCHAR},
+      approve_image = #{approveImage,jdbcType=VARCHAR},
+      signature_image = #{signatureImage,jdbcType=VARCHAR},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryByRecordingId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_report_data
+    where recording_id = #{rid,jdbcType=INTEGER}
+  </select>
+</mapper>

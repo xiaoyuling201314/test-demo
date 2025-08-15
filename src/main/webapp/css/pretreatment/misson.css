@@ -1,0 +1,4772 @@
+html, body {
+    height: 100%;
+    padding: 0;
+}
+
+i{
+    font-style: normal;
+}
+.textbox-addon {
+    display: none;
+}
+
+.cs-table-responsive table {
+    table-layout: fixed;
+}
+
+.cs-fix-num .cs-table-responsive table {
+    table-layout: auto;
+}
+
+a:focus {
+    outline: 0px;
+    outline-offset: -2px;
+}
+
+input {
+    background: #fff;
+}
+
+.disabled-input {
+    background: #f1f1f1;
+}
+
+/*琛ㄦ牸鎼滅储鍔熻兘*/
+.cs-row {
+    line-height: 40px;
+}
+
+.cs-row .cs-search-input input {
+    background: #fafafa;
+}
+
+.cs-row .cs-search-input input, .cs-row .cs-search-input select {
+    width: 90%;
+    height: 30px;
+    vertical-align: middle;
+    margin: 5px 0;
+}
+
+/*浠诲姟淇℃伅*/
+.cs-nowrap-width {
+    width: 450px;
+}
+
+.cs-form-table-he2 td {
+    border: 0px;
+}
+
+.cs-mechanism-list, .cs-points-list, .cs-secleted-list {
+    height: 420px;
+    float: left;
+    width: 300px;
+    background: #ddd;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.cs-secleted-list {
+    width: 260px;
+}
+
+.cs-mechanism-list {
+    width: 200px;
+    border-right: 0;
+
+}
+
+.cs-mechanism-list .cs-mechanism-list-content {
+    border-right: 0;
+    padding: 5px;
+
+}
+
+.cs-secleted-list {
+    margin-left: 1%;
+}
+
+.cs-points-list .cs-mechanism-tab {
+    padding: 0;
+}
+
+.cs-mechanism-list-title, .cs-mechanism-tab {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-mechanism-tab {
+    /*background:#ddd;*/
+}
+
+.cs-mechanism-table-box {
+    height: 342px;
+    overflow: auto;
+}
+
+.cs-mechanism-list-content {
+    /*padding:5px;*/
+    background: #fff;
+    height: 382px;
+    overflow: auto;
+}
+
+.cs-mechanism-list-search {
+    padding: 0px 0 4px 6px;
+    /*line-height: 35px;*/
+}
+
+.cs-mechanism-table tr {
+    background: #fff;
+    height: 32px;
+
+}
+
+.cs-mechanism-table tr td:first-child, .cs-mechanism-table tr th:first-child {
+    border-left: 0;
+}
+
+.cs-mechanism-table tr td:last-child, .cs-mechanism-table tr th:last-child {
+    border-right: 0;
+}
+
+.cs-mechanism-table td {
+    /*border:0;*/
+    font-size: 14px;
+}
+
+.cs-left, .cs-right {
+    width: 50%;
+    text-align: center;
+    line-height: 36px;
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.cs-active-selected {
+    background: #1dcc6a;
+    color: #fff;
+}
+
+.cs-secleted-del {
+    font-weight: normal;
+}
+
+/*瀛椾綋鍔犵矖*/
+.cs-font-weight {
+    font-weight: bold;
+}
+
+.easyui-tree {
+    font-size: 14px;
+}
+
+.cs-selected-name {
+    width: 140px;
+    margin: 3px 8px 0 0;
+    display: inline-block;
+
+}
+
+.cs-form-table-he .cs-name {
+    background: #f1f1f1;
+    width: 12%;
+}
+
+.cs-tw .cs-name {
+    background: #f1f1f1;
+    width: auto;
+}
+
+.cs-form-table-he .cs-al {
+    width: 21%;
+}
+
+.cs-re-box {
+    position: relative;
+    height: 100%;
+}
+
+div.cs-ab-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    overflow: auto;
+}
+
+div.cs-ab-box2 {
+    position: absolute;
+    height: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    background: #fff;
+    padding: 9px 20px;
+    border-top: 1px solid #ddd;
+}
+
+table.cs-search-table td input {
+    border: 1px solid #ddd;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    border-radius: 2px;
+}
+
+table td.cs-time-se input {
+    width: 105px;
+}
+
+.cs-check-radio {
+    line-height: 35px;
+}
+
+.cs-check-radio input, .cs-check-radio label {
+    float: left;
+}
+
+.cs-check-radio input {
+    margin-top: 12px;
+}
+
+.cs-li-radio input {
+    margin-top: 8px;
+}
+
+.cs-no {
+    margin-left: 10px;
+}
+
+.cs-col {
+    background: #fff;
+    /* border:1px solid #ddd;*/
+    /*padding:15px 0;*/
+}
+
+.cs-form-table td, .cs-form-table tr {
+    background: #fff;
+    text-align: left;
+    padding: 0 5px;
+    /*line-height: 35px;*/
+}
+
+.cs-form-table tr {
+    /*border: 1px solid #ddd;*/
+    /* border-right: 2px solid #ddd; */
+}
+
+.cs-deliver-table td, .cs-deliver-table th {
+    /*background:rgba(0, 0, 0, 0.0);*/
+    /* border:0;*/
+    padding: 0 4px;
+    font-size: 14px;
+}
+
+.cs-deliver-table
+.cs-deliver-table tr {
+    border: 1px solid #ddd;
+}
+
+.cs-form-table {
+    margin: 0 auto;
+}
+
+.cs-deliver-table, .cs-show-selected {
+    margin: 0 auto;
+}
+
+input.cs-modal-input, .cs-in-style input[type=text], .cs-in-style textarea, .cs-selcet-style {
+    width: 200px;
+    height: 29px;
+    border-radius: 3px;
+    /*border:1px solid #ddd;*/
+
+}
+
+.cs-in-style textarea {
+    padding: 4px 0 0 8px;
+}
+
+.cs-in-style {
+    text-align: left;
+}
+
+.cs-modal-input {
+    /* width: 200px; */
+    float: left;
+}
+
+.cs-selcet-style {
+    /*background: #fafafa;*/
+    padding-left: 8px;
+}
+
+.cs-form-table textarea {
+    padding: 8px;
+}
+
+.cs-add-new {
+    width: 100%;
+}
+
+.cs-form-table .cs-name, .cs-add-new .cs-name {
+    text-align: right;
+    color: #555555;
+    font-weight: normal;
+}
+
+.cs-input-bg input {
+    background: #fafafa;
+}
+
+.cs-form-table .cs-remark {
+    height: 102px;
+    width: 100%;
+}
+
+.cs-td-fun {
+    line-height: 34px;
+}
+
+.cs-td-fun span {
+    margin-right: 10px;
+}
+
+.cs-deliver-table input {
+    height: 26px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+
+.cs-deliver-table input:focus {
+    border: 1px solid #05af50;
+}
+
+.cs-deliver-table tr:nth-child(odd) {
+    background: #f1f1f1;
+}
+
+.cs-deliver-table tr:nth-child(even) {
+    background: #fff;
+}
+
+.cs-deliver-table {
+    border: 1px solid #ddd;
+}
+
+td.cs-time-se input {
+    width: 106px;
+}
+
+td.cs-time-se {
+    white-space: nowrap;
+}
+
+.cs-deliver-jigou table, .cs-deliver-dian table, .cs-form-table, .cs-detail-table {
+    width: 100%;
+}
+
+.cs-time {
+    background: #fff url(../img/time.png) no-repeat 98% center;
+    padding-right: 18px;
+}
+
+.cs-upload {
+    width: 200px;
+}
+
+.cs-table-pa td {
+    padding: 4px;
+}
+
+.cs-show-selected ul li {
+    float: left;
+    width: 150px;
+    height: 30px;
+    line-height: 24px;
+    padding: 2px 6px;
+    padding-right: 2px;
+    border: 1px solid #ccc;
+    margin: 2px;
+    margin-left: 14px;
+    background: #fff;
+    font-size: 12px;
+    text-align: left;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+}
+
+.cs-show-selected ul li:hover {
+    border-color: #f0bd20;
+}
+
+/*鎶樺彔琛�*/
+#listTable {
+    margin: 0 auto;
+}
+
+.cs-list {
+    width: 100%;
+    margin: 0 auto;
+    border-spacing: 0px;
+}
+
+/*.cs-list tr{
+    background: #fff;
+}*/
+
+.cs-list td,
+.cs-list th {
+    box-sizing: border-box;
+}
+
+.cs-list th {
+    line-height: 40px;
+    height: 40px;
+    font-weight: bold;
+    border: none;
+    background: none;
+    border-bottom: 2px solid #5B5B5B;
+    text-align: left;
+    width: 200px;
+}
+
+.cs-name {
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cs-inner {
+    display: none;
+}
+
+.cs-inner.cs-open {
+    display: table-row;
+}
+
+
+
+/*.cs-leaf .cs-ico {
+  background-position: -110px -31px;
+}
+
+.cs-outer .cs-ico {
+  background-position: -110px 0;
+}
+
+.cs-outer.cs-open .cs-ico {
+  background-position: -110px -15px;
+}
+
+.cs-outer .cs-switch {
+  background-position: -74px -18px;
+}
+
+.cs-leaf .cs-switch {
+  background-position: -56px -18px;
+}
+
+.cs-outer.cs-open .cs-switch {
+  background-position: -92px -18px;
+}
+
+.cs-list .cs-leaf:last-child .cs-switch {
+  background-position: -56px -36px;
+}
+
+#listTable > tbody > tr:first-child {
+  background-position: -74px 0;
+}*/
+
+.cs-text-indent {
+    display: inline-block;
+    width: 16px;
+}
+
+.cs-outer.cs-open > td,
+#listTable > tbody > tr > td {
+    border-bottom: 1px solid #E6E6E6;
+}
+
+/*tr.cs-outer.cs-focus,
+tr.cs-leaf.cs-focus{
+  background: #ccc;
+}*/
+
+/*鎶樺彔琛� end*/
+
+.cs-table-b td {
+    border: 0;
+}
+
+td.cs-td-width {
+    width: 240px;
+    border-right: 1px solid #ddd;
+}
+
+/*.cs-bg>td,.cs-bg>table>td{
+    background:#f1f1f1;
+}*/
+.cs-list tr:nth-child(odd) {
+    background: #f1f1f1;
+}
+
+.cs-td-width {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.cs-qu {
+    padding-left: 20px;
+}
+
+.cs-jie {
+    padding-left: 35px;
+}
+
+.cs-checked .cs-list-active {
+    border-color: #f0bd20;
+}
+
+.cs-yaoqiu-title {
+    border: 1px solid #ddd;
+}
+
+.cs-yaoqiu-title td {
+    background: #fff;
+}
+
+td.cs-yaoqiu {
+    border-right: 1px solid #ddd;
+    background: #f1f1f1;
+}
+
+.cs-yaoqiu-title input {
+    width: 150px;
+}
+
+input.cs-yaoqiu-sort {
+    width: 120px;
+}
+
+td.cs-bdr {
+    border-right: 0;
+    width: 60px;
+    margin-right: -1px;
+}
+
+.cs-checked li input {
+    margin-right: 4px;
+    margin-top: 5px;
+}
+
+.cs-bdl {
+    border-left: 0;
+}
+
+.cs-wid {
+    width: 121px;
+    height: 26px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*杞彂妯″潡*/
+.cs-pre-information {
+    padding-bottom: 20px;
+}
+
+.cs-pre-information td {
+    padding: 0 8px;
+}
+
+.cs-pre-information table {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.cs-form-table .cs-remark2 {
+    margin-top: 5px;
+    height: 68px;
+    width: 100%;
+}
+
+td.cs-table-title {
+    /*padding:10px 0px;*/
+    padding-right: 5px;
+    font-size: 14px;
+    color: #000;
+    /*text-align: center;*/
+    /*background: #f1f1f1;*/
+}
+
+td.cs-table-title div {
+    /*border:1px solid #ddd;*/
+    padding: 6px 6px 6px 6px;
+    /* border-left: 3px solid #f0bd20;*/
+    font-weight: bold;
+}
+
+.cs-table-title i {
+    border-left: 3px solid #f0bd20;
+    margin-right: 4px;
+}
+
+.cs-form-table-he tr {
+    /*border: 1px solid #ddd;*/
+}
+
+.cs-check-radio label {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 0 2px;
+}
+
+.cs-table-bg tr:nth-child(odd) {
+    background: #f1f1f1;
+}
+
+.cs-table-bg tr:nth-child(even) {
+    background: #fff;
+}
+
+/*椤甸潰璇︾粏淇℃伅椤甸潰 寮�濮�*/
+
+.cs-td-detail {
+    width: 24%;
+}
+
+.cs-detail-table td {
+    border: 1px solid #ddd;
+}
+
+.cs-table td {
+    padding: 0 8px;
+}
+
+.cs-deliver-dian .cs-tablesorter input,
+.cs-deliver-jigou .cs-tablesorter input {
+    height: 26px;
+    /*border: 1px solid #ddd;*/
+    border-radius: 2px;
+}
+
+.cs-num-cod {
+    display: inline-block;
+    width: 50px;
+    line-height: 30px;
+    /*background:#f1f1f1;*/
+    text-align: left;
+    padding-left: 3px;
+}
+
+.cs-num-cod input {
+    float: left;
+    margin-top: 8px;
+}
+
+.cs-num-cod span {
+    padding: 0 4px;
+}
+
+.cs-pici input {
+    width: 80px;
+}
+
+.cs-table-tab {
+    height: 40px;
+    line-height: 34px;
+    padding: 4px 20px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+}
+
+.cs-table-tab em {
+    color: #666;
+}
+
+.cs-table-tab span {
+    margin-right: 10px;
+}
+
+/*椤甸潰璇︾粏淇℃伅椤甸潰 缁撴潫*/
+
+/*绔欑偣绠＄悊*/
+.cs-tab {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px 0 10px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+.cs-tab-active {
+    border-bottom: 4px solid #05af50;
+}
+
+.cs-tab span {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cs-tab p {
+    color: #666;
+}
+
+.cs-tab i {
+    color: blue;
+}
+
+.cs-tab li {
+    padding: 0 10px;
+}
+
+.cs-point-list {
+    margin: 0 auto;
+}
+
+.cs-point-list li {
+    /*margin:1% 0 0 1%;*/
+}
+
+.cs-point-iform {
+
+    padding: 6px;
+    width: 70%;
+    float: right;
+}
+
+.cs-title-tip {
+    font-size: 12px;
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+li.cs-list-table {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    float: left;
+    width: 32%;
+    margin: 1% 0 0 1%;
+}
+
+.cs-list-img {
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 22px;
+}
+
+.cs-list-p p {
+    height: 36px;
+    line-height: 36px;
+    padding: 0 0px 0 15px;
+}
+
+.cs-list-footer {
+    height: 30px;
+    clear: both;
+    border-top: 1px solid #ddd;
+    padding: 4px 10px 0 0;
+}
+
+.cs-list-table tr, .cs-list-table td {
+    height: 24px;
+    line-height: 24px;
+    padding: 2px 0 0 4px;
+    background: rgba(0, 0, 0, 0.0);
+    border: 0;
+    text-align: left;
+}
+
+.cs-point-list-title {
+    height: 36px;
+    line-height: 36px;
+    background: #f1f1f1;
+    padding: 0 0 0 10px;
+    font-weight: bold;
+    color: #666;
+}
+
+.cs-list-table .cs-ar {
+    text-align: right;
+}
+
+/*妫�娴嬬偣绠＄悊*/
+
+.cs-icon-head {
+    font-size: 35px;
+}
+
+.cs-img-box {
+    height: 100%;
+    line-height: 140px;
+    width: 15%;
+    text-align: center;
+    background: #f7f9f8;
+}
+
+.cs-points-info {
+    width: 84%;
+    height: 100%;
+    padding-left: 10px;
+
+}
+
+.cs-points {
+    height: 140px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px #ddd;
+    width: 31.999%;
+    background: #fff;
+    float: left;
+    margin: 1% 0 0 1%;
+
+}
+
+@media only screen and (max-width: 1000px) {
+    .cs-points {
+        width: 48.5%;
+    }
+}
+
+.cs-any-li li {
+    width: 33.33%;
+    float: left;
+    position: relative;
+    /*padding:10px;*/
+}
+
+.cs-any-li li a {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.cs-outfit-name {
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+
+.cs-img-box, .cs-points-info {
+    float: left;
+}
+
+.cs-nor-btn {
+    font-weight: normal;
+    padding-right: 10px;
+}
+
+.cs-info-title {
+    font-weight: bold;
+    padding: 4px 0 4px 0;
+}
+
+.cs-info-list {
+    padding: 5px 0;
+}
+
+.cs-name-co {
+    color: #777;
+    padding: 0 4px;
+}
+
+a:hover .cs-name-co {
+    color: #1dcc6a;
+}
+
+.cs-border-right {
+    border-right: 1px solid #ddd;
+    display: block;
+    height: 100%;
+}
+
+tr.cs-title-line {
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    background: #f1f1f1;
+}
+
+.cs-inform-box {
+    padding: 10px;
+
+}
+
+.cs-inform-box p {
+    height: 28px;
+    line-height: 22px;
+    color: #222;
+}
+
+.cs-inform-box p span {
+    margin-right: 10%;
+    display: inline-block;
+}
+
+.cs-tip {
+    padding: 0px 6px;
+    background: #e2e2e2;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+.cs-inform-box .cs-tip {
+    color: #000;
+
+}
+
+.cs-list-table p i {
+    color: #000;
+    display: inline-block;
+}
+
+td.cs-acc {
+    text-align: center;
+    width: 50px;
+}
+
+td.cs-acc {
+    /*border-right: 1px solid #ddd;*/
+}
+
+.cs-p td {
+    padding: 0 8px;
+    height: 38px;
+}
+
+.cs-tb-width {
+    /*width:20px;*/
+}
+
+.cs-dis-in {
+    display: inline;
+    margin-left: 2px;
+    line-height: 22px;
+}
+
+.cs-list-table {
+    font-weight: normal;
+}
+
+div.cs-li-title {
+    font-size: 15px;
+    /* font-weight: bold;*/
+    height: 38px;
+    line-height: 38px;
+    color: #666;
+    border-bottom: 1px solid #ddd;
+    padding: 0px 10px;
+    background: rgb(247, 249, 248);
+}
+
+.cs-li-title i {
+    font-weight: bold;
+}
+
+.cs-tb-width span {
+    padding: 0 0 0 6px;
+    margin-right: 10px;
+}
+
+.cs-input-style td {
+    text-align: left;
+}
+
+.cs-input-style .cs-name {
+    color: #555;
+    text-align: right;
+}
+
+.cs-tb-width a span {
+    color: #599aff;
+    display: inline;
+}
+
+.cs-tb-width a {
+    display: inline-block;
+    padding: 0 4px;
+    text-align: center;
+}
+
+.cs-title-line .cs-ar {
+    padding-right: 10px;
+}
+
+.cs-title-line .cs-ar a {
+    color: #666;
+}
+
+.cs-li-btm {
+    padding-left: 10px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 10px;
+    /*background: #f1f1f1;*/
+    border-top: 1px solid #ddd;
+}
+
+.cs-li-btm a {
+    color: #222;
+}
+
+.cs-li-btm a i {
+    color: #ff4d4d;
+}
+
+.cs-li-cell {
+    height: 36px;
+    line-height: 36px;
+}
+
+.cs-icon-in {
+    display: inline;
+    padding-left: 10px;
+}
+
+.cs-icon-in span {
+    margin: 0 10px 0 4px;
+}
+
+/*妫�娴嬬偣璇︽儏椤�*/
+.cs-detail-title {
+    padding: 5px 10px;
+    line-height: 30px;
+}
+
+.cs-pro-content {
+    width: 400px;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    background: green;
+}
+
+.cs-content-result {
+    /*width:60%;*/
+    background: #000;
+}
+
+.cs-img-contents {
+    /*width:40%;*/
+    width: 26%;
+    height: 100px;
+    padding: 1%;
+}
+
+.cs-img-content img {
+    height: 100%;
+}
+
+.cs-content-detail {
+    width: 50%;
+    padding: 4px;
+}
+
+.cs-content-detail div {
+    float: left;
+    padding-left: 10px;
+    width: 49.99%;
+    text-align: left;
+}
+
+.cs-content-result {
+    width: 60%;
+    height: 100px;
+    background: blue;
+}
+
+.cs-content-detail p {
+    float: left;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.cs-warm {
+    color: #ff4d4d;
+}
+
+.cs-cool {
+    color: #0064ff;
+}
+
+.cs-tb-box table tr {
+    /*background: #fff;*/
+}
+
+/*.cs-tb-box{
+  width:33%;
+}*/
+.cs-result {
+    height: 180px;
+    overflow: auto;
+    width: 100%;
+    text-align: left;
+    padding-left: 8px;
+    background: #ffffff;
+}
+
+.cs-content-detail p {
+
+}
+
+.cs-content-detail p img {
+    margin-right: 4px;
+}
+
+.cs-list-fl li {
+    float: left;
+    width: 23.7%;
+    margin: 1% 0 0 1%;
+    box-shadow: 0px 0px 4px #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.cs-detail-table .cs-name {
+    text-align: right;
+}
+
+.cs-detail-table td {
+    padding: 0 8px;
+    text-align: left;
+}
+
+.cs-staff-list span {
+    display: inline-block;
+    margin: 6px 20px 0 0;
+}
+
+.cs-inst-title {
+    background: #f1f1f1;
+    height: 26px;
+    line-height: 26px;
+    font-weight: bold;
+    text-align: left;
+    padding: 0 10px 0 0;
+}
+
+.cs-name-width {
+    width: 50%;
+    display: inline-block;
+}
+
+.cs-control {
+    padding-top: 0px;
+}
+
+.cs-content-detail p {
+    padding: 2px;
+}
+
+.cs-inst-title {
+    padding-left: 5px;
+}
+
+.cs-inst-title img {
+    /*float:left;*/
+    margin: 0 5px;
+}
+
+.cs-local {
+    padding: 0 4px;
+}
+
+.cs-control i {
+    display: inline-block;
+    font-size: 15px;
+    /* margin-left: 2px; */
+    line-height: 100%;
+    padding: 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.cs-icon-span .icon-close:hover {
+    color: #fff;
+    background: #ff4d4d;
+    border-radius: 4px;
+}
+
+.cs-options {
+
+    border-bottom: 1px solid #ddd;
+}
+
+/*寮瑰嚭绐�*/
+.cs-add-new td {
+    border: 0;
+    height: 40px;
+}
+
+.cs-add-new tr {
+    background: #fff;
+}
+
+.cs-add-new select, .cs-add-new2 select {
+    width: 200px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 0 30px 0 8px;
+}
+
+.cs-add-new2 .cs-in-style {
+    width: 40%;
+}
+
+.cs-add-new .cs-remark {
+    height: 80px;
+    resize: none;
+    padding: 4px 8px;
+}
+
+textarea.cs-modal-txt {
+    height: 70px;
+    padding: 4px;
+}
+
+/*寮瑰嚭绐梩ab*/
+
+.cs-tab {
+    padding: 6px 0 0 10px;
+}
+
+.cs-tab li {
+    float: left;
+    height: 30px;
+    color: #666;
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    background: #fff;
+    width: 110px;
+}
+
+.cs-tab-box {
+    display: none;
+    position: relative;
+}
+
+.cs-on {
+    display: block;
+}
+
+.cs-tab2 {
+    padding: 3px 0 0 10px;
+    height: 40px;
+}
+
+.cs-tab2 .btn {
+    padding-top: 0;
+}
+
+.cs-tab2 li {
+    height: 34px;
+    float: left;
+    line-height: 34px;
+    margin-right: 20px;
+}
+
+.cs-tab li.cs-cur {
+    height: 34px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #fff;
+    background: #1dcc6a;
+    border-radius: 4px 4px 0 0;
+}
+
+/*add-member*/
+.cs-table-pa {
+    padding-bottom: 50px;
+}
+
+.cs-content .cs-search-box {
+    height: 40px;
+}
+
+.cs-rewrite {
+    display: inline-block;
+    /*text-indent: -9999px;*/
+}
+
+.cs-check-downs input, .cs-check-down2 input {
+    width: 14px;
+    height: 14px;
+}
+
+.cs-check-downs {
+    padding: 4px;
+}
+
+.cs-check-downs ul li {
+    /*float:left;*/
+    /*margin-left: 8px;*/
+    width: 350px;
+    height: 36px;
+    display: block;
+    /*padding:5px;*/
+}
+
+.cs-check-down, .cs-check-down2 {
+    width: 200px;
+    border: 1px solid #ddd;
+    top: 32px;
+    height: 190px;
+    overflow: auto;
+    z-index: 9999;
+    position: absolute;
+    background: #fff;
+    margin-top: -1px;
+    border-radius: 0 0 3px 3px;
+}
+
+.cs-check-down2 {
+    width: 200px;
+}
+
+.cs-check-down2 input {
+    /*float:left;*/
+}
+
+.cs-check-downs span {
+    float: left;
+}
+
+.cs-check-downs label {
+    float: left;
+    margin-top: 5px;
+    /*width:100px;*/
+    height: 22px;
+    line-height: 22px;
+    padding-left: 4px;
+}
+
+.cs-check-down2 label {
+    display: inline-block;
+    width: 80%;
+    /*float:left;*/
+}
+
+.cs-check-downs label input, .cs-check-down2 label input {
+    margin-right: 4px;
+    float: left;
+}
+
+.cs-check-downs label span, .cs-check-down2 label span {
+    margin-right: 4px;
+    float: left;
+}
+
+.cs-check-down li, .cs-check-down2 li {
+    /*padding:4px;*/
+
+    line-height: 30px;
+}
+
+.cs-check-down2 li:hover {
+    background: #f1f1f1;
+}
+
+.cs-check-downs li input, .cs-check-downs li i {
+    float: left;
+    margin-left: 4px;
+    /*margin-top: 8px;*/
+}
+
+.cs-check-downs li i {
+    padding-top: 2px;
+}
+
+.cs-check-downs li span {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    width: 120px;
+    margin-top: -6px;
+}
+
+.cs-check-downs .Validform_checktip {
+    display: none;
+}
+
+.cs-check-down li input {
+    margin-top: 8px;
+
+}
+
+.cs-checkCk {
+    margin-top: 4px;
+}
+
+.cs-check-down li:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.cs-check-down li {
+    *zoom: 1;
+}
+
+.cs-down-value {
+    float: left;
+}
+
+.cs-down-value input {
+    height: 24px;
+    width: 165px;
+    /*margin-top: 4px;*/
+}
+
+input.cs-handle-txt {
+    width: 140px;
+    height: 24px;
+    padding: 4px;
+}
+
+.cs-down-value span {
+    margin-top: 5px;
+    width: 50px;
+    display: inline-block;
+}
+
+.cs-input-box {
+    position: relative;
+    width: 200px;
+}
+
+.cs-input-box input {
+    width: 100%;
+    padding-right: 30px;
+}
+
+.cs-all-ps {
+    position: relative;
+    display: inline-block;
+    /*padding: 4px 0;*/
+}
+
+.cs-remark {
+    height: 100px;
+    resize: none;
+}
+
+.cs-radio {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.cs-radio input, .cs-radio label {
+    float: left;
+    margin: 0 4px 0 4px;
+}
+
+.cs-radio input {
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+
+}
+
+.cs-table th, .cs-table td {
+    /*border-left:0;*/
+}
+
+.cs-base-detail {
+    /*padding-bottom: 20px;*/
+}
+
+/*寮圭獥tab*/
+.cs-tabtitle {
+    /*position:absolute;
+  top:0;
+  right: -1px;
+  left:0;*/
+    /*height:50px;*/
+    border-bottom: 1px solid #ddd;
+    padding-left: 10px;
+}
+
+.cs-tab {
+    padding: 6px 0 0 10px;
+}
+
+.cs-tab li {
+    float: left;
+    height: 30px;
+    color: #666;
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    background: #fff;
+    width: 110px;
+}
+
+.cs-tab-box {
+    display: none;
+    position: relative;
+}
+
+.cs-on {
+    display: block;
+}
+
+.cs-tab li.cs-cur {
+    height: 34px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #fff;
+    background: #1dcc6a;
+    border-radius: 4px 4px 0 0;
+}
+
+.cs-tabtitle li {
+    float: left;
+    height: 30px;
+    color: #666;
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    background: #fff;
+    width: 110px;
+}
+
+li.cs-tabhover {
+    height: 34px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    color: #fff;
+    background: #1dcc6a;
+    border-radius: 4px 4px 0 0;
+}
+
+.cs-content2 h3 {
+    padding-left: 10px;
+    border-bottom: 1px dotted #ddd;
+    font-size: 14px;
+    border-left: 6px solid #1dcc6a;
+    font-weight: bold;
+    height: 40px;
+    line-height: 39px;
+    text-align: left;
+    background: #fff;
+}
+
+.cs-tabcontent {
+    /*width:100%*/;
+}
+
+.cs-maintab {
+    display: table;
+    width: 100%;
+}
+
+/*.cs-lcon{
+  display:table-cell;
+  width:10%;
+   border: 1px solid #ddd;
+   position:relative;
+}*/
+.cs-tabcontent {
+    /*display:table-cell;*/
+    /*width:90%;*/
+    /*border: 1px solid #ddd;*/
+    margin-bottom: 10px;
+}
+
+/*寮瑰嚭绐楁牱寮�*/
+.ui_content {
+    width: 100%;
+    font-size: 12px;
+    font-family: "Microsoft YaHei";
+}
+
+.ui_main {
+    display: block;
+}
+
+.cs-tools {
+    padding: 6px 10px;
+}
+
+.cs-tab-list {
+    display: table;
+    width: 100%;
+}
+
+.cs-tab-s {
+    /*width:49%;*/
+    /*display:inline-block;
+margin-right: 1%;*/
+}
+
+.cs-img-content {
+    text-align: center;
+    height: 150px;
+}
+
+.cs-img-content img {
+    display: inline-block;
+}
+
+.cs-2dcode {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.cs-2dcode-box {
+    text-align: center;
+}
+
+.cs-2dcode p {
+    padding: 4px 0;
+    text-align: center;
+    line-height: 24px;
+    font-weight: bold;
+
+}
+
+.cs-mred {
+    color: red;
+    padding: 0px 4px;
+}
+
+.cs-modle {
+    /* height: 34px;
+    line-height: 34px;*/
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    padding-left: 7px;
+    background: #1dcc6a;
+    text-align: left;
+}
+
+/*娉ㄥ唽鍗�*/
+
+.datagrid-cell {
+    line-height: 36px;
+}
+
+.tree-icon {
+    display: none;
+}
+
+.cs-wranning-text {
+    display: inline-block;
+}
+
+/* .modal {
+   overflow: scroll !important;
+ } */
+
+.modal-footer {
+    height: 37px;
+}
+
+/*妯℃�佺獥鍙ｆ瘮渚�-瓒呭ぇ*/
+
+.cs-xlg-width {
+    width: 900px;
+}
+
+.cs-xlg-height {
+    height: 440px;
+    overflow: auto;
+}
+
+/*妯℃�佺獥鍙ｆ瘮渚�-涓ぇ*/
+
+.cs-slg-width {
+    width: 650px;
+}
+
+.cs-slg-height {
+    height: 360px;
+    overflow: auto;
+}
+
+/*妯℃�佺獥鍙ｆ瘮渚�-澶�*/
+
+.cs-lg-width {
+    width: 750px;
+}
+
+.cs-lg-height {
+    height: 380px;
+    overflow: auto;
+}
+
+/*妯℃�佺獥鍙ｆ瘮渚�-涓�*/
+
+.cs-mid-width {
+    width: 550px;
+}
+
+.cs-mid-height {
+    height: 280px;
+    overflow: auto;
+
+}
+
+/*妯℃�佺獥鍙ｆ瘮渚�-灏�*/
+
+.cs-sm-width {
+    width: 450px;
+}
+
+.cs-sm-height {
+    height: 210px;
+    overflow: auto;
+}
+
+/*鎻愮ず绐�*/
+.cs-alert-width {
+    width: 350px;
+}
+
+.cs-alert-height {
+    height: 50px;
+}
+
+.cs-dis-tab {
+    display: table;
+    width: 100%;
+}
+
+.cs-text-algin {
+    text-align: left;
+    display: table-cell;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.cs-text-asmin img {
+    margin-right: 10px;
+}
+
+/*鑷畾涔変笅鎷夊崟閫�*/
+select.cs-top-selcet {
+    width: 150px;
+    height: 28px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-weight: normal;
+    padding-left: 4px;
+}
+
+.btn-self {
+    width: 200px;
+    height: 32px;
+    border-radius: 4px;
+}
+
+.text, .placeholder {
+    float: left;
+}
+
+.caret {
+    float: right;
+    margin-top: 6px;
+}
+
+.cs-select-box {
+    position: relative;
+}
+
+.dropdown-menu {
+    padding: 5px;
+    width: 320px;
+    height: 200px;
+    overflow: auto;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.list-unstyled ul li {
+    width: 60px;
+    display: inline-block;
+    padding: 4px 4px;
+
+}
+
+.list-unstyled ul li:hover {
+    background: #f1f1f1;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.live-search {
+    height: 32px;
+
+}
+
+.list-to-filter {
+    padding-top: 10px;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+
+}
+
+.cs-ul-form {
+    /*height:40px;*/
+    line-height: 32px;
+    padding: 5px;
+}
+
+.cs-ul-form li {
+    line-height: 28px;
+}
+
+.cs-dis-table {
+    display: table;
+}
+
+.cs-dis-table > li {
+    display: table-cell;
+}
+
+/* .Validform_checktip{
+  display:none;
+} */
+
+.cs-ul-style {
+    padding: 2px 0;
+    line-height: 40px;
+}
+
+.cs-ul-style div {
+    float: left;
+}
+
+/*.cs-add-pad{
+  padding-right: 30px;
+}*/
+.cs-sm-w {
+    width: 11.4%;
+    float: left;
+}
+
+.cs-md-w {
+    width: 21.333%;
+    float: left;
+
+}
+
+.cs-lg-w {
+    width: 88%;
+    float: left;
+
+}
+
+.cs-xl-w {
+    width: 86.5%;
+    float: left;
+}
+
+/*鏉冮檺绠＄悊*/
+.cs-per-table label {
+    padding: 0 4px;
+    float: left;
+    display: inline;
+}
+
+.cs-fun-list label {
+    display: block;
+    max-width: 120px;
+}
+
+.cs-fun-list li {
+    width: 140px;
+    float: left;
+}
+
+.cs-per-table input {
+    float: left;
+    margin-top: 3px;
+}
+
+.cs-per-table td {
+    background: #fff;
+}
+
+td.cs-first-title {
+    background: #f1f1f1;
+    text-align: left;
+    padding: 0 20px;
+    font-size: 16px;
+}
+
+.cs-ul-style li {
+    float: left;
+    height: 40px;
+    line-height: 30px;
+    padding: 4px 0 0 0;
+}
+
+/*鑿滃崟绠＄悊*/
+.cs-sort {
+    width: 90px;
+}
+
+.cs-sort2 {
+    width: 140px;
+}
+
+.cs-sort input, .cs-sort select {
+    width: 50px;
+    text-align: center;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.cs-sort2 select {
+    padding-left: 8px;
+    height: 24px;
+    width: 80px;
+    border-radius: 4px;
+}
+
+th.cs-menu-icon, td.cs-menu-icon {
+    text-align: left;
+    padding-left: 20px;
+    width: 200px;
+}
+
+td.cs-menu-icon img {
+    margin: 0 5px;
+}
+
+td.cs-third {
+    padding-left: 60px;
+}
+
+.cs-per-table td {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.cs-echart {
+    padding: 0 0 20px 20px;
+}
+
+.cs-img-space {
+    width: 20px;
+    display: inline-block;
+}
+
+/*bootstrap fileinput*/
+.file-drag-handle, .kv-file-content {
+    display: none;
+}
+
+.fileinput-remove, .kv-file-upload, .fileinput-upload, .kv-file-zoom, .kv-file-content, .file-upload-indicator {
+    display: none;
+}
+
+.explorer-caption {
+    float: left;
+}
+
+.file-details-cell samp {
+    float: right;
+}
+
+.file-details-cell {
+    padding: 2px 8px;
+}
+
+.kv-file-remove, .kv-file-zoom {
+    width: 22px;
+    height: 22px;
+}
+
+table.table-bordered tbody tr td {
+    border: 0;
+}
+
+/*鏂囦欢涓婁紶*/
+.kv-main {
+    width: 200px;
+}
+
+.kv-main div {
+    float: none;
+}
+
+.cs-in-style .file-caption-name {
+    width: 89px;
+}
+
+/*nav*/
+
+.focus-jfilestyle {
+    width: 60px;
+    height: 32px;
+}
+
+.jfilestyle {
+    height: 32px;
+}
+
+.jfilestyle {
+    display: inline-block;
+    margin: 0px 0px 10px 0px;
+    padding: 0px;
+    position: relative;
+    border-collapse: separate;
+}
+
+div.jfilestyle input {
+    border: 1px solid #dddddd;
+    background: #f1f1f1;
+    margin: 0px -5px 0px 0px;
+    vertical-align: middle;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #8d8d8d;
+    cursor: default;
+    line-height: normal;
+    height: 32px;
+}
+
+div.jfilestyle label {
+    display: inline-block;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    padding: 5px 14px;
+    color: #05af50;
+    vertical-align: middle;
+    line-height: normal;
+    text-align: center;
+    margin: 0px;
+    font-size: 14px;
+    width: auto;
+    border-radius: 4px;
+    font-weight: normal;
+    height: 32px;
+}
+
+div.jfilestyle.jfilestyle-corner input:first-child {
+    border-right: 0;
+}
+
+div.jfilestyle.jfilestyle-corner input:last-child {
+    border-left: 0;
+}
+
+div.jfilestyle.jfilestyle-corner input:first-child,
+div.jfilestyle.jfilestyle-corner span:first-child > label {
+    border-radius: 4px 0 0 4px;
+}
+
+div.jfilestyle.jfilestyle-corner input:last-child,
+div.jfilestyle.jfilestyle-corner span:last-child > label {
+    border-radius: 0 4px 4px 0;
+}
+
+/*div.jfilestyle label[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+  filter: alpha(opacity=65);
+  cursor: not-allowed;
+}*/
+
+div.jfilestyle label:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+div.jfilestyle .count-jfilestyle {
+    background: #303030;
+    color: #fff;
+    border-radius: 50%;
+    padding: 1px 5px;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+input[type="file"] {
+    color: transparent;
+    border: none;
+    background: none;
+    padding: 3px;
+    opacity: 0;
+    width: 0px;
+}
+
+div.btn-file {
+    background: #f1f1f1;
+    color: #05af50;
+    border: 1px solid #ddd;
+    line-height: 20px;
+}
+
+div.btn-file:hover {
+    background: #f9f9f9;
+    color: #1dcc6a;
+    border: 1px solid #ddd;
+}
+
+div.btn-file:active, div.btn-file:focus {
+    background: #f1f1f1;
+    color: #05af50;
+    border: 1px solid #ddd;
+}
+
+/*鏂囦欢涓婁紶缁撴潫*/
+.btn-file {
+    width: 60px;
+    height: 28px;
+}
+
+.file-actions-cell {
+    width: 60px;
+}
+
+.kv-fileinput-caption {
+    /*display:none;*/
+}
+
+.cs-choices input {
+    margin: 0 4px 0 0px;
+}
+
+.cs-dis-table {
+    display: table;
+}
+
+.cs-dis-table-cell {
+    display: table-cell;
+    width: 33.3333%;
+}
+
+.cs-chioce-list {
+    vertical-align: top;
+    width: 30%;
+
+}
+
+.cs-non-aj {
+    padding-right: 15px;
+}
+
+.cs-file-box {
+    padding: 0 4px 0 4px;
+}
+
+textarea.cs-inform-txt {
+    height: 80px;
+    padding: 4px;
+}
+
+textarea.cs-text-for {
+    width: 600px;
+}
+
+.cs-top-write {
+    background: #fafafa;
+}
+
+/*input.cs-normal-input{
+  width:13px;
+  height:13px;
+}*/
+input.cs-danger {
+    background-color: #f2dede;
+}
+
+input.cs-danger {
+    background-color: #f2dede;
+}
+
+input.cs-success {
+    background-color: #dff0d8;
+}
+
+/*.cs-content2 .cs-in-style{
+  width:40%;
+}*/
+
+/*妫�娴嬪崟*/
+.MsoTableGrid tr {
+    background: #fff;
+}
+
+/*icon 鏍峰紡*/
+
+.cs-icon-span i:hover {
+    cursor: pointer;
+    color: #1dcc6a;
+}
+
+.cs-icon-span .icon-shanchu:hover {
+    color: #f91717;
+}
+
+/*icon绂佹浣跨敤鏍峰紡*/
+.cs-icon-span .icon-disabled, .cs-icon-span:hover .icon-disabled {
+    color: #999;
+    cursor: default;
+}
+
+/*input绂佺敤鏍峰紡*/
+.cs-input-disabled {
+    background: #f1f1f1;
+}
+
+/*easyui 澶撮儴閮ㄥ垎*/
+/*.panel-body-noheader{
+  overflow:auto;
+}
+*/
+
+/*琛ㄦ牸鍚勪釜瀛楁瀹藉害璁剧疆*/
+
+/*鏃堕棿*/
+.cs-table-time {
+    width: 160px;
+}
+
+/*妫�娴嬬粨鏋�*/ /*鐘舵��*/ /*鍚堟牸鍊�*/ /*妫�娴嬬被鍨�*/
+.cs-table-result, .cs-table-state {
+    width: 80px;
+}
+
+/*鐢佃瘽*/
+.cs-table-phone {
+    width: 120px;
+}
+
+/*浜哄憳鍚�*/
+.cs-table-user {
+    width: 100px;
+}
+
+.cs-deliver-table {
+    width: 100%;
+}
+
+/*棣栭〉*/
+
+.cs-home-lp {
+    padding: 10px;
+    /*background: red;*/
+
+}
+
+.cs-li-bg, .cs-li-bg2 {
+    width: 100%;
+    background: #fff;
+    height: 220px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.cs-li-bg:hover, .cs-li-bg2:hover {
+    box-shadow: 0px 0px 5px #ccc;
+    transition: all 0.2s;
+    -moz-transition: all 0.2s; /* Firefox 4 */
+    -webkit-transition: all 0.2s; /* Safari 鍜� Chrome */
+    -o-transition: all 0.2s; /* Opera */
+}
+
+.cs-li-bg3 {
+    border: 0;
+}
+
+.cs-li-bg2 {
+    height: 373px;
+}
+
+.cs-li-ti {
+    height: 36px;
+    /*border-bottom: 1px solid #ddd;*/
+    line-height: 36px;
+    vertical-align: middle;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: bold;
+    background: #f1f1f1;
+    border-radius: 4px 4px 0 0;
+
+}
+
+.cs-check-all i {
+    font-size: 14px;
+}
+
+.cs-mess {
+    display: inline-block;
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cs-message-li {
+    margin-bottom: 10px;
+}
+
+.cs-message-li, .cs-notice-li {
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+    padding-bottom: 4px;
+    height: 182px;
+
+}
+
+.cs-message-li .cs-li-ti, .cs-notice-li .cs-li-ti {
+    background: #05af50;
+    border-radius: 4px 4px 0 0;
+}
+
+.cs-message-li .cs-li-ti i, .cs-message-li .cs-li-ti span, .cs-message-li .cs-li-ti a, .cs-notice-li .cs-li-ti i, .cs-notice-li .cs-li-ti span, .cs-notice-li .cs-li-ti a {
+    color: #fff;
+}
+
+.cs-home-lp .cs-li-bg4 {
+    background: #fff;
+}
+
+.cs-li-content, .cs-li-content2 {
+    background: #fff;
+}
+
+.cs-li-content2 {
+}
+
+.cs-chart-he {
+    height: 180px;
+}
+
+.cs-li-info {
+    padding: 20px 0px 20px 20px;
+}
+
+.cs-li-info p {
+    line-height: 40px;
+    vertical-align: bottom;
+    border-right: 1px solid #ddd;
+}
+
+.cs-li-big-font {
+    font-size: 16px;
+    /* padding:0 5px; */
+}
+
+#third {
+    height: 180px;
+}
+
+#forth {
+    height: 200px;
+}
+
+.cs-li-p-mes {
+    background: #fff;
+}
+
+.cs-tongjizouxiang {
+    height: 325px;
+}
+
+.cs-list-text {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+}
+
+.cs-list-style {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin: 0 2px;
+    border-radius: 50%;
+}
+
+.cs-list-style-red {
+    background: #c12e34;
+}
+
+.cs-list-style-blue {
+    background: #0098d9;
+}
+
+.cs-list-style-yellow {
+    background: #e6b600;
+}
+
+.cs-footer {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #ececec;
+    border-top: 1px solid #ddd;
+}
+
+.iconfont {
+    font-weight: normal;
+}
+
+/*娑堟伅鎻愰啋*/
+.cs-main-content {
+    display: table;
+    width: 100%;
+    background: #fff;
+
+}
+
+.cs-left-content {
+
+}
+
+.cs-right-content {
+
+}
+
+.cs-navbar {
+    width: 140px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+}
+
+.cs-fsr {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-fs a {
+    line-height: 40px;
+    height: 40px;
+    width: 100%;
+    display: inline-block;
+}
+
+.cs-fs-active a {
+    background: #05af50;
+}
+
+.cs-txt_title {
+
+}
+
+.cs-toolbg {
+    padding: 0 20px 0 10px;
+    line-height: 40px;
+}
+
+.cs-download-file {
+    color: #1d92cc;
+}
+
+.cs-mail-name {
+    width: 80px;
+    text-align: right;
+}
+
+input:focus {
+    box-shadow: none;
+}
+
+.cs-mail-inpTxt input:focus {
+    text-align: left;
+    padding: 0 10px;
+    position: relative;
+    border: 1px solid #05af50;;
+    box-shadow: none;
+
+}
+
+.cs-add-menber, .cs-add-point-men {
+    position: absolute;
+    right: 20px;
+    top: 7px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+
+    z-index: 1;
+
+}
+
+.cs-add-point-men {
+    right: 50px;
+}
+
+.cs-mail-inpTxt input {
+    width: 100%;
+}
+
+.cs-mail-content tr {
+    background: #fff;
+}
+
+.cs-mail-content td {
+    border: 0;
+    padding: 5px;
+}
+
+.cs-mail-top {
+    vertical-align: top;
+}
+
+.cs-mail-texteare {
+    padding: 5px 0 55px 0;
+}
+
+.cs-mail-texteare textarea {
+    width: 100%;
+    border-color: #ddd;
+    border-radius: 2px;
+    padding: 8px;
+    height: 300px;
+}
+
+.cs-tools-td {
+    text-align: left;
+    background: #f1f1f1;
+    padding: 10px 10px 10px 70px;
+}
+
+/*閭欢璇︽儏*/
+.cs-mail-title {
+
+}
+
+.cs-mail-content tr {
+    height: 30px;
+}
+
+.cs-mail-content {
+    background: #f1f1f1;
+}
+
+.cs-mail-content td {
+    /*padding:0 10px;*/
+}
+
+.cs-mail-content td, .cs-mail-content tr {
+    background: rgba(0, 0, 0, 0.0);
+}
+
+.cs-mail-content h5 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cs-box-pos {
+    padding-bottom: 0px;
+    /* height: 100%; */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 40px;
+    background: #f1f1f1;
+    padding: 2px 0;
+    padding-bottom: 60px;
+}
+
+.cs-mail-menber {
+    width: 100%;
+    border: 1px solid #ddd;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/*.cs-mail-content{
+  width:80%;
+  float:left;
+}*/
+
+.cs-mail-inpTxt .file-preview-frame {
+    display: none;
+}
+
+.kv-main2 {
+    width: 200px;
+}
+
+.cs-mail-info {
+    padding: 0 10px;
+}
+
+.cs-rev-content {
+    min-height: 100px;
+    /*height:100px;*/
+    width: 100%;
+    position: relative;
+}
+
+.cs-rev-content textarea {
+    border: 0;
+    width: 100%;
+    height: auto;
+}
+
+.cs-textarea-pos {
+    padding: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.file-caption-icon {
+    display: none;
+}
+
+.cs-no-bd {
+    text-align: left;
+}
+
+.ui-tooltip, .ui-tooltip-content {
+    display: none;
+}
+
+.cs-divtxt {
+    height: 28px;
+    border: 1px solid #ddd;
+    width: 100%;
+    background: #fff;
+    line-height: 28px;
+    text-align: left;
+    padding: 0 5px;
+}
+
+.cs-mail-point i {
+    font-size: 14px;
+}
+
+.cs-x-this {
+    padding: 2px;
+}
+
+.cs-mail-inpTxt input {
+    height: 28px;
+}
+
+.file-caption-name {
+    height: 28px;
+}
+
+.cs-mail-topPad .cs-col-lg-table {
+    padding-top: 0;
+}
+
+.cs-in-styl input:focus, .cs-in-style textarea:focus {
+    outline: none;
+    border: 1px solid #05af50;
+
+}
+
+/*棰勭畻鎴愭湰*/
+.cs-profit {
+    /*width:auto;*/
+    height: 118px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.cs-profit ul li {
+    float: left;
+    width: 24.99%;
+    height: 58px;
+    text-align: center;
+    padding: 5px 0;
+    position: relative;
+}
+
+.cs-profit ul li:hover {
+    background: #fafafa;
+}
+
+.cs-profit ul li p {
+    /*line-height: 30px;*/
+    font-weight: bold;
+}
+
+.cs-xl-font {
+    font-size: 14px;
+}
+
+.cs-border-left {
+    border-right: 1px solid #ddd;
+}
+
+.cs-border-bottom {
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-profit-pos {
+    width: 1px;
+    height: 55px;
+    background: #ddd;
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 9px;
+}
+
+.cs-budget-height {
+    height: 34px;
+    background: #05af50;
+    color: #fff;
+    font-weight: bold;
+}
+
+.cs-tr-title td {
+    background: #05af50;
+    color: #fff;
+    font-weight: bold;
+}
+
+.cs-select {
+    padding: 10px 0 0 0;
+}
+
+.cs-gathering {
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    padding-left: 5px;
+    border-bottom: 1px dotted #ddd;
+}
+
+.cs-gathering span {
+    padding-right: 20px;
+}
+
+.cs-table-hover tr:hover {
+    background: #e9fdea;
+}
+
+.app_download, .app_download2 {
+    width: 330px;
+    position: absolute;
+    left: 30%;
+    top: 50%;
+    margin-left: -140px;
+    margin-top: -200px;
+    text-align: center;
+}
+
+.app_download2 {
+    left: 70%;
+}
+
+.app_download h4 {
+    text-align: center;
+}
+
+.cs-pic-he {
+    width: 330px;
+    height: 330px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.cs-pic-he {
+    vertical-align: middle;
+}
+
+/*鍙栬瘉淇℃伅*/
+.cs-obtain {
+    width: 50px;
+    height: 50px;
+    margin-right: 4px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.cs-obtain2,.cs-obtain2   {
+    width: 20px;
+    height: 20px;
+}
+
+.cs-obtain a {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.cs-obtain2 a {
+    width: 30px;
+    height: 30px;
+    border: 0;
+}
+
+.cs-vertical-top {
+    vertical-align: top;
+}
+
+.img-thumbnail {
+    max-height: 80px;
+}
+
+textarea.cs-top-write {
+    height: 80px;
+}
+
+.cs-new-mail {
+    font-weight: bold;
+}
+
+/*椤圭洰杩涘害*/
+.cs-schedule-content {
+    /*margin-top: 20px;*/
+    /*background: #fff;*/
+
+}
+
+.cs-base-info {
+    /*height: 35px;*/
+    /*padding:5px 0 0px 0;*/
+    background: #fff;
+}
+
+.cs-base-info li {
+    padding: 10px 0 8px 0px;
+    text-align: left;
+    line-height: 30px;
+}
+
+.cs-box-height {
+    /*height:45px;*/
+
+}
+
+.cs-box-height2 {
+    /*height:72px;*/
+
+}
+
+.cs-schedule-mao {
+    /*height:135px;*/
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.cs-relative {
+    position: relative;
+}
+
+.text-center {
+    padding: 5px;
+}
+
+.cs-export-row {
+    padding: 20px 0 0 0;
+}
+
+.cs-center-content, .cs-center-content2 {
+    background: #fff;
+    height: 50px;
+    padding: 0px 0 0 0;
+    border-radius: 5px;
+    line-height: 48px;
+}
+
+.cs-center-content2 {
+    height: 205px;
+    text-align: left;
+}
+
+.cs-center-content2 {
+    height: 200px;
+    text-align: left;
+}
+
+.cs-center-content3 {
+    height: 420px;
+}
+
+.cs-center-content2 p {
+    padding: 5px;
+}
+
+.cs-center-content .icon {
+    font-size: 20px;
+}
+
+.cs-center-content2 .icon {
+    font-size: 16px;
+}
+
+.cs-data-title {
+    /*height:115px;*/
+}
+
+.cs-progress-all {
+    padding: 0 5px;
+    color: #666;
+}
+
+.cs-bill {
+    padding: 10px;
+}
+
+.cs-word {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+}
+
+.cs-text-detailed {
+    width: 100%;
+    display: inline-block;
+    color: #222;
+    height: 32px;
+    line-height: 36px;
+    text-align: left;
+}
+
+.cs-text-detailed:hover {
+    cursor: text;
+}
+
+.cs-td-block {
+    width: 200px;
+    position: relative;
+
+}
+
+/*鍙戠エ*/
+.cs-fapioa-name {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.cs-fapioa-img {
+    text-align: center;
+}
+
+.cs-fapioa-img img {
+    display: inline-block;
+}
+
+/*杩涘害鏉�*/
+
+.example {
+    background: #FFF;
+    width: 650px;
+    font-size: 80%;
+    border: 1px #000 solid;
+    margin: 20px auto;
+    padding: 15px;
+    position: relative;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+h3 {
+    text-align: center;
+}
+
+.pbar .ui-progressbar-value {
+    display: block !important;
+}
+
+.pbar {
+    overflow: hidden;
+}
+
+.percent {
+    width: 50px;
+    position: relative;
+    text-align: right;
+    min-width: 70px;
+    white-space: nowrap;
+    position: absolute;
+    top: 1px;
+    color: #ffd700;
+    text-shadow: 1px 1px 0px #222;
+}
+
+.elapsed {
+    position: relative;
+    text-align: right;
+}
+
+.cs-tr-total {
+    background: #e9fdea;
+}
+
+.cs-tr-total td {
+    font-weight: bold;
+}
+
+.cs-mechanism-list2 {
+    width: 15%;
+    min-width: 200px;
+    height: 100%;
+}
+
+.cs-points-list2 {
+    width: 45%;
+    height: 100%;
+}
+
+.cs-secleted-list2 {
+    width: 36%;
+    height: 100%;
+}
+
+.cs-men-selcet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40px;
+    bottom: 0;
+    /*padding:10px;*/
+}
+
+.cs-important {
+    font-weight: bold;
+    color: #006fce;
+}
+
+.cs-mechanism-table-box {
+    overflow: hidden;
+}
+
+li {
+    list-style: none;
+}
+
+.cs-information-name {
+    background: #ebebeb;
+}
+
+.cs-information-name .cs-name {
+    padding: 0 0 0 35px;
+    color: #777;
+}
+
+/*.cs-state{
+  margin-right: 10px;
+}*/
+
+.cs-tr-total {
+    background: #e9fdea;
+}
+
+.cs-tr-total td {
+    font-weight: bold;
+}
+
+a.cs-link {
+    /* text-decoration: underline; */
+    border-bottom: 1px solid;
+}
+
+.cs-mechanism-list2 {
+    width: 15%;
+    min-width: 200px;
+    height: 100%;
+}
+
+.cs-points-list2 {
+    width: 45%;
+    height: 100%;
+}
+
+.cs-secleted-list2 {
+    width: 36%;
+    height: 100%;
+}
+
+.cs-men-selcet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40px;
+    bottom: 0;
+    /*padding:10px;*/
+}
+
+.cs-important {
+    font-weight: bold;
+    color: #006fce;
+}
+
+.cs-mechanism-table-box {
+    overflow: hidden;
+}
+
+.cs-mechanism-table-box2 {
+    overflow: auto;
+}
+
+.cs-all-info .cs-in-style input, .cs-all-info .cs-in-style textarea {
+    width: 240px;
+}
+
+.cs-text-center li {
+    padding: 5px;
+    text-align: left;
+}
+
+.cs-border-ra {
+    border-radius: 5px;
+}
+
+.cs-td-img img {
+    height: 30px;
+}
+
+.cs-piao-box {
+    overflow: auto;
+    padding: 8px 0 0 0;
+    text-align: center;
+}
+
+.cs-piao-box a {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+}
+
+.cs-piao-box img {
+    margin-bottom: 10px;
+    display: inline-block;
+    height: 100%;
+}
+
+.cs-max-box div {
+    overflow: hidden;
+    height: 300px;
+    padding: 0 10px;
+}
+
+.cs-li-height li {
+    height: 38px;
+    border: 1px solid #ddd;
+    line-height: 38px;
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+.cs-modal-box tr {
+    background: #fff;
+    height: 34px;
+}
+
+.cs-name2 {
+    text-align: right;
+    background: #f1f1f1;
+}
+
+.cs-in-style2 {
+    text-align: left;
+}
+
+.cs-tab-div {
+    margin: 10px 0;
+    margin-top: 5px;
+}
+
+.cs-tab-box2 .cs-certificate-all {
+    background: #ececec;
+}
+
+.cs-tab-div ul {
+    padding: 5px 0 5px 10px;
+
+    background: #fff;
+}
+
+.cs-tab-box2 .tab-pane {
+    background: #ececec;
+}
+
+.cs-certificate {
+    padding: 5px;
+}
+
+.cs-certificate ul {
+    background: #fff;
+    border-radius: 5px 5px 0 0;
+    padding-bottom: 15px;
+}
+
+.cs-certificate li {
+    padding: 5px 5px 0 5px;
+}
+
+.cs-certificate b {
+    font-weight: normal;
+}
+
+.cs-li-name {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    color: #666;
+}
+
+.cs-home-lp2 {
+    height: 240px;
+}
+
+hr {
+    margin: 10px 0;
+}
+
+.cs-addr {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.cs-dblclick {
+    position: relative;
+}
+
+.change-inp {
+    width: 94%;
+    height: 26px;
+    position: absolute;
+    top: 50%;
+    left: 3%;
+    margin-top: -13px;
+    /*margin-left: -50px;*/
+}
+
+.cs-score-point input {
+    width: 40px;
+    top: 50%;
+    left: 10%;
+    margin-left: 0px;
+}
+
+.cs-score .cs-score-first td {
+    height: 38px;
+}
+
+.cs-score-first {
+    font-weight: bold;
+    height: 30px;
+}
+
+.cs-score tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-score tr input {
+    height: 26px;
+    width: 90%;
+}
+
+.cs-score tr .score {
+    width: 40px;
+}
+
+.cs-score td {
+    padding: 0 5px;
+    text-align: center;
+}
+
+.cs-left-box, .cs-right-box {
+    width: 45%;
+    height: 336px;
+    /*border:1px solid #ddd;*/
+
+}
+
+.cs-left-box {
+
+}
+
+.cs-content-left, .cs-content-right {
+    border: 1px solid #ddd;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.cs-checked-info {
+    height: 40px;
+}
+
+.cs-personnel tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-personnel tr, .cs-personnel tr td {
+    text-align: center;
+    height: 30px;
+}
+
+.cs-center-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -30px;
+    margin-top: -42px;
+    width: 90px;
+    overflow: hidden;
+}
+
+.cs-center-box i {
+    font-size: 60px;
+}
+
+.alldel-btn {
+    margin-top: 15px;
+}
+
+.cs-score-btn {
+
+}
+
+.cs-table-h4 {
+    height: 30px;
+    padding: 10px 0 0 0;
+}
+
+.cs-tools {
+    height: 30px;
+    background: #fff;
+    /*  box-shadow: 0 1px 2px #ddd; */
+}
+
+.cs-tools input, .cs-tools i {
+    float: left;
+}
+
+.cs-tools label {
+    margin-right: 20px;
+}
+
+.cs-screen {
+    height: 30px;
+    background: #fff;
+    /*   box-shadow: 0 1px 2px #ddd; */
+}
+
+.cs-screen input, .cs-screen i {
+    float: left;
+}
+
+.cs-screen label {
+    margin-right: 20px;
+}
+
+.cs-screen-check {
+    padding: 0px 0 0 20px;
+}
+
+.cs-screen-check span {
+    /* display:inline-block; */
+}
+
+.cs-screen-check input, .cs-screen-check label {
+    float: left;
+    margin-top: 8px;
+}
+
+.cs-screen-check label {
+    margin-top: 4px;
+}
+
+/* 瀹炴椂鐩戞帶 */
+.cs-map-tg {
+    position: absolute;
+    top: 50%;
+    right: 350px;
+    margin-top: -30px;
+    width: 20px;
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+    box-shadow: 0 1px 3px #666;
+    z-index: 1;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cs-map-tg2 {
+    position: absolute;
+    top: 50%;
+    right: 347px;
+    margin-top: -30px;
+    width: 3px;
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.cs-map-name {
+    position: absolute;
+    right: 0px;
+    top: 40px;
+    width: 350px;
+    background: #fff;
+    z-index: 1;
+    box-shadow: 0 1px 3px #666;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.cs-map-name h5 {
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.cs-map-info {
+    position: absolute;
+    right: 0px;
+    top: 70px;
+    bottom: 0;
+    width: 350px;
+    /*height:100%;*/
+    background: #fff;
+    z-index: 1;
+    box-shadow: 0 1px 3px #666;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0px;
+}
+
+.cs-map-info h5 {
+    margin: 0 0px 10px 0px;
+    border-bottom: 1px solid #ebebeb;
+    background: #ddd;
+    /* margin: -10px; */
+    padding: 10px;
+    padding-bottom: 6px;
+}
+
+.cs-pesonal-list {
+
+}
+
+
+.cs-map-ul li {
+    border-bottom: 1px dotted #ddd;
+    /* margin-bottom:10px; */
+    padding-top: 4px;
+    position: relative;
+}
+
+.cs-map-ul li:hover {
+    background: #f5f5f5;
+}
+
+.cs-map-ul li p {
+    margin-left: 40px;
+}
+
+.cs-color-tip {
+    /* border:1px solid blue;
+	color:blue;
+	border-radius: 2px;
+    font-size: 12px;
+    padding: 2px;
+    height: 20px;
+    line-height: 16px; */
+}
+
+.label {
+    color: #fff;
+}
+
+.cs-close-btn {
+    color: #333;
+    cursor: pointer;
+}
+
+.cs-close-btn:hover {
+    color: #006fce;
+}
+
+.check-label {
+    margin-top: 5px;
+    margin-right: 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.check-label a {
+    padding-top: 4px;
+}
+
+.all-layout {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.east-layout {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    height: 90%;
+    width: 300px;
+    background: #fff;
+    width: 100%;
+    z-index: 100000;
+}
+
+/* 鍙鍖栧湴鍥� */
+.infoDiv2 {
+    /* padding-top:15px; */
+    /* overflow:auto; */
+    position: relative;
+}
+
+.infoDiv2 .cs-map-name {
+    width: 100%;
+}
+
+.infoDiv2 .cs-map-info {
+    width: 100%;
+    height: 100%;
+}
+
+.infoDiv2 .cs-map-tg {
+    right: 300px;
+}
+
+.infoDiv2 .cs-map-tg2 {
+    right: 297px;
+}
+
+.cs-map-info .cs-map-table {
+    width: 100%;
+}
+
+.cs-map-info .cs-map-table tr {
+    height: 30px;
+}
+
+.cs-map-info .cs-map-table tr {
+    background: #fff;
+}
+
+.cs-map-info .cs-map-table tr th {
+    background: #eee;
+    color: #000;
+}
+
+.cs-map-info .cs-map-table tr td {
+    border-left: 0;
+    border-right: 0;
+}
+
+.cs-map-btn {
+    position: absolute;
+    top: 45px;
+    left: 5px;
+    z-index: 999;
+}
+
+.cs-map-btn .btn {
+    padding-top: 0;
+}
+
+.btn-success .icon {
+    color: #fff;
+}
+
+.infoDiv2 .cs-map-name {
+    top: 15px;
+    box-shadow: none;
+    position: static;
+}
+
+.infoDiv2 .cs-map-info {
+    top: 40px;
+    box-shadow: none;
+    position: static;
+}
+
+
+.cs-red-text {
+    color: red;
+}
+
+.cs-green-text {
+    color: #05af50;
+}
+
+.cs-org-text {
+    color: #f0bd20;
+}
+
+input.cs-ul-checkbox {
+    height: 14px;
+    width: 14px;
+    margin-top: 4px;
+    margin-right: 2px;
+}
+
+.cs-ul-boxc {
+    height: 30px;
+    padding: 4px;
+    border-bottom: 1px solid #f1f1f1;
+    background: #f2f9f6;
+}
+
+
+.cs-export-box {
+    padding-top: 6px;
+}
+
+.cs-export-box label, .cs-export-box i {
+    font-size: 22px;
+
+}
+
+.cs-export-box input {
+    margin: 9px 0 0 -15px;
+}
+
+.cs-modal-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    width: 100%;
+    z-index: 100000;
+
+}
+
+.info-table td {
+    border: 0;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.info-table tr {
+    background: #fff;
+    height: 26px;
+}
+
+.cs-content-info {
+    margin-top: 10px;
+    background: #fff;
+}
+
+.cs-content-top {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-content-top li {
+    float: left;
+    margin-right: 40px;
+    font-weight: bold;
+}
+
+.cs-cont-toggle .text-primary {
+    color: #006fce;
+}
+
+.cs-content-middle {
+    padding: 10px;
+}
+
+.cs-content-middle table {
+    width: 100%;
+}
+
+.cs-content-bottom {
+    padding-top: 10px;
+    background: #f1f1f1;
+}
+
+.cs-content-bottom-un {
+
+}
+
+.cs-content-bottom-un textarea, .cs-evaluate-text textarea {
+    width: 100%;
+    height: 100px;
+}
+
+.cs-evaluate-text {
+    padding: 0px 10px 5px 10px;
+    padding-top: 0;
+}
+
+.cs-passed {
+    color: #00CC33;
+    margin-right: 30px;
+    padding-left: 22px;
+    position: relative;
+}
+
+.cs-score {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.cs-examine {
+    cursor: pointer;
+}
+
+.cs-ball-big, .cs-ball-sm {
+    position: absolute;
+}
+
+.cs-ball-big {
+    width: 20px;
+    height: 20px;
+    background: rgba(13, 228, 19, 0.5);
+    border-radius: 50%;
+    top: -3px;
+    left: 0;
+}
+
+.cs-ball-sm {
+    width: 14px;
+    height: 14px;
+    background: rgba(11, 202, 17, 1);
+    border-radius: 50%;
+    top: 0px;
+    left: 3px;
+}
+
+.cs-choose {
+    margin-right: 10px;
+}
+
+.form-horizontal .control-label {
+    padding-top: 0;
+}
+
+.cs-warn {
+    width: 50px;
+    height: 28px;
+}
+
+.cs-warn-box {
+    /*border-bottom:1px solid #ddd;*/
+    padding-bottom: 10px;
+    padding-top: 0px;
+}
+
+.cs-warn-r {
+    margin-right: 10px;
+
+}
+
+.cs-title-s {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.cs-warn-rh {
+    margin-left: 20px;
+}
+
+.cs-warn-green {
+    background: #f4fbf5;
+}
+
+.cs-warn-yellow {
+    background: #fffbdf;
+}
+
+.cs-warn-red {
+    background: #ffe2df;
+}
+
+.cs-f-b li {
+    color: #0089ff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cs-f-b li span {
+    font-weight: bold;
+}
+
+.cs-zong {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    text-align: left;
+    width: 180px;
+}
+
+.cs-zong p {
+    font-color: #666;
+    margin-bottom: 10px;
+}
+
+.cs-zong i {
+    font-size: 16px;
+    font-weight: bold;
+
+}
+
+.cs-dis-inline {
+    display: inline-block;
+}
+
+.cs-temp-box {
+    height: 150px;
+}
+
+.cs-text-fs {
+    font-size: 18px;
+}
+
+/*.cs-li-in-box,.cs-second-box{
+  background:#fff;
+}*/
+.cs-li-in-box {
+    padding: 0px 0px 0px 0px;
+}
+
+.cs-li-in-box p {
+    margin-bottom: 10px;
+}
+
+.cs-second-box i {
+    font-size: 80px;
+}
+
+/*bootstrap title*/
+.modal-title {
+    font-weight: bold;
+}
+
+.cs-upload-box .form-group {
+    padding: 0 10px 10px;
+    margin-bottom: 0;
+}
+
+.cs-upload-info {
+    background: #fff;
+    padding: 10px;
+    padding-top: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #ddd;
+}
+
+.cs-upload-box .form-group label {
+    font-weight: bold;
+    padding: 5px 0;
+    display: block;
+}
+
+.cs-upload-info p {
+    padding: 5px 0;
+    clear: both;
+}
+
+.cs-upload-info input {
+    display: inline-block;
+    float: left;
+    height: 28px;
+    width: 45%;
+}
+
+.cs-upload-info input[type="file"] {
+    color: #666;
+    width: 45%;
+}
+
+.help-block {
+    margin-bottom: 0;
+}
+
+.cs-tabList {
+    padding: 10px;
+    background: #fff;
+    /*height:350px;*/
+    box-shadow: 0 0 3px #aaa;
+}
+
+.cs-inside-box {
+    padding: 10px;
+    padding-right: 0;
+}
+
+.cs-none-pr {
+    padding-right: 0;
+}
+
+.download-img {
+    height: 90px;
+    padding: 5px;
+    padding-right: 0;
+    width: 15%;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.cs-soft-download {
+    width: 75%;
+    text-align: left;
+}
+
+.cs-soft-download a {
+    line-height: 18px;
+}
+
+.cs-soft-download a i {
+    color: #fff;
+}
+
+.cs-tab-mid {
+    width: 60%;
+}
+
+.cs-tab-bottom {
+    height: 210px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+.cs-app-info {
+    margin-top: 5px;
+    width: 65%;
+    height: 50px;
+}
+
+.cs-app-span span {
+    padding-right: 5px;
+}
+
+.cs-tab-title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cs-app-hb {
+    height: 22px;
+    line-height: 15px;
+    font-size: 12px;
+}
+
+/*妫�娴嬬偣鎽勫儚澶�*/
+
+/*.cs-in-style2 input{
+  width:180px;
+}*/
+/*.cs-monitor-outbox{
+  padding:0 5px;
+}
+.cs-monitor-box{
+  border:1px solid #ddd;
+  box-shadow: 0 0 3px #ddd;
+  padding:5px;
+}
+*/
+.cs-monitor-title {
+    margin: 10px 0 0 10px;
+    font-weight: bold;
+}
+
+.cs-app-check {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+}
+
+.cs-font-io {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.anchorBL {
+    display: none;
+}
+
+.fileinput-remove {
+    display: inline-block;
+}
+
+span.sortIcon {
+    color: #fff;
+}
+
+.stock_info {
+    width: 100%;
+    float: left;
+
+}
+
+.stock_info p {
+    font-size: 16px;
+    height: 45px;
+    line-height: 45px;
+    font-weight: 700;
+    border-bottom: 1px dotted #D3D7DE;
+}
+
+.stock_info ul li {
+    font-size: 14px;
+    line-height: 36px;
+    height: 38px;
+    border-bottom: 1px dotted #D3D7DE;
+}
+
+.stock_info ul li:hover {
+    background: #FAFAFA;
+    cursor: pointer;
+}
+
+/* .stock_info ul li:hover a{
+  color:#05af50;
+} */
+.stock_info ul li.active {
+    background: #FAFAFA;
+}
+
+.stock_info ul li.active a {
+    color: #05af50;
+}
+
+.stock_info ul li .title {
+    float: left;
+    margin-left: 14px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    width: 70%;
+    overflow: hidden;
+}
+
+.stock_info ul li a {
+    color: #000;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.stock_info ul li .arrow {
+    float: right;
+}
+
+.cs-not-used {
+    background: #fadddd;
+}
+
+.cs-history .cs-tabList {
+
+}
+
+.cs-history-line {
+    color: #999;
+    width: 100%;
+    text-align: center;
+    margin: 20px 0 10px 0;
+}
+
+.panel-line {
+    border: 1px solid #ddd;
+}
+
+.cs-article-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cs-article-content {
+    border-top: 1px dotted #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    position: relative;
+
+}
+
+.panel-artic {
+    padding: 5px 0;
+}
+
+.panel-artic-con {
+    padding: 5px;
+}
+
+.cs-article-contian {
+    height: 40px;
+    overflow: hidden;
+}
+
+.cs-page-show {
+    height: auto;
+}
+
+.cs-articale-show {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #05af50;
+    cursor: pointer;
+}
+
+.cs-article-page {
+    text-indent: 2em;
+}
+
+/* .cs-inst-title .icon{
+	margin:0 5px;
+} */
+.fileinput-cancel {
+    display: none;
+}
+
+.cs-more-title {
+    text-align: right;
+    line-height: 24px;
+    padding-bottom: 5px;
+}
+
+.cs-number-include .inform-box {
+    padding: 10px;
+    padding-left: 1%;
+}
+
+.inform-box {
+    text-align: center;
+    /* line-height: 50px; */
+    font-size: 14px;
+
+    /* color:#fff; */
+    background: #f5f5f5;
+    border-radius: 10px;
+    width: 200px;
+    margin-right: 1%;
+    margin-bottom: 5px;
+}
+
+span.icon-circel {
+    display: inline-block;
+    background: #fff;
+    float: left;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+span.icon-circel span {
+    color: #f3b300;
+    font-size: 10px;
+}
+
+.yellow-box {
+    background: #f3b300;
+}
+
+.yellow-box .icon {
+    color: #f3b300;
+}
+
+.blue-box {
+    background: #009ada;
+}
+
+.blue-box .icon {
+    color: #009ada;
+}
+
+.red-box {
+    background: #f71128;
+}
+
+.red-box .icon {
+    color: #f71128;
+}
+
+.icon-circel {
+
+}
+
+.circel-num {
+    display: inline-block;
+    float: left;
+    margin-left: 10px;
+}
+
+.circel-num p, .circel-num i {
+    text-align: left;
+    color: #fff;
+}
+
+.circel-num i {
+    color: #fff;
+}
+
+.all-num {
+    padding: 10px;
+    padding-top: 0;
+
+    top: 30px;
+}
+
+.cs-include-title {
+    padding-left: 10px;
+    padding-bottom: 0;
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+    background: #05af50;
+    line-height: 32px;
+    margin-bottom: 5px;
+}
+
+.cs-include-text {
+    text-align: right;
+    padding-right: 10px;
+    color: #fff;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.cs-include-text a {
+    color: #fff;
+}
+
+.cs-stat-box {
+    padding: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-stat-box .icon {
+    font-size: 30px;
+    margin-right: 5px;
+    margin-top: -4px;
+    float: left;
+}
+
+.cs-stat-child {
+    border: 1px solid #ddd;
+    padding: 4px 0px 0 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px #b7deff;
+    margin-left: 5px;
+    margin-top: 5px;
+    float: left;
+    width: 31.5%;
+}
+
+.cs-stat-child:hover {
+    cursor: pointer;
+}
+
+.cs-stat-selected {
+    background: #b7deff;
+}
+
+.cs-stat-jigou .icon {
+    color: #05af50;
+}
+
+.cs-stat-jiance .icon {
+    color: #0084e9;
+}
+
+.cs-stat-duixiang .icon {
+    color: #e72a2a;
+}
+
+.cs-stat-search {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-stat-search .cs-input-cont {
+    width: 230px;
+    margin-left: 18px;
+}
+
+.cs-mechanism img {
+    width: 21px;
+    /* min-width: 30px; */
+    margin: 0px 6px 0 4px;
+}
+
+.cs-mechanism-box {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cs-map-infos .cs-mechanism-ul {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    top: 120px;
+    bottom: 50px;
+    right: 0;
+    left: 0;
+    background: #f1f1f1;
+}
+
+.cs-mechanism-ul li {
+    padding-left: 20px;
+    padding-bottom: 5px;
+    min-height: 50px;
+}
+
+.cs-map-infos {
+    overflow: hidden;
+}
+
+.cs-mechanism-ul .local-bg2, .cs-mechanism-ul .local-bg {
+    left: 15px;
+}
+
+.cs-mechan-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.cs-machine .cs-pagination {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+
+.cs-bottom-nav {
+    padding: 10px;
+    background: #fff;
+}
+
+.tips {
+    display: inline-block;
+    width: 240px;
+    vertical-align: middle;
+}
+
+.cs-text-algin img {
+    float: left;
+    vertical-align: middle;
+}
+
+.search-result .cs-pagination {
+    bottom: 8px;
+}
+
+.search-result .cs-pagination {
+    bottom: 8px;
+}
+
+/* 监管对象 */
+
+.cs-tabtitle li {
+    height: 34px;
+    line-height: 35px;
+}
+
+.cs-tabtitle ul {
+    padding-top: 4px;
+}
+
+.cs-anshan-title {
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.cs-code-bb {
+    padding: 7px;
+    height: 48px;
+    border: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.cs-code-bb span {
+    float: left;
+    margin: 5px 0 0 10px;
+}
+
+.cs-code-bb input {
+    height: 30px;
+    line-height: 30px;
+    float: left;
+}
+
+.cs-code-bb .cs-code-tips {
+    margin-left: 5px;
+}
+
+.cs-code-box li {
+    float: left;
+    border: 1px solid #ddd;
+    line-height: 28px;
+    text-align: center;
+    width: 40px;
+    cursor: pointer;
+}
+
+.cs-current {
+    background: #05af50;
+    color: #fff;
+}
+
+.stat-table {
+    display: table;
+    width: 100%;
+}
+
+.stat-table-cell {
+    display: table-cell;
+    /* padding:5px;  */
+    vertical-align: top;
+    padding-top: 12px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.stat-table-cell .icon {
+    font-size: 30px;
+}
+
+.stat-table-cell span {
+    /* float:left; */
+}
+
+.stat-box .cs-list-text {
+    text-align: left;
+    color: #000;
+}
+
+.stat-table-icon {
+    width: 60px;
+    text-align: right;
+    padding-top: 13px;
+    padding-right: 10px;
+}
+
+.stat-box .col-md-6 {
+    height: 70px;
+}
+
+.cs-home-lp2 .cs-li-big-font {
+    font-size: 24px;
+}
+
+.light-color, .light-color i {
+    color: #666;
+}
+
+.cs-stat-name {
+    margin-bottom: 6px;
+}
+
+.cs-ul-bg {
+    padding-top: 6px;
+    padding-bottom: 7px;
+    background: #f1f1f1;
+}
+
+.ins-box {
+    background: #fff;
+}
+
+.cs-tabcontent {
+    background: #fff;
+    min-height: 300px;
+}
+
+.ins-box {
+    padding: 0px 0 10px 0;
+    height: 133px;
+}
+
+.select-rad input {
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+.cs-week i, .cs-week span {
+    float: left;
+}
+
+.cs-week i {
+    margin-right: 10px;
+}
+
+.cs-week span input {
+    width: 16px;
+    height: 16px;
+    margin-top: 7px;
+}
+
+.cs-ul-form {
+    padding: 2px 0;
+}
+
+.cs-ul-form li {
+    padding: 4px 0 0 0;
+    float: left;
+}
+.icons img{
+    width: 20px;
+    height: 20px;
+}
+
+.cs-tool-box{
+    position: relative;
+    margin-right: 4px;
+}
+.cs-tool-box div{
+    position: absolute;
+    width: 74px;
+    background: #fff;
+    border: 1px solid #abc8ff;
+    right: -26px;
+    top: -20px;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 2px;
+    border-radius: 4px;
+    display: none;
+}
+.cs-tooltips a{
+    color:#004fa7;
+
+}
+
+.zz-table{
+    width: 100%;
+}
+
+.zz-table td{
+    font-size: 16px;
+}
+.zz-accept-title{
+
+}
+.zz-accept-title h2{
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    font-size: 26px;
+}
+.zz-accept-title  a{
+    color: #fff;
+}
+.center-text{
+    font-size: 24px;
+    color: #fff;
+    padding: 0;
+}
+.zz-scan th,.zz-scan td{
+    text-align: center;
+}
+.zz-scan{
+    position: absolute;
+    left: 10px;
+    top: 60px;
+    bottom: 10px;
+    width: 74%;
+    background: #fff;
+    box-shadow: 0 0 2px #ddd;
+    overflow:auto;
+    padding-bottom: 60px;
+}
+.zz-scan3{
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    width: 74%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
+    background: #fff;
+    padding: 0px;
+    text-align: center;
+    border-top: 1px solid #f1f1f1;
+    padding: 0 10px;
+}
+
+.zz-scan3 .sure-btn{
+    color: #fff;
+    /* background-color: #fff; */
+    border-color: #ccc;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    line-height: 30px;
+    padding: 4px 12px;
+    font-size: 20px;
+}
+    
+.zz-scan2{
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+    width: 24%;
+    background: #fff;
+    box-shadow: 0 0 2px #ddd
+}
+.zz-scan4{
+    right: 10px;
+    width: auto;
+}
+.zz-scan h3,.zz-scan2 h3{
+    border-bottom: 1px solid #f1f1f1;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.zz-enter-code{
+    border-top: 1px solid #ddd;
+}
+.zz-scan-content ul li{
+    font-size: 16px;
+    line-height: 36px;
+}
+.zz-scan table{
+    font-size: 16px;
+    width: 100%;
+}
+.zz-scan table tr{
+    height: 48px;
+    border-bottom: 1px solid #ddd;
+
+}
+.zz-code-input{
+    line-height: 32px;
+    height: 40px;
+    padding-top: 10px;
+    padding-left:30px; 
+    font-size: 16px;
+}
+.zz-code-input i{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+}
+.zz-code-input input{
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #f0f5ff;
+    padding:0 15px;
+}
+.zz-form-input{
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #f0f5ff;
+    padding:0 15px;
+    width: 140px;
+    line-height: 30px;
+    text-align: left;
+}
+.cs-form-table .top-tr{
+    background: #13adff;
+    color: #fff;
+}
+    
+.cs-bottom-tools2{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #f1f1f1;
+}
+a.back-btn{
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    border-radius: 40px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.zz-scan-list li{
+    float: left;
+    width: 28%;
+    
+    margin-right: 5%;
+}
+.zz-scan-list li i{
+    border-bottom: 1px solid #ddd;
+    display: inline-block;
+    width: 70%;
+    padding-left: 1%;
+}
+.input-group2{
+    width: 300px;
+    padding: 10px;
+}
+.input-group2 .form-control{
+    width: auto;
+    float: right;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    height: 36px;
+}
+.input-group2 .btn{
+    height: 36px;
+}
+.cs-font-top{
+    padding: 10px;
+}
+.text-danger{
+	color:#dc1f1c;
+	cursor:pointer;
+}
+.icon{
+	cursor:pointer;
+}

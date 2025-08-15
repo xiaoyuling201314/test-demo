@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.task.TbTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.task.TbTask" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_code" property="taskCode" jdbcType="VARCHAR" />
+    <result column="task_title" property="taskTitle" jdbcType="VARCHAR" />
+    <result column="task_content" property="taskContent" jdbcType="VARCHAR" />
+    <result column="task_detail_pId" property="taskDetailPid" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+    <result column="task_source" property="taskSource" jdbcType="VARCHAR" />
+    <result column="task_status" property="taskStatus" jdbcType="SMALLINT" />
+    <result column="task_total" property="taskTotal" jdbcType="INTEGER" />
+    <result column="sample_number" property="sampleNumber" jdbcType="INTEGER" />
+    <result column="task_sdate" property="taskSdate" jdbcType="TIMESTAMP" />
+    <result column="task_edate" property="taskEdate" jdbcType="TIMESTAMP" />
+    <result column="task_pdate" property="taskPdate" jdbcType="TIMESTAMP" />
+    <result column="task_fdate" property="taskFdate" jdbcType="TIMESTAMP" />
+    <result column="task_departId" property="taskDepartid" jdbcType="INTEGER" />
+    <result column="task_announcer" property="taskAnnouncer" jdbcType="VARCHAR" />
+    <result column="task_cdate" property="taskCdate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="view_flag" property="viewFlag" jdbcType="SMALLINT" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="file_path" property="filePath" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="JoinResultMap" type="com.dayuan.bean.task.TbTask" extends="BaseResultMap">
+    <result column="taskDepartName" property="taskDepartName" jdbcType="VARCHAR" />
+  	<result column="taskAnnouncerName" property="taskAnnouncerName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="statisticsResultMap" type="com.dayuan.bean.task.TaskStatistics">
+    <result column="taskDate" property="taskDate" jdbcType="VARCHAR" />
+  	<result column="missionNum" property="missionNum" jdbcType="SMALLINT" />
+  	<result column="missionFinish" property="missionFinish" jdbcType="SMALLINT" />
+  	<result column="missionUnqualified" property="missionUnqualified" jdbcType="SMALLINT" />
+  	<result column="mCompletionRate" property="mCompletionRate" jdbcType="DOUBLE" />
+  	<result column="receivedNum" property="receivedNum" jdbcType="SMALLINT" />
+  	<result column="receivedFinish" property="receivedFinish" jdbcType="SMALLINT" />
+  	<result column="receivedUnqualified" property="receivedUnqualified" jdbcType="SMALLINT" />
+  	<result column="rCompletionRate" property="rCompletionRate" jdbcType="DOUBLE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, task_code, task_title, task_content, task_detail_pId, project_id, task_type, task_source,
+    task_status, task_total, sample_number, task_sdate, task_edate, task_pdate, task_fdate, 
+    task_departId, task_announcer, task_cdate, remark, view_flag, delete_flag, file_path, create_by, 
+    create_date, update_by, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="queryJoinById" resultMap="JoinResultMap" parameterType="java.lang.String" >
+  	select task.*, tuser.realname as taskAnnouncerName,depart.depart_name as taskDepartName
+    from tb_task  task
+	LEFT JOIN t_s_user tuser on task.task_announcer=tuser.id 
+	LEFT JOIN t_s_depart depart on task.task_departId=depart.id
+	where task.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    update tb_task set delete_flag=1,update_date=now()
+	where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+		#{ids}
+	</foreach>
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.task.TbTask" >
+    insert into tb_task (id, task_code, task_title, 
+      task_content, task_detail_pId, project_id, 
+      task_type, task_source, task_status, task_total, 
+      sample_number, task_sdate, task_edate, 
+      task_pdate, task_fdate, task_departId, 
+      task_announcer, task_cdate, remark, 
+      view_flag, delete_flag, file_path, create_by, 
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{taskCode,jdbcType=VARCHAR}, #{taskTitle,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=VARCHAR}, #{taskDetailPid,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{taskType,jdbcType=VARCHAR}, #{taskSource,jdbcType=VARCHAR}, #{taskStatus,jdbcType=SMALLINT}, #{taskTotal,jdbcType=INTEGER}, 
+      #{sampleNumber,jdbcType=INTEGER}, #{taskSdate,jdbcType=TIMESTAMP}, #{taskEdate,jdbcType=TIMESTAMP}, 
+      #{taskPdate,jdbcType=TIMESTAMP}, #{taskFdate,jdbcType=TIMESTAMP}, #{taskDepartid,jdbcType=INTEGER}, 
+      #{taskAnnouncer,jdbcType=VARCHAR}, #{taskCdate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{viewFlag,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, #{filePath,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.dayuan.bean.task.TbTask" >
+    insert into tb_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskCode != null" >
+        task_code,
+      </if>
+      <if test="taskTitle != null" >
+        task_title,
+      </if>
+      <if test="taskContent != null" >
+        task_content,
+      </if>
+      <if test="taskDetailPid != null" >
+        task_detail_pId,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="taskType != null" >
+        task_type,
+      </if>
+      <if test="taskSource != null" >
+        task_source,
+      </if>
+      <if test="taskStatus != null" >
+        task_status,
+      </if>
+      <if test="taskTotal != null" >
+        task_total,
+      </if>
+      <if test="sampleNumber != null" >
+        sample_number,
+      </if>
+      <if test="taskSdate != null" >
+        task_sdate,
+      </if>
+      <if test="taskEdate != null" >
+        task_edate,
+      </if>
+      <if test="taskPdate != null" >
+        task_pdate,
+      </if>
+      <if test="taskFdate != null" >
+        task_fdate,
+      </if>
+      <if test="taskDepartid != null" >
+        task_departId,
+      </if>
+      <if test="taskAnnouncer != null" >
+        task_announcer,
+      </if>
+      <if test="taskCdate != null" >
+        task_cdate,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="viewFlag != null" >
+        view_flag,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="filePath != null" >
+        file_path,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskCode != null" >
+        #{taskCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTitle != null" >
+        #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null" >
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDetailPid != null" >
+        #{taskDetailPid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="taskSource != null" >
+        #{taskSource,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null" >
+        #{taskStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="taskTotal != null" >
+        #{taskTotal,jdbcType=INTEGER},
+      </if>
+      <if test="sampleNumber != null" >
+        #{sampleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="taskSdate != null" >
+        #{taskSdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskEdate != null" >
+        #{taskEdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskPdate != null" >
+        #{taskPdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskFdate != null" >
+        #{taskFdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskDepartid != null" >
+        #{taskDepartid,jdbcType=INTEGER},
+      </if>
+      <if test="taskAnnouncer != null" >
+        #{taskAnnouncer,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCdate != null" >
+        #{taskCdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="viewFlag != null" >
+        #{viewFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.task.TbTask" >
+    update tb_task
+    <set >
+      <if test="taskCode != null" >
+        task_code = #{taskCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTitle != null" >
+        task_title = #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null" >
+        task_content = #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDetailPid != null" >
+        task_detail_pId = #{taskDetailPid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null" >
+        task_type = #{taskType,jdbcType=VARCHAR},
+      </if>
+      <if test="taskSource != null" >
+        task_source = #{taskSource,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null" >
+        task_status = #{taskStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="taskTotal != null" >
+        task_total = #{taskTotal,jdbcType=INTEGER},
+      </if>
+      <if test="sampleNumber != null" >
+        sample_number = #{sampleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="taskSdate != null" >
+        task_sdate = #{taskSdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskEdate != null" >
+        task_edate = #{taskEdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskPdate != null" >
+        task_pdate = #{taskPdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskFdate != null" >
+        task_fdate = #{taskFdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskDepartid != null" >
+        task_departId = #{taskDepartid,jdbcType=INTEGER},
+      </if>
+      <if test="taskAnnouncer != null" >
+        task_announcer = #{taskAnnouncer,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCdate != null" >
+        task_cdate = #{taskCdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="viewFlag != null" >
+        view_flag = #{viewFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="filePath != null" >
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <!--
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      -->
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.task.TbTask" >
+    update tb_task
+    set task_code = #{taskCode,jdbcType=VARCHAR},
+      task_title = #{taskTitle,jdbcType=VARCHAR},
+      task_content = #{taskContent,jdbcType=VARCHAR},
+      task_detail_pId = #{taskDetailPid,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      task_type = #{taskType,jdbcType=VARCHAR},
+      task_source = #{taskSource,jdbcType=VARCHAR},
+      task_status = #{taskStatus,jdbcType=SMALLINT},
+      task_total = #{taskTotal,jdbcType=INTEGER},
+      sample_number = #{sampleNumber,jdbcType=INTEGER},
+      task_sdate = #{taskSdate,jdbcType=TIMESTAMP},
+      task_edate = #{taskEdate,jdbcType=TIMESTAMP},
+      task_pdate = #{taskPdate,jdbcType=TIMESTAMP},
+      task_fdate = #{taskFdate,jdbcType=TIMESTAMP},
+      task_departId = #{taskDepartid,jdbcType=INTEGER},
+      task_announcer = #{taskAnnouncer,jdbcType=VARCHAR},
+      task_cdate = #{taskCdate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      view_flag = #{viewFlag,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="loadDatagrid" resultMap="JoinResultMap" parameterType="Object" >
+    select tt.id id, tt.task_code task_code, tt.task_title task_title, tt.task_content task_content, tt.task_detail_pId task_detail_pId, 
+    tt.project_id project_id, tt.task_type task_type, tt.task_source task_source, tt.task_status task_status, tt.task_total task_total, 
+    tt.sample_number sample_number, tt.task_sdate task_sdate, tt.task_edate task_edate, tt.task_pdate task_pdate, tt.task_fdate task_fdate, 
+    tt.task_departId task_departId, tt.task_announcer task_announcer, tt.task_cdate task_cdate, tt.remark remark, tt.view_flag view_flag, 
+    tt.delete_flag delete_flag, tt.file_path file_path, tt.create_by create_by, tt.create_date create_date, tt.update_by update_by, 
+    tt.update_date update_date, tsu.realname taskAnnouncerName, tsd.depart_name taskDepartName 
+    from tb_task tt 
+    left join t_s_depart tsd on tsd.id = tt.task_departId 
+    left join t_s_user tsu on tsu.id = tt.task_announcer 
+    where tt.delete_flag = 0 
+	<if test="obj.task != null">
+		<if test="obj.task.taskTitle !=null">
+			and tt.task_title like concat('%',#{obj.task.taskTitle},'%')
+		</if>
+		<if test="obj.task.taskType !=null">
+			and tt.task_type = #{obj.task.taskType}
+		</if>
+		<if test="obj.task.taskSource !=null">
+			and tt.task_source = #{obj.task.taskSource}
+		</if>
+		<if test="obj.task.taskStatus !=null">
+			and tt.task_status = #{obj.task.taskStatus}
+		</if>
+		<if test="obj.task.taskAnnouncer !=null">
+			and tt.task_announcer = #{obj.task.taskAnnouncer}
+		</if>
+		<if test="obj.task.taskDepartid !=null">
+			and tt.task_departId = #{obj.task.taskDepartid}
+		</if>
+		<if test="obj.task.taskCdate !=null">
+			<!-- 统计当天日期 -->
+			and tt.task_cdate >= #{obj.task.taskCdate} and date_add(date_format(#{obj.task.taskCdate},'%Y-%m-%d'),interval 1 day) > tt.task_cdate
+		</if>
+	</if>
+    order by tt.create_date ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal
+    from tb_task 
+    where delete_flag = 0
+	<if test="obj.task != null">
+		<if test="obj.task.taskTitle !=null">
+			and task_title like concat('%',#{obj.task.taskTitle},'%')
+		</if>
+		<if test="obj.task.taskType !=null">
+			and task_type = #{obj.task.taskType}
+		</if>
+		<if test="obj.task.taskSource !=null">
+			and task_source = #{obj.task.taskSource}
+		</if>
+		<if test="obj.task.taskStatus !=null">
+			and task_status = #{obj.task.taskStatus}
+		</if>
+		<if test="obj.task.taskAnnouncer !=null">
+			and task_announcer = #{obj.task.taskAnnouncer}
+		</if>
+		<if test="obj.task.taskDepartid !=null">
+			and task_departId = #{obj.task.taskDepartid}
+		</if>
+		<if test="obj.task.taskCdate !=null">
+			<!-- 统计当天日期 -->
+			and task_cdate >= #{obj.task.taskCdate} and date_add(date_format(#{obj.task.taskCdate},'%Y-%m-%d'),interval 1 day) > task_cdate
+		</if>
+	</if>
+  </select>
+  
+  <select id="getSecTask" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task
+    where task_detail_pId = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryByReceiveId" resultMap="BaseResultMap" parameterType="Object">
+   select DISTINCT tt.id id, tt.task_title taskTitle from tb_task_detail ttd 
+	left join tb_task tt on ttd.task_id=tt.id 
+	where tt.delete_flag = 0 and task_status =1 and  (ttd.receive_pointid = #{receivePointid} or ttd.receive_nodeid = #{receiveNodeid})
+	order by tt.create_date desc
+  </select>
+  
+  <select id="queryChildTaskById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> from tb_task where FIND_IN_SET(id, getChildTaskList(#{id}))
+  </select>
+  <!-- 根据任务ID更新抽样数量 -->
+   <!-- <update id="updateSampleNumberById" parameterType="java.lang.String" >
+   update tb_task set sample_number=sample_number+1, task_status = if(sample_number>=task_total,"2",task_status) where id=#{id}
+  </update> -->
+  <update id="updateSampleNumberById" parameterType="java.lang.String" >
+   update tb_task set sample_number=sample_number+1, task_status = if(sample_number>=task_total,"2",task_status), 
+   	update_by=#{userId}, update_date=#{date} where id=#{taskId}
+  </update>
+  <!-- 根据用户权限查询下发任务 xiaoyuling 2018-05-14-->
+    <select id="queryMission" resultMap="statisticsResultMap" parameterType="Object">
+ 		select DATE_FORMAT(task_cdate,'%Y-%m') taskDate,count(1) as missionNum,
+		SUM(if(t.task_status=2 ,1,0)) as missionFinish,(count(1)-SUM(if(t.task_status=2 ,1,0))) as missionUnqualified,
+		(convert(SUM(if(t.task_status=2 ,1,0))/count(1)*100,decimal(10,2))) as mCompletionRate
+		from tb_task t
+		WHERE 1=1
+        <if test="departId != null"> AND task_departId = #{departId} </if>
+        <if test="pointId != null"> AND 1=0 </if>
+		<if test="startTime !=null and endTime !=null">
+			AND task_cdate&gt;=#{startTime} and task_cdate&lt;=#{endTime}
+		</if>
+		<if test="month !=0">
+			<!-- and  month(task_cdate)&lt;=#{month} and year(task_cdate)=#{year} -->
+			AND task_cdate&gt;=CONCAT(#{year},'-01-01') AND task_cdate&lt;=CONCAT(#{year},'-',#{month},'-32')
+		</if>
+		GROUP BY taskDate order by taskDate desc
+  	</select>
+  	 <!-- 根据用户权限查询接收任务 xiaoyuling 2018-05-14-->
+  	  <select id="queryReceived" resultMap="statisticsResultMap" parameterType="Object">
+ 		 select DATE_FORMAT(task_cdate,'%Y-%m') taskDate,count(1) as receivedNum,
+		SUM(if(t2.task_total=t2.sample_number,1,0)) as receivedFinish,
+		(count(1)-(SUM(if(t2.task_total=t2.sample_number,1,0)))) as receivedUnqualified,
+		(convert(SUM(if(t2.task_total=t2.sample_number,1,0))/count(1)*100,decimal(10,2))) as rCompletionRate
+		 from tb_task t1
+		INNER JOIN tb_task_detail t2 on t1.id=t2.task_id  
+		WHERE 1=1
+		<if test="pointId != null and pointId !=0">
+			and  t2.receive_nodeid = #{pointId}
+		</if>
+		<if test="departId != null and departId !=0">
+			and t2.receive_pointid = #{departId}
+		</if>
+		<!-- and t2.receive_userid=#{userId} -->
+		<!-- (FIND_IN_SET(t2.receive_nodeid,getChildDepartLst(#{departId})) 
+		or (FIND_IN_SET(t2.receive_pointid,getChildDepartLst(#{departId})))) -->
+		<if test="startTime !=null and endTime !=null">
+		and t1.task_cdate&gt;=#{startTime} and t1.task_cdate&lt;=#{endTime}
+		</if>
+		<if test="month !=0">
+		<!-- and month(t1.task_cdate)&lt;=#{month} and year(t1.task_cdate)=#{year} -->
+		AND task_cdate&gt;=CONCAT(#{year},'-01-01') AND task_cdate&lt;=CONCAT(#{year},'-',#{month},'-32')
+		</if>
+		GROUP BY taskDate order by taskDate desc
+  	</select>
+</mapper>

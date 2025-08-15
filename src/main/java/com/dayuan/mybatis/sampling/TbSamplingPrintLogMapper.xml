@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.sampling.TbSamplingReportPrintLogMapper">
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.sampling.TbSamplingReportPrintLog">
+    <id property="id" column="id" />
+    <result property="samplingId" column="sampling_id" />
+    <result property="ccuId" column="ccu_id" />
+    <result property="iuId" column="iu_id" />
+    <result property="filePath" column="file_path" />
+    <result property="generatorTime" column="generator_time" />
+    <result property="downloadNumber" column="download_number" />
+    <result property="scanNumber" column="scan_number" />
+    <result property="param1" column="param1" />
+    <result property="param2" column="param2" />
+    <result property="param3" column="param3" />
+    <result property="deleteFlag" column="delete_flag" />
+    <result property="createBy" column="create_by" />
+    <result property="createDate" column="create_date" />
+    <result property="updateBy" column="update_by" />
+    <result property="updateDate" column="update_date" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,sampling_id,ccu_id,iu_id,file_path,generator_time,
+        download_number,scan_number,param1,param2,param3,
+        delete_flag,create_by,create_date,update_by,update_date
+  </sql>
+
+<!--  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from tb_sampling_report_printlog-->
+<!--    where  id = #{id}-->
+<!--  </select>-->
+
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">-->
+<!--    delete from tb_sampling_report_printlog-->
+<!--    where  id = #{id}-->
+<!--  </delete>-->
+<!--  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dayuan.bean.sampling.TbSamplingPrintLog" useGeneratedKeys="true">-->
+<!--    insert into tb_sampling_report_printlog-->
+<!--    ( id,sampling_id,ccu_id,iu_id,file_path,generator_time,-->
+<!--      download_number,scan_number,param1,param2,param3,-->
+<!--      delete_flag,create_by,create_date,update_by,update_date)-->
+<!--    values (#{id},#{samplingId},#{ccuId},#{iuId},#{filePath},#{generatorTime},-->
+<!--            #{downloadNumber},#{scanNumber},#{param1},#{param2},#{param3},-->
+<!--            #{deleteFlag},#{createBy},#{createDate},#{updateBy},#{updateDate})-->
+<!--  </insert>-->
+<!--  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.dayuan.bean.sampling.TbSamplingPrintLog" useGeneratedKeys="true">-->
+<!--    insert into tb_sampling_report_printlog-->
+<!--    <trim prefix="(" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">id,</if>-->
+<!--      <if test="samplingId != null">sampling_id,</if>-->
+<!--      <if test="ccuId != null">ccu_id,</if>-->
+<!--      <if test="iuId != null">iu_id,</if>-->
+<!--      <if test="filePath != null">file_path,</if>-->
+<!--      <if test="generatorTime != null">generator_time,</if>-->
+<!--      <if test="downloadNumber != null">download_number,</if>-->
+<!--      <if test="scanNumber != null">scan_number,</if>-->
+<!--      <if test="param1 != null">param1,</if>-->
+<!--      <if test="param2 != null">param2,</if>-->
+<!--      <if test="param3 != null">param3,</if>-->
+<!--      <if test="deleteFlag != null">delete_flag,</if>-->
+<!--      <if test="createBy != null">create_by,</if>-->
+<!--      <if test="createDate != null">create_date,</if>-->
+<!--      <if test="updateBy != null">update_by,</if>-->
+<!--      <if test="updateDate != null">update_date,</if>-->
+<!--    </trim>-->
+<!--    <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--      <if test="id != null">#{id},</if>-->
+<!--      <if test="samplingId != null">#{samplingId},</if>-->
+<!--      <if test="ccuId != null">#{ccuId},</if>-->
+<!--      <if test="iuId != null">#{iuId},</if>-->
+<!--      <if test="filePath != null">#{filePath},</if>-->
+<!--      <if test="generatorTime != null">#{generatorTime},</if>-->
+<!--      <if test="downloadNumber != null">#{downloadNumber},</if>-->
+<!--      <if test="scanNumber != null">#{scanNumber},</if>-->
+<!--      <if test="param1 != null">#{param1},</if>-->
+<!--      <if test="param2 != null">#{param2},</if>-->
+<!--      <if test="param3 != null">#{param3},</if>-->
+<!--      <if test="deleteFlag != null">#{deleteFlag},</if>-->
+<!--      <if test="createBy != null">#{createBy},</if>-->
+<!--      <if test="createDate != null">#{createDate},</if>-->
+<!--      <if test="updateBy != null">#{updateBy},</if>-->
+<!--      <if test="updateDate != null">#{updateDate},</if>-->
+<!--    </trim>-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.sampling.TbSamplingPrintLog">-->
+<!--    update tb_sampling_report_printlog-->
+<!--    <set>-->
+<!--      <if test="samplingId != null">-->
+<!--        sampling_id = #{samplingId},-->
+<!--      </if>-->
+<!--      <if test="ccuId != null">-->
+<!--        ccu_id = #{ccuId},-->
+<!--      </if>-->
+<!--      <if test="iuId != null">-->
+<!--        iu_id = #{iuId},-->
+<!--      </if>-->
+<!--      <if test="filePath != null">-->
+<!--        file_path = #{filePath},-->
+<!--      </if>-->
+<!--      <if test="generatorTime != null">-->
+<!--        generator_time = #{generatorTime},-->
+<!--      </if>-->
+<!--      <if test="downloadNumber != null">-->
+<!--        download_number = #{downloadNumber},-->
+<!--      </if>-->
+<!--      <if test="scanNumber != null">-->
+<!--        scan_number = #{scanNumber},-->
+<!--      </if>-->
+<!--      <if test="param1 != null">-->
+<!--        param1 = #{param1},-->
+<!--      </if>-->
+<!--      <if test="param2 != null">-->
+<!--        param2 = #{param2},-->
+<!--      </if>-->
+<!--      <if test="param3 != null">-->
+<!--        param3 = #{param3},-->
+<!--      </if>-->
+<!--      <if test="deleteFlag != null">-->
+<!--        delete_flag = #{deleteFlag},-->
+<!--      </if>-->
+<!--      <if test="createBy != null">-->
+<!--        create_by = #{createBy},-->
+<!--      </if>-->
+<!--      <if test="createDate != null">-->
+<!--        create_date = #{createDate},-->
+<!--      </if>-->
+<!--      <if test="updateBy != null">-->
+<!--        update_by = #{updateBy},-->
+<!--      </if>-->
+<!--      <if test="updateDate != null">-->
+<!--        update_date = #{updateDate},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where   id = #{id}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.sampling.TbSamplingPrintLog">-->
+<!--    update tb_sampling_report_printlog-->
+<!--    set-->
+<!--      sampling_id =  #{samplingId},-->
+<!--      ccu_id =  #{ccuId},-->
+<!--      iu_id =  #{iuId},-->
+<!--      file_path =  #{filePath},-->
+<!--      generator_time =  #{generatorTime},-->
+<!--      download_number =  #{downloadNumber},-->
+<!--      scan_number =  #{scanNumber},-->
+<!--      param1 =  #{param1},-->
+<!--      param2 =  #{param2},-->
+<!--      param3 =  #{param3},-->
+<!--      delete_flag =  #{deleteFlag},-->
+<!--      create_by =  #{createBy},-->
+<!--      create_date =  #{createDate},-->
+<!--      update_by =  #{updateBy},-->
+<!--      update_date =  #{updateDate}-->
+<!--    where   id = #{id}-->
+<!--  </update>-->
+</mapper>

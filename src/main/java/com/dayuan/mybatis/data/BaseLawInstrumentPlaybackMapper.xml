@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.data.BaseLawInstrumentPlaybackMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseLawInstrumentPlayback">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="instrument_id" jdbcType="INTEGER" property="instrumentId" />
+		<result column="devIdno" jdbcType="VARCHAR" property="devidno" />
+		<result column="time" jdbcType="TIMESTAMP" property="time" />
+		<result column="type" jdbcType="SMALLINT" property="type" />
+		<result column="chn" jdbcType="SMALLINT" property="chn" />
+		<result column="file" jdbcType="VARCHAR" property="file" />
+		<result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, instrument_id, devIdno, time, type, chn, file, file_size
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_law_instrument_playback
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from base_law_instrument_playback
+		where
+		id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.data.BaseLawInstrumentPlayback">
+		insert into base_law_instrument_playback (id,
+		instrument_id, devIdno,
+		time, type,
+		chn, file, file_size
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{instrumentId,jdbcType=INTEGER}, #{devidno,jdbcType=VARCHAR},
+		#{time,jdbcType=TIMESTAMP}, #{type,jdbcType=SMALLINT},
+		#{chn,jdbcType=SMALLINT},
+		#{file,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseLawInstrumentPlayback">
+		insert into base_law_instrument_playback
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="instrumentId != null">
+				instrument_id,
+			</if>
+			<if test="devidno != null">
+				devIdno,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="chn != null">
+				chn,
+			</if>
+			<if test="file != null">
+				file,
+			</if>
+			<if test="fileSize != null">
+				file_size,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="instrumentId != null">
+				#{instrumentId,jdbcType=INTEGER},
+			</if>
+			<if test="devidno != null">
+				#{devidno,jdbcType=VARCHAR},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=SMALLINT},
+			</if>
+			<if test="chn != null">
+				#{chn,jdbcType=SMALLINT},
+			</if>
+			<if test="file != null">
+				#{file,jdbcType=VARCHAR},
+			</if>
+			<if test="fileSize != null">
+				#{fileSize,jdbcType=DOUBLE},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseLawInstrumentPlayback">
+		update base_law_instrument_playback
+		<set>
+			<if test="instrumentId != null">
+				instrument_id = #{instrumentId,jdbcType=INTEGER},
+			</if>
+			<if test="devidno != null">
+				devIdno = #{devidno,jdbcType=VARCHAR},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=SMALLINT},
+			</if>
+			<if test="chn != null">
+				chn = #{chn,jdbcType=SMALLINT},
+			</if>
+			<if test="file != null">
+				file = #{file,jdbcType=VARCHAR},
+			</if>
+			<if test="fileSize != null">
+				file_size = #{fileSize,jdbcType=DOUBLE},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseLawInstrumentPlayback">
+		update base_law_instrument_playback
+		set instrument_id = #{instrumentId,jdbcType=INTEGER},
+		devIdno = #{devidno,jdbcType=VARCHAR},
+		time = #{time,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=SMALLINT},
+		chn = #{chn,jdbcType=SMALLINT},
+		file = #{file,jdbcType=VARCHAR},
+		file_size = #{fileSize,jdbcType=DOUBLE}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询条件  2019-5-29 添加按照文件分组 目的是为了去重 -->
+	<sql id="Example_Where_Clause">
+		where instrument_id =#{obj.instrumentId} and type=#{obj.type}
+		<if test="obj.start != null">
+				and time &gt;= #{obj.start}
+			</if>
+		<if test="obj.end != null">
+				and time &lt;= #{obj.end}
+			</if>
+	</sql>
+	<!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from base_law_instrument_playback
+		<include refid="Example_Where_Clause" />
+		GROUP BY file
+		order by time desc  LIMIT #{rowOffset}, #{pageSize}
+	</select>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from
+		 (SELECT DISTINCT file  from         base_law_instrument_playback
+		<include refid="Example_Where_Clause" />
+		)t
+	</select>
+	
+	<!-- /**
+	 * 保存 抽样单下载视频任务
+	 * @param bean
+	 * @author LuoYX
+	 * @date 2018年8月21日
+	 */
+	void saveTask(TbSampling bean); -->
+	<select id="saveTask" parameterType="com.dayuan.bean.sampling.TbSampling">
+		insert into base_law_instrument_download_plan (sampling_id,sampling_date,devidno)
+		values (#{id},#{samplingDate},'dd49d000')
+	</select>
+		<!-- /**
+	 * 保存 抽样单下载视频任务2
+	 * @param bean
+	 * @author huht  并且状态为正在下载1
+	 * @date 2019年5月29日
+	 */-->
+	<insert id="saveTask2" parameterType="com.dayuan.bean.sampling.TbSampling"    useGeneratedKeys="true" keyProperty="opeId"  >
+		insert into base_law_instrument_download_plan (sampling_id,sampling_date,devidno,state)
+		values (#{id},#{samplingDate},'dd49d000',1)
+	</insert>
+	<!-- /**
+	 * 查询抽样单下载视频任务
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年8月21日
+	 */
+	List<Map<String, Object>> queryDownloadPlan(); -->
+	<select id="queryDownloadPlan" resultType="java.util.Map">
+		select * from base_law_instrument_download_plan
+	</select>
+
+	<!-- void deletePlan(Integer id); -->
+	<delete id="deletePlan" parameterType="java.lang.Integer">
+		delete from base_law_instrument_download_plan where id=#{id}
+	</delete>
+	
+	<!-- 修改视频任务状态 0是未下载1是正在下载 -->
+	<update id="updateState" parameterType="Object">
+		update base_law_instrument_download_plan
+		set state = #{state},
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+		<!-- 根据抽样单id 查询视频任务 2019-5-28  huht-->
+	<select id="queryPlanBySamId" resultType="java.util.Map" parameterType="java.lang.Integer">
+		select * from base_law_instrument_download_plan where sampling_id=#{sampling_id}
+	</select>
+			<!--查询执法仪视频是否存在 2019-5-28 huht -->
+		<select id="selectByFileName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_law_instrument_playback
+		where file LIKE CONCAT('%',#{fileName},'%')
+	</select>
+</mapper>

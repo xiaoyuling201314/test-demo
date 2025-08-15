@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseDetectMethodMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseDetectMethod">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="detect_modular_id" property="detectModularId" jdbcType="VARCHAR"/>
+        <result column="detect_method" property="detectMethod" jdbcType="VARCHAR"/>
+        <result column="show_parameter" property="showParameter" jdbcType="VARCHAR"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="isCheck" property="isCheck" jdbcType="SMALLINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, detect_modular_id, detect_method, show_parameter, delete_flag, create_by, create_date, update_by,
+        update_date, isCheck
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_detect_method
+        where delete_flag=0 and id = #{id,jdbcType=VARCHAR}
+    </select>
+    <!-- 根据检测模块Id查询检测方法 -->
+    <select id="queryByModularId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_detect_method
+        where delete_flag=0 and isCheck=0 and detect_modular_id = #{detectModularId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        UPDATE base_detect_method
+        SET delete_flag = 1, update_date = now()
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.data.BaseDetectMethod">
+        INSERT INTO base_detect_method (id, detect_modular_id, detect_method, show_parameter,
+                                        delete_flag, create_by, create_date,
+                                        update_by, update_date)
+        VALUES (#{id,jdbcType=VARCHAR}, #{detectModularId,jdbcType=VARCHAR}, #{detectMethod,jdbcType=VARCHAR}, #{showParameter,jdbcType=VARCHAR},
+                #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseDetectMethod">
+        insert into base_detect_method
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="detectModularId != null">
+                detect_modular_id,
+            </if>
+            <if test="detectMethod != null">
+                detect_method,
+            </if>
+            <if test="showParameter != null">
+                show_parameter,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="isCheck != null">
+                isCheck,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="detectModularId != null">
+                #{detectModularId,jdbcType=VARCHAR},
+            </if>
+            <if test="detectMethod != null">
+                #{detectMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="showParameter != null">
+                #{showParameter,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null">
+                #{isCheck,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseDetectMethod">
+        update base_detect_method
+        <set>
+            <if test="detectModularId != null">
+                detect_modular_id = #{detectModularId,jdbcType=VARCHAR},
+            </if>
+            <if test="detectMethod != null">
+                detect_method = #{detectMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="showParameter != null">
+                show_parameter = #{showParameter,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null">
+                isCheck = #{isCheck,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseDetectMethod">
+        UPDATE base_detect_method
+        SET detect_modular_id = #{detectModularId,jdbcType=VARCHAR},
+            detect_method     = #{detectMethod,jdbcType=VARCHAR},
+            show_parameter    = #{showParameter,jdbcType=VARCHAR},
+            delete_flag       = #{deleteFlag,jdbcType=SMALLINT},
+            create_by         = #{createBy,jdbcType=VARCHAR},
+            create_date       = #{createDate,jdbcType=TIMESTAMP},
+            update_by         = #{updateBy,jdbcType=VARCHAR},
+            isCheck           = #{isCheck,jdbcType=SMALLINT},
+            update_date       = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 查询条件 -->
+    <sql id="check_Where_Clause">
+        where 1=1
+        and delete_flag=0
+        <if test="obj != null">
+            <if test="obj.detectMethod !=null and obj.detectMethod !=''">
+                and detect_method like CONCAT('%', #{obj.detectMethod}, '%')
+            </if>
+            <if test="obj.detectModularId !=null and obj.detectModularId !=''">
+                and detect_modular_id = #{obj.detectModularId}
+            </if>
+        </if>
+    </sql>
+    <!-- 查询条件列表 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from base_detect_method
+        <include refid="check_Where_Clause"/>
+        order by create_date ${order} limit #{rowOffset}, #{pageSize}
+    </select>
+    <!-- 查询条数 -->
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1)
+        from base_detect_method
+        <include refid="check_Where_Clause"/>
+    </select>
+    <select id="selectByMethod" resultType="com.dayuan.bean.data.BaseDetectMethod">
+        SELECT id
+        FROM base_detect_method
+        WHERE delete_flag = 0
+            AND detect_method = #{detectMethod}
+            AND detect_modular_id = #{modularId}
+        LIMIT 0,1
+    </select>
+
+    <!-- 根据检测模块id做逻辑删除 -->
+    <update id="deleteByDetectModularId" parameterType="Object">
+        UPDATE base_detect_method
+        SET
+            delete_flag = 1,
+            update_by   = #{updateBy,jdbcType=VARCHAR},
+            update_date = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE detect_modular_id = #{detectModularId,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

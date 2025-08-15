@@ -1,0 +1,718 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan3.admin.mapper.InspectionUnitUserMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan3.admin.bean.InspectionUnitUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="identified_number" jdbcType="VARCHAR" property="identifiedNumber" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="source_type" jdbcType="SMALLINT" property="sourceType" />
+        <result column="cold_unit_id" jdbcType="INTEGER" property="coldUnitId" />
+        <result column="inspection_id" jdbcType="INTEGER" property="inspectionId" />
+        <result column="openid" jdbcType="VARCHAR" property="openId" />
+        <result column="wx_nickName" jdbcType="VARCHAR" property="wxNickname" />
+        <result column="wx_image" jdbcType="VARCHAR" property="wxImage" />
+        <result column="mini_open_id" jdbcType="VARCHAR" property="miniOpenId" />
+        <result column="login_count" jdbcType="SMALLINT" property="loginCount" />
+        <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+        <result column="monitoring_type" jdbcType="INTEGER" property="monitoringType" />
+        <result column="monitoring_unit_type" jdbcType="VARCHAR" property="monitoringUnitType" />
+        <result column="status" jdbcType="SMALLINT" property="status" />
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag" />
+        <result column="checked" jdbcType="SMALLINT" property="checked" />
+        <result column="checked_date" jdbcType="TIMESTAMP" property="checkedDate" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+        <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+        <result column="param1" jdbcType="VARCHAR" property="param1" />
+        <result column="param2" jdbcType="VARCHAR" property="param2" />
+        <result column="param3" jdbcType="VARCHAR" property="param3" />
+
+        <result column="uintChecked" jdbcType="SMALLINT" property="uintChecked"/>
+        <result column="inspectionName" jdbcType="VARCHAR" property="inspectionName"/>
+        <result column="pay_password" jdbcType="VARCHAR" property="payPassword"/>
+        <result column="coldName" jdbcType="VARCHAR" property="coldName"/>
+        <result column="depart_id" jdbcType="INTEGER" property="departId"/>
+        <result column="departName" jdbcType="VARCHAR" property="departName"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="monitoring_type" jdbcType="INTEGER" property="monitoringType"/>
+        <result column="mini_open_id" jdbcType="VARCHAR" property="miniOpenId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="monitoring_unit_type" jdbcType="VARCHAR" property="monitoringUnitType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       id, type, user_name, password, account, real_name, identified_number, phone, user_type,source_type,
+    cold_unit_id, inspection_id, openid, wx_nickName, wx_image, mini_open_id, login_count,
+    login_time, monitoring_type, monitoring_unit_type, status, delete_flag, checked,
+    checked_date, create_date, create_by, update_date, update_by, remark,file_path,param1, param2,
+    param3
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        inspUser.*
+		,unit.company_name inspectionName,cold.reg_name coldName
+        from inspection_unit_user inspUser
+        LEFT JOIN inspection_unit unit on inspUser.inspection_id=unit.id
+        LEFT JOIN cold_chain_unit cold on inspUser.cold_unit_id=cold.id
+        where inspUser.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update inspection_unit_user set delete_flag=1,update_date=now()
+        where id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="com.dayuan3.admin.bean.InspectionUnitUser" useGeneratedKeys="true" keyProperty="id">
+       insert into inspection_unit_user (id, type, user_name,
+      password, account, real_name,
+      identified_number, phone, user_type,source_type,
+      cold_unit_id, inspection_id, openid,
+      wx_nickName, wx_image, mini_open_id,
+      login_count, login_time, monitoring_type,
+      monitoring_unit_type, status, delete_flag,
+      checked, checked_date, create_date,
+      create_by, update_date, update_by,
+      remark,file_path, param1, param2,
+      param3)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+      #{identifiedNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT},#{sourceType,jdbcType=SMALLINT},
+      #{coldUnitId,jdbcType=INTEGER}, #{inspectionId,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR},
+      #{wxNickname,jdbcType=VARCHAR}, #{wxImage,jdbcType=VARCHAR}, #{miniOpenId,jdbcType=VARCHAR},
+      #{loginCount,jdbcType=SMALLINT}, #{loginTime,jdbcType=TIMESTAMP}, #{monitoringType,jdbcType=INTEGER},
+      #{monitoringUnitType,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT},
+      #{checked,jdbcType=SMALLINT}, #{checkedDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP},
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+      #{param3,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan3.admin.bean.InspectionUnitUser" useGeneratedKeys="true" keyProperty="id">
+        insert into inspection_unit_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="identifiedNumber != null">
+                identified_number,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="sourceType != null">
+                source_type,
+            </if>
+            <if test="coldUnitId != null">
+                cold_unit_id,
+            </if>
+            <if test="inspectionId != null">
+                inspection_id,
+            </if>
+            <if test="openId != null">
+                openid,
+            </if>
+            <if test="wxNickname != null">
+                wx_nickName,
+            </if>
+            <if test="wxImage != null">
+                wx_image,
+            </if>
+            <if test="miniOpenId != null">
+                mini_open_id,
+            </if>
+            <if test="loginCount != null">
+                login_count,
+            </if>
+            <if test="loginTime != null">
+                login_time,
+            </if>
+            <if test="monitoringType != null">
+                monitoring_type,
+            </if>
+            <if test="monitoringUnitType != null">
+                monitoring_unit_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="checked != null">
+                checked,
+            </if>
+            <if test="checkedDate != null">
+                checked_date,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="filePath != null">
+                file_path,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="identifiedNumber != null">
+                #{identifiedNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="sourceType != null">
+                #{sourceType,jdbcType=SMALLINT},
+            </if>
+            <if test="coldUnitId != null">
+                #{coldUnitId,jdbcType=INTEGER},
+            </if>
+            <if test="inspectionId != null">
+                #{inspectionId,jdbcType=INTEGER},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="wxNickname != null">
+                #{wxNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="wxImage != null">
+                #{wxImage,jdbcType=VARCHAR},
+            </if>
+            <if test="miniOpenId != null">
+                #{miniOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                #{loginCount,jdbcType=SMALLINT},
+            </if>
+            <if test="loginTime != null">
+                #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="monitoringType != null">
+                #{monitoringType,jdbcType=INTEGER},
+            </if>
+            <if test="monitoringUnitType != null">
+                #{monitoringUnitType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="checked != null">
+                #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="checkedDate != null">
+                #{checkedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                #{filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--保存操作日志 shit-->
+    <insert id="insertInsUserLog">
+        INSERT INTO inspection_user_log (type, result, description, create_date, create_by, param1, param2, param3)
+        VALUES (#{type,jdbcType=SMALLINT}, #{result,jdbcType=SMALLINT}, #{description,jdbcType=VARCHAR},
+                #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR},
+                #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan3.admin.bean.InspectionUnitUser">
+        update inspection_unit_user
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="identifiedNumber != null">
+                identified_number = #{identifiedNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="sourceType != null">
+                source_type= #{sourceType,jdbcType=SMALLINT},
+            </if>
+            <if test="coldUnitId != null">
+                cold_unit_id = #{coldUnitId,jdbcType=INTEGER},
+            </if>
+            <if test="inspectionId != null">
+                inspection_id = #{inspectionId,jdbcType=INTEGER},
+            </if>
+            <if test="openId != null">
+                openid = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="wxNickname != null">
+                wx_nickName = #{wxNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="wxImage != null">
+                wx_image = #{wxImage,jdbcType=VARCHAR},
+            </if>
+            <if test="miniOpenId != null">
+                mini_open_id = #{miniOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                login_count = #{loginCount,jdbcType=SMALLINT},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="monitoringType != null">
+                monitoring_type = #{monitoringType,jdbcType=INTEGER},
+            </if>
+            <if test="monitoringUnitType != null">
+                monitoring_unit_type = #{monitoringUnitType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="checked != null">
+                checked = #{checked,jdbcType=SMALLINT},
+            </if>
+            <if test="checkedDate != null">
+                checked_date = #{checkedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                file_path = #{filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan3.admin.bean.InspectionUnitUser">
+      update inspection_unit_user
+    set type = #{type,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      identified_number = #{identifiedNumber,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=SMALLINT},
+      cold_unit_id = #{coldUnitId,jdbcType=INTEGER},
+      inspection_id = #{inspectionId,jdbcType=INTEGER},
+      openid = #{openId,jdbcType=VARCHAR},
+      wx_nickName = #{wxNickname,jdbcType=VARCHAR},
+      wx_image = #{wxImage,jdbcType=VARCHAR},
+      mini_open_id = #{miniOpenId,jdbcType=VARCHAR},
+      login_count = #{loginCount,jdbcType=SMALLINT},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      monitoring_type = #{monitoringType,jdbcType=INTEGER},
+      monitoring_unit_type = #{monitoringUnitType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      checked = #{checked,jdbcType=SMALLINT},
+      checked_date = #{checkedDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      source_type= #{sourceType,jdbcType=SMALLINT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+    </update>
+    <sql id="Example_Where_Clause">
+        WHERE delete_flag = 0
+        <if test="obj != null">
+            <if test="obj.inspectionUnit != null">
+                <if test="obj.inspectionUnit.id != null">
+                    AND inspection_id = #{obj.inspectionUnit.id}
+                </if>
+            </if>
+            <if test="obj.keyWords!=null and obj.keyWords!=''">
+                and (user_name like CONCAT('%',#{obj.keyWords},'%') or real_name like CONCAT('%',#{obj.keyWords},'%') )
+            </if>
+        </if>
+    </sql>
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit_user
+        <include refid="Example_Where_Clause"/>
+        order by `type` ${order},update_date ${order} limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        from inspection_unit_user
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <select id="queryUser" parameterType="com.dayuan3.admin.bean.InspectionUnitUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,(select company_name from inspection_unit where id=inspection_id) inspectionName
+        from inspection_unit_user
+        where (user_name=#{userName} or phone=#{userName} or id=#{userName})
+        and `password`=#{password} and delete_flag=0
+    </select>
+    <!-- 2019-7-30 huht 加个limit 查询条件 -->
+    <select id="queryUserByInspectId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inspection_unit_user where
+        delete_flag=0 AND inspection_id =#{inspectionId,jdbcType=INTEGER}
+        <if test="rowStart !=null and rowEnd!=null">
+            limit #{rowStart}, #{rowEnd}
+        </if>
+    </select>
+    <select id="getMaxAccount" resultType="java.lang.String">
+        SELECT MAX(account)
+        FROM inspection_unit_user
+    </select>
+    <select id="queryByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM inspection_unit_user
+        WHERE delete_flag = 0 AND phone = ${linkPhone}
+    </select>
+
+
+    <!-- 功能整合 2019-7-25 huht -->
+    <!-- 管理权限转移 huht 2019-7-31 -->
+    <update id="changeManage" parameterType="Object">
+        UPDATE inspection_unit_user
+        SET type        = CASE WHEN id = #{id}
+            THEN 1
+                          ELSE 0 END,
+            update_by   = #{id},
+            update_date = NOW()
+        WHERE
+            inspection_id = #{inspectionId};
+
+    </update>
+    <!-- 查询未审核用户数量 huht 2019-7-31 -->
+    <select id="selectUnResCount" parameterType="Object" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM inspection_unit_user
+        WHERE delete_flag = 0 AND checked = 0 AND checked_date IS NULL AND inspection_id = #{inspectionId}
+
+    </select>
+
+
+    <!-- 查询账号、密码、openid是否存在 -->
+    <select id="selectByUserName" parameterType="Object" resultMap="BaseResultMap">
+        select * ,i.checked as uintChecked,i.company_name as companyName ,i.credit_code as creCode,i.legal_person as legalPerson,i.link_phone as
+        linkPhone from inspection_unit_user u
+        LEFT JOIN inspection_unit i ON u.inspection_id=i.id
+        WHERE u.delete_flag=0
+
+        <if test="userName!=null and userName!='' ">
+            and (u.user_name = #{userName}
+            or u.phone = #{userName}
+            )
+        </if>
+        <if test="password!=null and password!='' ">
+            and u.password=#{password}
+        </if>
+        <if test="openId!=null and openId!='' ">
+            and u.open_id=#{openId}
+        </if>
+    </select>
+
+    <!-- 查询账号、密码、miniOpenid是否存在 2020-3-17 huht -->
+    <select id="selectByUserName2" parameterType="Object" resultMap="BaseResultMap">
+        select * ,i.checked as uintChecked,i.company_name as companyName ,i.credit_code as creCode,i.legal_person as legalPerson,i.link_phone as
+        linkPhone from inspection_unit_user u
+        LEFT JOIN inspection_unit i ON u.inspection_id=i.id
+        WHERE u.delete_flag=0
+
+        <if test="userName!=null and userName!='' ">
+            and (u.user_name = #{userName}
+            or u.phone = #{userName}
+            )
+        </if>
+        <if test="password!=null and password!='' ">
+            and u.password=#{password}
+        </if>
+        <if test="openId!=null and openId!='' ">
+            and u.open_id=#{openId}
+        </if>
+        <if test="miniOpenId!=null and miniOpenId!='' ">
+            and u.mini_open_id=#{miniOpenId}
+        </if>
+    </select>
+
+
+    <!-- 根据送检单位查询用户数量xiaoyl 2019-07-29 -->
+    <select id="queryCountByInspectId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM inspection_unit_user
+        WHERE delete_flag = 0 AND inspection_id = #{inspectionId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByUsername" resultType="com.dayuan3.admin.bean.InspectionUnitUser">
+        SELECT
+            id,
+            user_name
+        FROM inspection_unit_user
+        WHERE delete_flag = 0 AND user_name = #{userName}
+        LIMIT 0, 1
+    </select>
+
+    <select id="selectByPhone" resultType="com.dayuan3.admin.bean.InspectionUnitUser">
+        SELECT
+            id,
+            user_name,
+            phone
+        FROM inspection_unit_user
+        WHERE delete_flag = 0 AND phone = #{phone}
+        LIMIT 0, 1
+    </select>
+
+
+    <!-- 送检账号分页基础查询 -->
+    <select id="loadDatagridAll" resultMap="BaseResultMap" parameterType="Object">
+        select
+        iuu.*,iua.pay_password,iu.company_name inspectionName,cd.reg_name coldName
+        from inspection_unit_user iuu
+        LEFT JOIN (SELECT id,user_id,pay_password FROM inspection_user_account WHERE delete_flag=0) iua ON iuu.id = iua.user_id
+        LEFT JOIN inspection_unit iu ON iu.id = iuu.inspection_id
+        LEFT JOIN cold_chain_unit cd on cd.id=iu.cold_unit_id
+        WHERE iuu.delete_flag = 0
+        <if test="obj != null">
+            <if test="obj.keyWords!=null and obj.keyWords!=''">
+                and (phone like CONCAT('%',#{obj.keyWords},'%') or real_name like CONCAT('%',#{obj.keyWords},'%') )
+            </if>
+            <if test="obj.type!=null and obj.type >= 0">
+                and type =#{obj.type}
+            </if>
+        </if>
+        order by iuu.id ASC
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotalAll" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        from inspection_unit_user
+        WHERE delete_flag = 0
+        <if test="obj != null">
+            <if test="obj.inspectionUnit != null">
+                <if test="obj.inspectionUnit.id != null">
+                    AND inspection_id = #{obj.inspectionUnit.id}
+                </if>
+            </if>
+            <if test="obj.keyWords!=null and obj.keyWords!=''">
+                and (user_name like CONCAT('%',#{obj.keyWords},'%') or real_name like CONCAT('%',#{obj.keyWords},'%') )
+            </if>
+            <if test="obj.type!=null and obj.type >= 0">
+                and type =#{obj.type}
+            </if>
+        </if>
+    </select>
+    <select id="selcetNumber" resultType="java.lang.Integer">
+        SELECT count(id) FROM inspection_unit_user
+        WHERE delete_flag = 0 AND user_type = 0 AND identified_number = #{identifiedNumber}
+        <if test="id != null">
+            AND id != #{id}
+        </if>
+    </select>
+
+    <select id="queryByUserId" resultType="com.dayuan3.admin.bean.InspectionUnitUser">
+        SELECT
+            iuu.id,
+            iuu.type,
+            iuu.real_name         AS realName,
+            iuu.account,
+            iuu.phone,
+            iuu.inspection_id     AS inspectionId,
+            iuu.status,
+            iuu.checked,
+            iuu.user_type         AS userType,
+            iuu.identified_number AS identifiedNumber,
+            iu.company_name       AS inspectionName,
+            iu.credit_code        AS creditCode,
+            iuu.area,
+            iuu.address,
+            iuu.remark,
+            iuu.monitoring_type   AS monitoringType,
+            td.depart_name        AS departName
+        FROM inspection_unit_user iuu
+            LEFT JOIN inspection_unit iu ON iuu.inspection_id = iu.id
+            LEFT JOIN t_s_depart td ON iuu.depart_id = td.id
+        WHERE iuu.id = #{userId}
+    </select>
+
+    <!--微信解绑-->
+    <update id="delOpenid">
+        UPDATE inspection_unit_user
+        SET
+            update_by   = #{updateBy},
+            update_date = #{updateDate},
+            openid     = NULL
+        WHERE
+            id = #{id};
+    </update>
+    <update id="resetpwd">
+        UPDATE inspection_user_account
+        SET
+            update_by    = #{updateBy},
+            update_date  = #{updateDate},
+            pay_password = NULL
+        WHERE
+            user_id = #{id};
+    </update>
+    <update id="stop">
+        UPDATE inspection_unit_user
+        SET
+            checked     = #{checked},
+            update_by   = #{updateBy},
+            update_date = #{now}
+        WHERE
+            id = #{stopId};
+    </update>
+    <!--根据用户手机号码、密码、openid查询用户是否存在-->
+    <select id="queryUserLogin" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM inspection_unit_user
+        WHERE delete_flag = 0
+        <if test="openid != null and openid != ''">
+            AND openid = #{openid}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone = #{phone}
+        </if>
+        <if test="password != null and password != ''">
+            AND password = #{password}
+        </if>
+        limit 1;
+    </select>
+</mapper>

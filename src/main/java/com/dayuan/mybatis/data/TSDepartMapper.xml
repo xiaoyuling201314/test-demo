@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.TSDepartMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.data.TSDepart">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="depart_name" property="departName" jdbcType="VARCHAR"/>
+        <result column="depart_pid" property="departPid" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
+        <result column="principal_id" property="principalId" jdbcType="VARCHAR"/>
+        <result column="region_id" property="regionId" jdbcType="DOUBLE"/>
+        <result column="depart_code" property="departCode" jdbcType="VARCHAR"/>
+        <result column="depart_type" property="departType" jdbcType="VARCHAR"/>
+        <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR"/>
+        <result column="fax" property="fax" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="sorting" property="sorting" jdbcType="SMALLINT"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="is_outsourcing" property="isOutsourcing" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="system_name" property="systemName" jdbcType="VARCHAR"/>
+        <result column="system_logo" property="systemLogo" jdbcType="VARCHAR"/>
+        <result column="system_copyright" property="systemCopyright" jdbcType="VARCHAR"/>
+
+        <result column="departPname" property="departPname" jdbcType="VARCHAR"/>
+        <result column="pointNumbers" property="pointNumbers" jdbcType="INTEGER"/>
+        <result column="childIds" property="childIds" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="JoinResultMap" type="com.dayuan.bean.data.TSDepart" extends="BaseResultMap">
+        <result column="departPname" property="departPname" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, depart_name, depart_pid, project_id, principal_id, region_id, depart_code, depart_type,
+        mobile_phone,
+        fax, address, sorting, delete_flag, is_outsourcing, create_by, create_date,
+        update_by, update_date, description, system_name, system_logo, system_copyright
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where delete_flag = 0
+        <trim suffixOverrides=",">
+            <if test="obj.depart != null">
+                <if test="obj.depart.departName != null and obj.depart.departName != ''">
+                    and depart_name like CONCAT('%', #{obj.depart.departName}, '%')
+                </if>
+                <if test="obj.depart.departPid != null and obj.depart.departPid != ''">
+                    and depart_pid = #{obj.depart.departPid}
+                </if>
+            </if>
+        </trim>
+    </sql>
+    <!-- /**
+         * 查询选中机构下 有没有 机构
+         * @param departCode 选中机构的departCode
+         * @param departName 机构名称
+         * @return
+         * @author LuoYX
+         * @date 2018年5月25日
+     */ -->
+    <select id="selectByDepartCodeAndDepartName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_s_depart td
+        WHERE td.delete_flag = 0 AND
+        td.depart_name=#{departName} <!-- and FIND_IN_SET(id,getChildDepartLst(#{departId})) -->
+        AND id IN (SELECT id FROM t_s_depart t2 WHERE t2.depart_code LIKE CONCAT(#{departCode},'%'))
+    </select>
+    <select id="selectSystemName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_s_depart
+        WHERE delete_flag = 0
+          AND ((system_name IS NOT NULL AND system_name != '') OR (system_logo IS NOT NULL AND system_logo != '') OR (system_copyright IS NOT NULL AND system_copyright != ''))
+        AND depart_code IN
+        <foreach collection="departCodes" item="code" index="index" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        ORDER BY depart_code DESC LIMIT 0, 1
+    </select>
+    <select id="getSonDepartsByIds" resultMap="JoinResultMap">
+        SELECT
+        t1.id id, t1.depart_name depart_name, t1.address address,t2.depart_name departPname
+        FROM t_s_depart t1
+        LEFT JOIN t_s_depart t2 ON t1.depart_pid = t2.id
+        WHERE t1.delete_flag=0
+        <if test="departArr != null and departArr.size() > 0">
+            AND t1.id IN
+            <foreach collection="departArr" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="departName !=null and departName!='' ">
+            AND t1.depart_name = #{departName}
+        </if>
+    </select>
+    <select id="getSonDepartsById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            t1.id          id,
+            t1.depart_name depart_name,
+            t1.address     address,
+            t1.description description,
+            t2.depart_name departPname
+        FROM t_s_depart t1
+            LEFT JOIN t_s_depart t2 ON t1.depart_pid = t2.id
+        WHERE t1.delete_flag = 0
+              AND t1.id IN (SELECT id
+                            FROM t_s_depart
+                            WHERE depart_code LIKE CONCAT(#{departCode}, '%'))
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        UPDATE t_s_depart SET delete_flag=1,update_date=now()
+        WHERE id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+    <update id="deleteDeparts" parameterType="Object">
+        UPDATE t_s_depart tsd
+            LEFT JOIN base_point bp ON tsd.id = bp.depart_id
+            LEFT JOIN base_device bd ON bd.point_id = bp.id
+        SET
+            tsd.delete_flag = 1, tsd.update_date = now(), tsd.update_by = #{userId},
+            bp.delete_flag  = 1, bp.update_date =
+        now(), bp.update_by = #{userId},
+            bd.delete_flag  = 1, bd.update_date = now(), bd.update_by =
+        #{userId}
+        WHERE FIND_IN_SET(tsd.id, getChildLst(#{departId}))
+    </update>
+
+    <resultMap id="DepartPointMap" type="com.dayuan.model.data.DepartTreeModel">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="depart_name" property="departName" jdbcType="VARCHAR"/>
+        <collection column="id" property="departs" ofType="com.dayuan.model.data.DepartTreeModel"
+                    select="getSubDepart"></collection>
+        <collection column="id" property="points" ofType="com.dayuan.bean.data.BasePoint"
+                    select="getSubPoint"></collection>
+    </resultMap>
+    <resultMap id="subPoints" type="com.dayuan.bean.data.BasePoint">
+        <id column="id" property="id"/>
+        <result column="point_name" property="pointName"/>
+    </resultMap>
+    <select id="getDepartPoint" resultMap="DepartPointMap" parameterType="java.lang.Integer">
+        SELECT
+            id,
+            depart_name
+        FROM t_s_depart
+        WHERE id = #{departid,jdbcType=INTEGER}
+        ORDER BY sorting
+        DESC
+    </select>
+    <select id="getSubDepart" resultMap="DepartPointMap" parameterType="java.lang.Integer">
+        SELECT
+            id,
+            depart_name
+        FROM t_s_depart
+        WHERE depart_pid = #{id,jdbcType=INTEGER}
+        ORDER BY sorting
+        DESC
+    </select>
+    <select id="getSubPoint" resultMap="subPoints" parameterType="java.lang.Integer">
+        SELECT
+            id,
+            point_name
+        FROM base_point
+        WHERE depart_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getDepartsByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart WHERE depart_pid = #{pid,jdbcType=INTEGER}
+        AND delete_flag = 0 ORDER BY sorting ASC
+    </select>
+
+    <select id="getAllDepartsByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart WHERE delete_flag = 0 AND depart_pid = #{pid,jdbcType=INTEGER}
+        ORDER BY sorting ASC
+    </select>
+
+    <select id="getDepartsByPidForPoint" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,(SELECT COUNT(1) FROM base_point WHERE depart_id=t.id AND delete_flag=0) pointNumbers
+        FROM t_s_depart t WHERE depart_pid = #{pid,jdbcType=INTEGER}
+        AND delete_flag = 0 ORDER BY sorting ASC
+    </select>
+
+    <select id="getDepartsByPids" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart WHERE delete_flag = 0 AND (depart_pid = #{pid,jdbcType=INTEGER} OR id=#{pid,jdbcType=INTEGER})
+        ORDER BY sorting ASC
+    </select>
+
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="JoinResultMap" parameterType="Object">
+        SELECT t1.id id, t1.depart_name depart_name,CONCAT(t1.depart_name,'(',t1.id,')') AS departNames, t1.depart_pid
+        depart_pid, t1.project_id project_id,
+        t1.principal_id principal_id,
+        t1.region_id region_id, t1.depart_code depart_code, t1.depart_type depart_type, t1.mobile_phone mobile_phone,
+        t1.fax fax, t1.address address, t1.sorting sorting, t1.delete_flag delete_flag, t1.is_outsourcing is_outsourcing,
+        t1.create_by create_by, t1.create_date create_date, t1.update_by update_by, t1.update_date update_date,
+        t1.description description, t1.system_logo, t1.system_name, t1.system_copyright,
+        t2.depart_name departPname,CONCAT(t2.depart_name,'(',t2.id,')') AS departPnames
+        FROM t_s_depart t1
+        LEFT JOIN t_s_depart t2 ON t1.depart_pid = t2.id
+        WHERE t1.delete_flag = 0
+        <trim suffixOverrides=",">
+            <if test="obj.depart != null">
+                <if test="obj.depart.departPid != null and obj.depart.departPid != ''">
+                    AND (t1.depart_pid = #{obj.depart.departPid} OR t1.id = #{obj.depart.departPid})
+                </if>
+                <if test="obj.depart.departName != null and obj.depart.departName != ''">
+                    AND t1.depart_name LIKE CONCAT('%',#{obj.depart.departName},'%')
+                </if>
+            </if>
+        </trim>
+        ORDER BY t1.depart_code ASC,t1.sorting ASC LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM t_s_depart WHERE delete_flag = 0
+        <trim suffixOverrides=",">
+            <if test="obj.depart != null">
+                <if test="obj.depart.departPid != null and obj.depart.departPid != ''">
+                    AND (depart_pid = #{obj.depart.departPid} OR id = #{obj.depart.departPid})
+                </if>
+                <if test="obj.depart.departName != null and obj.depart.departName != ''">
+                    AND depart_name LIKE CONCAT('%',#{obj.depart.departName},'%')
+                </if>
+            </if>
+        </trim>
+    </select>
+    <select id="getParentDepartList" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT getParentDepartList(#{id})
+    </select>
+    <select id="getSonDepartsByPids" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart WHERE depart_pid IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="queryByDepartName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart
+        WHERE depart_name = #{departName,jdbcType=VARCHAR} AND delete_flag = 0
+    </select>
+    <!-- /** * 查询机构下的所有子机构 * @param departCode * @return * @author LuoYX * @date 2018年4月19日 */ -->
+    <select id="querySubDeparts" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <!-- select getChildDepartLst(#{departId}) -->
+        SELECT id FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT(#{departCode},'%')
+    </select>
+
+    <select id="querySonDeparts" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT id
+        FROM t_s_depart t1
+        WHERE t1.delete_flag = 0
+        <if test="id!=null and id!=''">
+            AND t1.depart_code LIKE CONCAT((SELECT depart_code
+            FROM t_s_depart t2
+            WHERE t2.id = #{id}), '%')
+        </if>
+    </select>
+    <!-- /**
+          * 根据region_id查询 这个行政机构下的 部门
+          * @param regionId
+          * @return
+          * @author LuoYX
+          * @date 2018年4月25日
+        */ -->
+    <select id="queryDepartsByRegionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart
+        WHERE region_id =#{regionId}
+    </select>
+    <select id="getLastDepartCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT MAX(depart_code)
+        FROM t_s_depart
+        WHERE depart_code LIKE CONCAT(#{departCode}, '__')
+    </select>
+
+    <select id="queryByDepartCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT(#{departCode},'%')
+    </select>
+    <select id="queryByDepartId" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT depart_code
+        FROM t_s_depart  WHERE delete_flag = 0 AND id=#{departId}
+    </select>
+    <!--根据父级ID查询其下机构的最大排序号-->
+    <select id="queryMaxSortByPid" resultType="java.lang.Short">
+        SELECT ifnull(MAX(sorting), 0)
+        FROM t_s_depart
+        WHERE delete_flag = 0 AND depart_pid = #{departPid}
+    </select>
+
+    <select id="getSecondDepartsByPids" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT ts.*,getChildDepartLst(ts.id) childIds
+        FROM t_s_depart ts WHERE delete_flag = 0 AND (depart_pid = #{pid,jdbcType=INTEGER} OR id=#{pid,jdbcType=INTEGER})
+        ORDER BY sorting ASC
+    </select>
+
+    <select id="querySecondChild" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT id
+        FROM t_s_depart ts WHERE delete_flag = 0 AND (depart_pid = #{pid,jdbcType=INTEGER} OR id=#{pid,jdbcType=INTEGER})
+        ORDER BY sorting ASC
+    </select>
+</mapper>

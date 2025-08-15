@@ -1,0 +1,102 @@
+html,body{
+	height: 100%;
+}
+a{
+	color: #333;
+}
+i{
+	font-style: normal;	
+}
+.content{
+	width: 100%;
+	max-width: 720px;
+	min-height: 88%;
+	margin: 0 auto;
+}
+.banner{
+	text-align: center;
+}
+.banner img,.second-title img{
+	width: 100%
+}
+.second-title{
+	text-align: center;
+	padding: 15px 50px 0 50px;
+}
+.guide-list{
+	padding: 15px;
+	
+}
+.guide-list a{
+	color: #333;
+	font-size: 18px;
+}
+.guide-btns{
+	border: 1px solid #ddd;
+    height: 70px;
+    padding: 9px 70px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #ddd;
+    position: relative;
+}
+.guide-btns img{
+	width: 50px;
+}
+.guide-btns .right-img{
+	width: auto;
+	position: absolute;
+	right: 20px;
+	top: 36%;
+}
+.guide-btns i{
+	margin-left: 20px;
+    font-size: 18px;
+    display: inline-block;
+}
+.footer{
+	text-align: center;
+}
+
+/* about us */
+
+
+.side-title{
+	text-align: center;
+	font-size: 18px;
+	height: 46px;
+	line-height: 40px;
+	border-bottom: 1px solid #ddd;
+}
+.side-title img{
+	display: inline-block;
+	margin-top: -5px;
+    margin-right: 10px;
+}
+.instr-list{
+	padding: 10px 25px;
+}
+.instrs{
+	font-size: 16px;
+	line-height: 40px;
+	display: table;
+	width: 100%;
+}
+.instrs span{
+	display: table-cell;
+	/* width: 25px; */
+	text-align: center;
+	text-align: left;
+}
+.instrs .zz-name{
+	width: 110px;
+}
+.instrs .zz-name i{
+	display: inline-block;
+	width: 25px;
+	text-align: center;
+}
+.instrs img{
+	margin-right: 5px;
+	width: 20px
+}

@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.dataCheck.DataUnqualifiedRecordingMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.dataCheck.DataUnqualifiedRecording">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="rid" jdbcType="INTEGER" property="rid"/>
+        <result column="sampling_id" jdbcType="INTEGER" property="samplingId"/>
+        <result column="sampling_detail_id" jdbcType="INTEGER" property="samplingDetailId"/>
+        <result column="sample_code" jdbcType="VARCHAR" property="sampleCode"/>
+        <result column="food_id" jdbcType="INTEGER" property="foodId"/>
+        <result column="food_name" jdbcType="VARCHAR" property="foodName"/>
+        <result column="item_id" jdbcType="VARCHAR" property="itemId"/>
+        <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="reg_id" jdbcType="INTEGER" property="regId"/>
+        <result column="reg_name" jdbcType="VARCHAR" property="regName"/>
+        <result column="reg_user_id" jdbcType="INTEGER" property="regUserId"/>
+        <result column="reg_user_name" jdbcType="VARCHAR" property="regUserName"/>
+        <result column="depart_id" jdbcType="INTEGER" property="departId"/>
+        <result column="depart_name" jdbcType="VARCHAR" property="departName"/>
+        <result column="point_id" jdbcType="INTEGER" property="pointId"/>
+        <result column="point_name" jdbcType="VARCHAR" property="pointName"/>
+        <result column="check_username" jdbcType="VARCHAR" property="checkUsername"/>
+        <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate"/>
+        <result column="check_date" jdbcType="TIMESTAMP" property="checkDate"/>
+        <result column="check_result" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="check_unit" jdbcType="VARCHAR" property="checkUnit"/>
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion"/>
+        <result column="reload_flag" jdbcType="SMALLINT" property="reloadFlag"/>
+        <result column="send_phone" jdbcType="VARCHAR" property="sendPhone"/>
+        <result column="send_time" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="send_state" jdbcType="SMALLINT" property="sendState"/>
+        <result column="param1" jdbcType="INTEGER" property="param1"/>
+        <result column="param2" jdbcType="INTEGER" property="param2"/>
+        <result column="param3" jdbcType="VARCHAR" property="param3"/>
+        <result column="param4" jdbcType="VARCHAR" property="param4"/>
+        <result column="delete_flag" jdbcType="SMALLINT" property="deleteFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    </resultMap>
+    <resultMap id="resultMapModel" type="com.dayuan.model.dataCheck.DataUnqualifiedRecordingModel">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="rid" jdbcType="INTEGER" property="rid"/>
+        <result column="sample_code" jdbcType="VARCHAR" property="sampleCode"/>
+        <result column="reg_name" jdbcType="VARCHAR" property="regName"/>
+        <result column="reg_user_name" jdbcType="VARCHAR" property="regUserName"/>
+        <result column="food_name" jdbcType="VARCHAR" property="foodName"/>
+        <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="check_result" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion"/>
+        <result column="depart_name" jdbcType="VARCHAR" property="departName"/>
+        <result column="point_name" jdbcType="VARCHAR" property="pointName"/>
+        <result column="check_date" jdbcType="TIMESTAMP" property="checkDate"/>
+        <result column="send_state" jdbcType="SMALLINT" property="sendState"/>
+        <result column="send_remark" jdbcType="VARCHAR" property="sendRemark"/>
+    </resultMap>
+
+    <resultMap id="resultMapModel2" type="com.dayuan.bean.dataCheck.DataCheckHistoryRecording">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="check_recording_id" jdbcType="INTEGER" property="rid"/>
+        <result column="reg_name" jdbcType="VARCHAR" property="regName"/>
+        <result column="reg_user_name" jdbcType="VARCHAR" property="regUserName"/>
+        <result column="food_name" jdbcType="VARCHAR" property="foodName"/>
+        <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="check_result" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="conclusion" jdbcType="VARCHAR" property="conclusion"/>
+        <result column="depart_name" jdbcType="VARCHAR" property="departName"/>
+        <result column="point_name" jdbcType="VARCHAR" property="pointName"/>
+        <result column="data_source" jdbcType="SMALLINT" property="dataSource"/>
+        <result column="status_falg" jdbcType="SMALLINT" property="statusFalg"/>
+        <result column="check_username" jdbcType="VARCHAR" property="checkUsername"/>
+        <result column="auditor_name" jdbcType="VARCHAR" property="auditorName"/>
+        <result column="upload_name" jdbcType="VARCHAR" property="uploadName"/>
+        <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate"/>
+        <result column="check_date" jdbcType="TIMESTAMP" property="checkDate"/>
+    </resultMap>
+
+    <resultMap id="baseSmsMap" type="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingDepart">
+        <result column="d_id" jdbcType="INTEGER" property="departId"/>
+        <result column="d_phones" jdbcType="VARCHAR" property="departPhones"/>
+        <collection property="durpList" ofType="com.dayuan.bean.dataCheck.DataUnqualifiedRecordingPoint">
+            <result column="p_id" jdbcType="INTEGER" property="pointId"/>
+            <result column="p_ids" jdbcType="INTEGER" property="durIds"/>
+            <result column="p_number" jdbcType="INTEGER" property="pointNumber"/>
+            <result column="p_phones" jdbcType="VARCHAR" property="pointPhones"/>
+            <result column="d_phones" jdbcType="VARCHAR" property="departPhones"/>
+            <result column="p_point_name" jdbcType="VARCHAR" property="pointName"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, rid, sampling_id, sampling_detail_id, sample_code, food_id, food_name, item_id,
+        item_name, reg_id, reg_name, reg_user_id, reg_user_name, depart_id, depart_name,
+        point_id, point_name, check_username, upload_date, check_date, check_result, check_unit,
+        conclusion, reload_flag, send_phone, send_time, send_state, param1, param2, param3,
+        param4, delete_flag, create_by, create_date, update_by, update_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM data_unqualified_recording
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryByRid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM data_unqualified_recording
+        WHERE rid = #{rid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM data_unqualified_recording
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecording">
+        INSERT INTO data_unqualified_recording (id, rid, sampling_id,
+                                                sampling_detail_id, sample_code, food_id,
+                                                food_name, item_id, item_name,
+                                                reg_id, reg_name, reg_user_id,
+                                                reg_user_name, depart_id, depart_name,
+                                                point_id, point_name, check_username,
+                                                upload_date, check_date, check_result,
+                                                check_unit, conclusion, reload_flag,
+                                                send_phone, send_time,
+                                                send_remark, param1, param2, param3,
+                                                param4, create_by,
+                                                create_date, update_by, update_date
+        )
+        VALUES (#{id,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, #{samplingId,jdbcType=INTEGER},
+                                        #{samplingDetailId,jdbcType=INTEGER}, #{sampleCode,jdbcType=VARCHAR},
+                                        #{foodId,jdbcType=INTEGER},
+                                        #{foodName,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR},
+                                        #{itemName,jdbcType=VARCHAR},
+                                        #{regId,jdbcType=INTEGER}, #{regName,jdbcType=VARCHAR},
+            #{regUserId,jdbcType=INTEGER},
+            #{regUserName,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER}, #{departName,jdbcType=VARCHAR},
+            #{pointId,jdbcType=INTEGER}, #{pointName,jdbcType=VARCHAR}, #{checkUsername,jdbcType=VARCHAR},
+            #{uploadDate,jdbcType=TIMESTAMP}, #{checkDate,jdbcType=TIMESTAMP}, #{checkResult,jdbcType=VARCHAR},
+            #{checkUnit,jdbcType=VARCHAR}, #{conclusion,jdbcType=VARCHAR}, #{reloadFlag,jdbcType=SMALLINT},
+            #{sendPhone,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
+            #{sendRemark,jdbcType=VARCHAR}, #{param1,jdbcType=INTEGER}, #{param2,jdbcType=INTEGER},
+            #{param3,jdbcType=VARCHAR},
+            #{param4,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecording">
+        INSERT INTO data_unqualified_recording
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="rid != null">
+                rid,
+            </if>
+            <if test="samplingId != null">
+                sampling_id,
+            </if>
+            <if test="samplingDetailId != null">
+                sampling_detail_id,
+            </if>
+            <if test="sampleCode != null">
+                sample_code,
+            </if>
+            <if test="foodId != null">
+                food_id,
+            </if>
+            <if test="foodName != null">
+                food_name,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="regId != null">
+                reg_id,
+            </if>
+            <if test="regName != null">
+                reg_name,
+            </if>
+            <if test="regUserId != null">
+                reg_user_id,
+            </if>
+            <if test="regUserName != null">
+                reg_user_name,
+            </if>
+            <if test="departId != null">
+                depart_id,
+            </if>
+            <if test="departName != null">
+                depart_name,
+            </if>
+            <if test="pointId != null">
+                point_id,
+            </if>
+            <if test="pointName != null">
+                point_name,
+            </if>
+            <if test="checkUsername != null">
+                check_username,
+            </if>
+            <if test="uploadDate != null">
+                upload_date,
+            </if>
+            <if test="checkDate != null">
+                check_date,
+            </if>
+            <if test="checkResult != null">
+                check_result,
+            </if>
+            <if test="checkUnit != null">
+                check_unit,
+            </if>
+            <if test="conclusion != null">
+                conclusion,
+            </if>
+            <if test="reloadFlag != null">
+                reload_flag,
+            </if>
+            <if test="sendPhone != null">
+                send_phone,
+            </if>
+            <if test="sendTime != null">
+                send_time,
+            </if>
+            <if test="sendState != null">
+                send_state,
+            </if>
+            <if test="sendRemark != null">
+                send_remark,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+            <if test="param4 != null">
+                param4,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="rid != null">
+                #{rid,jdbcType=INTEGER},
+            </if>
+            <if test="samplingId != null">
+                #{samplingId,jdbcType=INTEGER},
+            </if>
+            <if test="samplingDetailId != null">
+                #{samplingDetailId,jdbcType=INTEGER},
+            </if>
+            <if test="sampleCode != null">
+                #{sampleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="foodId != null">
+                #{foodId,jdbcType=INTEGER},
+            </if>
+            <if test="foodName != null">
+                #{foodName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="regId != null">
+                #{regId,jdbcType=INTEGER},
+            </if>
+            <if test="regName != null">
+                #{regName,jdbcType=VARCHAR},
+            </if>
+            <if test="regUserId != null">
+                #{regUserId,jdbcType=INTEGER},
+            </if>
+            <if test="regUserName != null">
+                #{regUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="departId != null">
+                #{departId,jdbcType=INTEGER},
+            </if>
+            <if test="departName != null">
+                #{departName,jdbcType=VARCHAR},
+            </if>
+            <if test="pointId != null">
+                #{pointId,jdbcType=INTEGER},
+            </if>
+            <if test="pointName != null">
+                #{pointName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkUsername != null">
+                #{checkUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadDate != null">
+                #{uploadDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkDate != null">
+                #{checkDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkResult != null">
+                #{checkResult,jdbcType=VARCHAR},
+            </if>
+            <if test="checkUnit != null">
+                #{checkUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="conclusion != null">
+                #{conclusion,jdbcType=VARCHAR},
+            </if>
+            <if test="reloadFlag != null">
+                #{reloadFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sendPhone != null">
+                #{sendPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendState != null">
+                #{sendState,jdbcType=SMALLINT},
+            </if>
+            <if test="sendRemark != null">
+                #{sendRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=INTEGER},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=INTEGER},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="param4 != null">
+                #{param4,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecording">
+        UPDATE data_unqualified_recording
+        <set>
+            <if test="rid != null">
+                rid = #{rid,jdbcType=INTEGER},
+            </if>
+            <if test="samplingId != null">
+                sampling_id = #{samplingId,jdbcType=INTEGER},
+            </if>
+            <if test="samplingDetailId != null">
+                sampling_detail_id = #{samplingDetailId,jdbcType=INTEGER},
+            </if>
+            <if test="sampleCode != null">
+                sample_code = #{sampleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="foodId != null">
+                food_id = #{foodId,jdbcType=INTEGER},
+            </if>
+            <if test="foodName != null">
+                food_name = #{foodName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="regId != null">
+                reg_id = #{regId,jdbcType=INTEGER},
+            </if>
+            <if test="regName != null">
+                reg_name = #{regName,jdbcType=VARCHAR},
+            </if>
+            <if test="regUserId != null">
+                reg_user_id = #{regUserId,jdbcType=INTEGER},
+            </if>
+            <if test="regUserName != null">
+                reg_user_name = #{regUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="departId != null">
+                depart_id = #{departId,jdbcType=INTEGER},
+            </if>
+            <if test="departName != null">
+                depart_name = #{departName,jdbcType=VARCHAR},
+            </if>
+            <if test="pointId != null">
+                point_id = #{pointId,jdbcType=INTEGER},
+            </if>
+            <if test="pointName != null">
+                point_name = #{pointName,jdbcType=VARCHAR},
+            </if>
+            <if test="checkUsername != null">
+                check_username = #{checkUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadDate != null">
+                upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkDate != null">
+                check_date = #{checkDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkResult != null">
+                check_result = #{checkResult,jdbcType=VARCHAR},
+            </if>
+            <if test="checkUnit != null">
+                check_unit = #{checkUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="conclusion != null">
+                conclusion = #{conclusion,jdbcType=VARCHAR},
+            </if>
+            <if test="reloadFlag != null">
+                reload_flag = #{reloadFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="sendPhone != null">
+                send_phone = #{sendPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendState != null">
+                send_state = #{sendState,jdbcType=SMALLINT},
+            </if>
+            <if test="sendRemark != null">
+                send_remark = #{sendRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=INTEGER},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=INTEGER},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+            <if test="param4 != null">
+                param4 = #{param4,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedRecording">
+        UPDATE data_unqualified_recording
+        SET rid                = #{rid,jdbcType=INTEGER},
+            sampling_id        = #{samplingId,jdbcType=INTEGER},
+            sampling_detail_id = #{samplingDetailId,jdbcType=INTEGER},
+            sample_code        = #{sampleCode,jdbcType=VARCHAR},
+            food_id            = #{foodId,jdbcType=INTEGER},
+            food_name          = #{foodName,jdbcType=VARCHAR},
+            item_id            = #{itemId,jdbcType=VARCHAR},
+            item_name          = #{itemName,jdbcType=VARCHAR},
+            reg_id             = #{regId,jdbcType=INTEGER},
+            reg_name           = #{regName,jdbcType=VARCHAR},
+            reg_user_id        = #{regUserId,jdbcType=INTEGER},
+            reg_user_name      = #{regUserName,jdbcType=VARCHAR},
+            depart_id          = #{departId,jdbcType=INTEGER},
+            depart_name        = #{departName,jdbcType=VARCHAR},
+            point_id           = #{pointId,jdbcType=INTEGER},
+            point_name         = #{pointName,jdbcType=VARCHAR},
+            check_username     = #{checkUsername,jdbcType=VARCHAR},
+            upload_date        = #{uploadDate,jdbcType=TIMESTAMP},
+            check_date         = #{checkDate,jdbcType=TIMESTAMP},
+            check_result       = #{checkResult,jdbcType=VARCHAR},
+            check_unit         = #{checkUnit,jdbcType=VARCHAR},
+            conclusion         = #{conclusion,jdbcType=VARCHAR},
+            reload_flag        = #{reloadFlag,jdbcType=SMALLINT},
+            send_phone         = #{sendPhone,jdbcType=VARCHAR},
+            send_time          = #{sendTime,jdbcType=TIMESTAMP},
+            send_state         = #{sendState,jdbcType=SMALLINT},
+            send_remark        = #{sendRemark,jdbcType=VARCHAR},
+            param1             = #{param1,jdbcType=INTEGER},
+            param2             = #{param2,jdbcType=INTEGER},
+            param3             = #{param3,jdbcType=VARCHAR},
+            param4             = #{param4,jdbcType=VARCHAR},
+            delete_flag        = #{deleteFlag,jdbcType=SMALLINT},
+            create_by          = #{createBy,jdbcType=VARCHAR},
+            create_date        = #{createDate,jdbcType=TIMESTAMP},
+            update_by          = #{updateBy,jdbcType=VARCHAR},
+            update_date        = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="resultMapModel" parameterType="Object">
+        SELECT
+        id,rid,sample_code,reg_name,reg_user_name,food_name,item_name,check_result,conclusion,point_name,check_date,send_state,param1
+        FROM data_unqualified_recording
+        WHERE delete_flag = 0
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            reg_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            reg_user_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            sample_code LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            AND check_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            AND check_date &lt;=#{obj.endDateStr}
+        </if>
+        <if test="obj.sendState != null">
+            AND send_state = #{obj.sendState}
+        </if>
+        <choose>
+            <when test="obj.userRegId != null ">
+                AND reg_id = #{obj.userRegId}
+            </when>
+            <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                AND point_id IN
+                <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+            <when test="obj.departArr != null and obj.departArr.length > 0">
+                AND depart_id IN
+                <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+        </choose>
+        ORDER BY check_date DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM data_unqualified_recording
+        WHERE delete_flag = 0
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            reg_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            reg_user_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            sample_code LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            AND check_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            AND check_date &lt;=#{obj.endDateStr}
+        </if>
+        <if test="obj.sendState != null">
+            AND send_state = #{obj.sendState}
+        </if>
+        <choose>
+            <when test="obj.userRegId != null ">
+                AND reg_id = #{obj.userRegId}
+            </when>
+            <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                AND point_id IN
+                <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+            <when test="obj.departArr != null and obj.departArr.length > 0">
+                AND depart_id IN
+                <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+    <update id="deleteCheckRecording" parameterType="java.lang.Integer">
+        UPDATE data_unqualified_recording
+        SET param1 = 1
+        WHERE rid = #{rid}
+    </update>
+
+
+    <!--查询待发送短信的不合格数据:查询检测数据 当天数据、 不合格、未删除、未发送、 且当前删除状态为0的数据-->
+    <select id="querySmsToniceData" resultMap="baseSmsMap">
+        SELECT
+            dur.depart_id                        AS d_id,
+            GROUP_CONCAT(DISTINCT tsu.user_name) AS d_phones,
+            dur.point_id                         AS p_id,
+            GROUP_CONCAT(DISTINCT dur.id)        AS p_ids,
+            COUNT(DISTINCT dur.id)               AS p_number,
+            bp.phone                             AS p_phones,
+            bp.point_name                        AS p_point_name
+        FROM data_unqualified_recording dur
+            LEFT JOIN (SELECT id,user_name,depart_id FROM t_s_user WHERE delete_flag = 0 AND status = 0 AND point_id IS NULL) tsu
+                ON dur.depart_id = tsu.depart_id
+            LEFT JOIN base_point bp ON dur.point_id = bp.id AND bp.delete_flag = 0
+        WHERE dur.delete_flag = 0 AND dur.conclusion = '不合格' AND dur.send_state = 0 AND dur.param1 = 0
+              AND dur.check_date LIKE CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), '%')
+        GROUP BY dur.point_id
+    </select>
+
+
+    <select id="loadDatagridHistory" resultMap="resultMapModel2" parameterType="Object">
+        SELECT id, check_recording_id AS rid, reg_name, reg_user_name, food_name, item_name, check_result, conclusion,
+        depart_name, point_name, check_date, check_username, upload_date
+        FROM data_check_history_recording
+        WHERE check_recording_id = #{obj.id}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        UNION ALL
+        SELECT id, rid, reg_name, reg_user_name, food_name, item_name, check_result, conclusion, depart_name,
+        point_name, check_date, check_username, upload_date
+        FROM data_unqualified_recording
+        WHERE rid = #{obj.id}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        ORDER BY upload_date DESC
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotalHistory" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM (
+        SELECT id
+        FROM data_check_history_recording
+        WHERE check_recording_id = #{obj.id}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        UNION ALL
+        SELECT id
+        FROM data_unqualified_recording
+        WHERE rid = #{obj.id}
+        <if test="obj.keyWords != null and obj.keyWords != ''">
+            AND (
+            item_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            OR
+            food_name LIKE CONCAT('%',#{obj.keyWords},'%')
+            )
+        </if>
+        ) tb1
+
+    </select>
+    <!--
+    处理中 4994850
+    已处理-有意义 4942359
+    已处理-无意义 4992632
+    -->
+
+    <!--add by xiaoyl 2022/08/25 查询待发送微信通知的不合格数据:查询2小时内的数据、 不合格、未删除、未发送、 且当前删除状态为0的数据-->
+    <select id="wxQueryUnqualData2Msg" resultMap="BaseResultMap">
+     	SELECT
+             dur.id,dur.rid,dur.depart_id,dur.depart_name,dur.point_id,dur.point_name,dur.reg_name
+			,dur.reg_user_name,dur.item_name,dur.food_name,dur.check_date
+            FROM data_unqualified_recording dur
+            LEFT JOIN data_check_recording dcr on dur.rid=dcr.rid
+            WHERE dur.delete_flag = 0 AND dur.conclusion = '不合格' AND dcr.conclusion = '不合格'  and dcr.param7=1
+            <!-- AND dur.check_date LIKE CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), '%') -->
+            <!--AND DATE_ADD(dur.check_date,INTERVAL 30 MINUTE)>NOW() -->
+            <!--update by xiaoyl 2022/11/07 修改为检测完成2个小时内上传才会发送提醒 -->
+            AND DATE_ADD(dur.check_date,INTERVAL 2 HOUR)>NOW()
+            AND dur.send_state = 0 AND dur.param1 = 0
+            GROUP BY dur.rid
+</select>
+<!--add by xiaoyl 2022/08/25 根据机构ID和黑名单查询需要发送通知的用户openID-->
+    <select id="queryOpenIdByDepartID" resultType="map">
+     	select wx_openid,user_name FROM t_s_user WHERE delete_flag = 0 AND status = 0 AND point_id IS NULL and wx_openid!=''
+        and FIND_IN_SET(depart_id,getParentDepartList(#{departId}))
+        <if test="blacklist!=null and blacklist.length>0">
+            and user_name not in
+            <foreach item="userName" index="index" collection="blacklist" open="(" separator="," close=")">
+                #{userName}
+            </foreach>
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseStandardMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseStandard" >
+    <id property="id" column="id" />
+    <result property="stdCode" column="std_code" />
+    <result property="stdName" column="std_name" />
+    <result property="stdTitle" column="std_title" />
+    <result property="stdUnit" column="std_unit" />
+    <result property="stdType" column="std_type" />
+    <result property="stdStatus" column="std_status" />
+    <result property="impTime" column="imp_time" />
+    <result property="relTime" column="rel_time" />
+    <result property="urlPath" column="url_path" />
+    <result property="useStatus" column="use_status" />
+    <result property="deleteFlag" column="delete_flag" />
+    <result property="stdId" column="std_id" />
+    <result property="sorting" column="sorting" />
+    <result property="remark" column="remark" />
+    <result property="createBy" column="create_by" />
+    <result property="createDate" column="create_date" />
+    <result property="updateBy" column="update_by" />
+    <result property="updateDate" column="update_date" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,std_code,std_name,std_title,std_unit,std_type,
+        std_status,imp_time,rel_time,url_path,use_status,
+        delete_flag,std_id,sorting,remark,create_by,
+        create_date,update_by,update_date
+  </sql>
+  <!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag = 0
+		<choose>
+			<!-- 关键词查询 -->
+			<when test="obj.stdNameCode != null and obj.stdNameCode != ''">
+				and ( std_name like CONCAT('%', #{obj.stdNameCode}, '%') or std_code like CONCAT('%', #{obj.stdNameCode}, '%') )
+			</when>
+			
+			<!-- 高级查询 -->
+			<when test="obj.baseBean != null">
+				<if test="obj.baseBean.stdName != null and obj.baseBean.stdName != ''">
+					and std_name like CONCAT('%', #{obj.baseBean.stdName}, '%')
+				</if>
+				<if test="obj.baseBean.stdCode != null and obj.baseBean.stdCode != ''">
+					and std_code like CONCAT('%', #{obj.baseBean.stdCode}, '%')
+				</if>
+				
+				<if test="obj.baseBean.stdType != null">
+					and std_type = #{obj.baseBean.stdType}
+				</if>
+				<if test="obj.baseBean.stdStatus != null">
+					and std_status = #{obj.baseBean.stdStatus}
+				</if>
+				<if test="obj.baseBean.useStatus == 1 or obj.baseBean.useStatus==0">
+					and use_status = #{obj.baseBean.useStatus}
+				</if>
+			</when>
+			
+			<!-- 使用中 -->
+			<when test="obj.baseBean == null">
+				and use_status=1
+			</when>
+		</choose>
+	</sql>
+<!--  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
+<!--    select -->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from base_standard-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </select>-->
+  <select id="queryByStandardName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from base_standard
+		where std_code = #{stdCode,jdbcType=VARCHAR} and delete_flag = 0
+	</select>
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >-->
+<!--    update base_standard set delete_flag=1,update_date=now()-->
+<!--	where id in-->
+<!--	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">-->
+<!--		#{ids}-->
+<!--	</foreach>-->
+<!--  </delete>-->
+<!--  <insert id="insert" parameterType="com.dayuan.bean.data.BaseStandard" >-->
+<!--    insert into base_standard (std_code, std_name, -->
+<!--      std_title, std_unit, std_type, -->
+<!--      std_status, imp_time, rel_time, -->
+<!--      url_path, use_status, delete_flag, -->
+<!--      std_id, sorting, remark, -->
+<!--      create_by, create_date, update_by, -->
+<!--      update_date)-->
+<!--    values ( #{stdCode,jdbcType=VARCHAR}, #{stdName,jdbcType=VARCHAR}, -->
+<!--      #{stdTitle,jdbcType=VARCHAR}, #{stdUnit,jdbcType=VARCHAR}, #{stdType,jdbcType=VARCHAR}, -->
+<!--      #{stdStatus,jdbcType=VARCHAR}, #{impTime,jdbcType=DATE}, #{relTime,jdbcType=DATE}, -->
+<!--      #{urlPath,jdbcType=VARCHAR}, #{useStatus,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, -->
+<!--      #{stdId,jdbcType=VARCHAR}, #{sorting,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, -->
+<!--      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, -->
+<!--      #{updateDate,jdbcType=TIMESTAMP})-->
+<!--  </insert>-->
+<!--  <insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseStandard" >-->
+<!--    insert into base_standard-->
+<!--    <trim prefix="(" suffix=")" suffixOverrides="," >-->
+<!--      <if test="stdCode != null" >-->
+<!--        std_code,-->
+<!--      </if>-->
+<!--      <if test="stdName != null" >-->
+<!--        std_name,-->
+<!--      </if>-->
+<!--      <if test="stdTitle != null" >-->
+<!--        std_title,-->
+<!--      </if>-->
+<!--      <if test="stdUnit != null" >-->
+<!--        std_unit,-->
+<!--      </if>-->
+<!--      <if test="stdType != null" >-->
+<!--        std_type,-->
+<!--      </if>-->
+<!--      <if test="stdStatus != null" >-->
+<!--        std_status,-->
+<!--      </if>-->
+<!--      <if test="impTime != null" >-->
+<!--        imp_time,-->
+<!--      </if>-->
+<!--      <if test="relTime != null" >-->
+<!--        rel_time,-->
+<!--      </if>-->
+<!--      <if test="urlPath != null" >-->
+<!--        url_path,-->
+<!--      </if>-->
+<!--      <if test="useStatus != null" >-->
+<!--        use_status,-->
+<!--      </if>-->
+<!--      <if test="deleteFlag != null" >-->
+<!--        delete_flag,-->
+<!--      </if>-->
+<!--      <if test="stdId != null" >-->
+<!--        std_id,-->
+<!--      </if>-->
+<!--      <if test="sorting != null" >-->
+<!--        sorting,-->
+<!--      </if>-->
+<!--      <if test="remark != null" >-->
+<!--        remark,-->
+<!--      </if>-->
+<!--      <if test="createBy != null" >-->
+<!--        create_by,-->
+<!--      </if>-->
+<!--      <if test="createDate != null" >-->
+<!--        create_date,-->
+<!--      </if>-->
+<!--      <if test="updateBy != null" >-->
+<!--        update_by,-->
+<!--      </if>-->
+<!--      <if test="updateDate != null" >-->
+<!--        update_date,-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--    <trim prefix="values (" suffix=")" suffixOverrides="," >-->
+<!--      <if test="stdCode != null" >-->
+<!--        #{stdCode,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdName != null" >-->
+<!--        #{stdName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdTitle != null" >-->
+<!--        #{stdTitle,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdUnit != null" >-->
+<!--        #{stdUnit,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdType != null" >-->
+<!--        #{stdType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdStatus != null" >-->
+<!--        #{stdStatus,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="impTime != null" >-->
+<!--        #{impTime,jdbcType=DATE},-->
+<!--      </if>-->
+<!--      <if test="relTime != null" >-->
+<!--        #{relTime,jdbcType=DATE},-->
+<!--      </if>-->
+<!--      <if test="urlPath != null" >-->
+<!--        #{urlPath,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="useStatus != null" >-->
+<!--        #{useStatus,jdbcType=SMALLINT},-->
+<!--      </if>-->
+<!--      <if test="deleteFlag != null" >-->
+<!--        #{deleteFlag,jdbcType=SMALLINT},-->
+<!--      </if>-->
+<!--      <if test="stdId != null" >-->
+<!--        #{stdId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="sorting != null" >-->
+<!--        #{sorting,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="remark != null" >-->
+<!--        #{remark,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="createBy != null" >-->
+<!--        #{createBy,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="createDate != null" >-->
+<!--        #{createDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="updateBy != null" >-->
+<!--        #{updateBy,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="updateDate != null" >-->
+<!--        #{updateDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseStandard" >-->
+<!--    update base_standard-->
+<!--    <set >-->
+<!--      <if test="stdCode != null" >-->
+<!--        std_code = #{stdCode,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdName != null" >-->
+<!--        std_name = #{stdName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdTitle != null" >-->
+<!--        std_title = #{stdTitle,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdUnit != null" >-->
+<!--        std_unit = #{stdUnit,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdType != null" >-->
+<!--        std_type = #{stdType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="stdStatus != null" >-->
+<!--        std_status = #{stdStatus,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="impTime != null" >-->
+<!--        imp_time = #{impTime,jdbcType=DATE},-->
+<!--      </if>-->
+<!--      <if test="relTime != null" >-->
+<!--        rel_time = #{relTime,jdbcType=DATE},-->
+<!--      </if>-->
+<!--      <if test="urlPath != null" >-->
+<!--        url_path = #{urlPath,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="useStatus != null" >-->
+<!--        use_status = #{useStatus,jdbcType=SMALLINT},-->
+<!--      </if>-->
+<!--      <if test="deleteFlag != null" >-->
+<!--        delete_flag = #{deleteFlag,jdbcType=SMALLINT},-->
+<!--      </if>-->
+<!--      <if test="stdId != null" >-->
+<!--        std_id = #{stdId,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="sorting != null" >-->
+<!--        sorting = #{sorting,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="remark != null" >-->
+<!--        remark = #{remark,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="createBy != null" >-->
+<!--        create_by = #{createBy,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="createDate != null" >-->
+<!--        create_date = #{createDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="updateBy != null" >-->
+<!--        update_by = #{updateBy,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="updateDate != null" >-->
+<!--        update_date = #{updateDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseStandard" >-->
+<!--    update base_standard-->
+<!--    set std_code = #{stdCode,jdbcType=VARCHAR},-->
+<!--      std_name = #{stdName,jdbcType=VARCHAR},-->
+<!--      std_title = #{stdTitle,jdbcType=VARCHAR},-->
+<!--      std_unit = #{stdUnit,jdbcType=VARCHAR},-->
+<!--      std_type = #{stdType,jdbcType=VARCHAR},-->
+<!--      std_status = #{stdStatus,jdbcType=VARCHAR},-->
+<!--      imp_time = #{impTime,jdbcType=DATE},-->
+<!--      rel_time = #{relTime,jdbcType=DATE},-->
+<!--      url_path = #{urlPath,jdbcType=VARCHAR},-->
+<!--      use_status = #{useStatus,jdbcType=SMALLINT},-->
+<!--      delete_flag = #{deleteFlag,jdbcType=SMALLINT},-->
+<!--      std_id = #{stdId,jdbcType=VARCHAR},-->
+<!--      sorting = #{sorting,jdbcType=INTEGER},-->
+<!--      remark = #{remark,jdbcType=VARCHAR},-->
+<!--      create_by = #{createBy,jdbcType=VARCHAR},-->
+<!--      create_date = #{createDate,jdbcType=TIMESTAMP},-->
+<!--      update_by = #{updateBy,jdbcType=VARCHAR},-->
+<!--      update_date = #{updateDate,jdbcType=TIMESTAMP}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+		select 
+		<include refid="Base_Column_List" />
+		from base_standard
+		<include refid="Example_Where_Clause" />
+		order by sorting DESC, update_date DESC limit #{rowOffset}, #{pageSize}
+	</select>
+	
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from base_standard
+		<include refid="Example_Where_Clause" />
+	</select>
+	<!-- 查询所有的检测标准信息 -->
+	<select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from base_standard where use_status=1 and delete_flag=0 order by sorting ,std_code
+	</select>
+	
+	<!-- 根据最后更新时间查询信息 -->
+	<select id="queryByUpdateDate" resultMap="BaseResultMap" parameterType="Object" >
+	   select <include refid="Base_Column_List" />
+	   from base_standard where update_date>#{Object}
+  	</select>
+</mapper>

@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.delivery.TbDeliveryMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.delivery.TbDelivery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="delivery_no" property="deliveryNo" jdbcType="VARCHAR" />
+    <result column="person_id" property="personId" jdbcType="INTEGER" />
+    <result column="depart_id" property="departId" jdbcType="INTEGER" />
+    <result column="sampling_id" property="samplingId" jdbcType="INTEGER" />
+    <result column="sampling_detail_id" property="samplingDetailId" jdbcType="INTEGER" />
+    <result column="food_id" property="foodId" jdbcType="VARCHAR" />
+    <result column="food_name" property="foodName" jdbcType="VARCHAR" />
+    <result column="reg_id" property="regId" jdbcType="INTEGER" />
+    <result column="reg_name" property="regName" jdbcType="VARCHAR" />
+    <result column="ope_id" property="opeId" jdbcType="VARCHAR" />
+    <result column="ope_code" property="opeCode" jdbcType="VARCHAR" />
+    <result column="photos" property="photos" jdbcType="VARCHAR" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="param3" property="param3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, delivery_no, person_id, depart_id, sampling_id, sampling_detail_id, food_id, 
+    food_name, reg_id, reg_name, ope_id, ope_code, photos, delivery_date, remark, delete_flag, 
+    create_by, create_date, update_by, update_date, param1, param2, param3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_delivery
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_delivery
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.delivery.TbDelivery" >
+    insert into tb_delivery (id, delivery_no, person_id, 
+      depart_id, sampling_id, sampling_detail_id, 
+      food_id, food_name, reg_id, 
+      reg_name, ope_id, ope_code, 
+      photos, delivery_date, remark, 
+      delete_flag, create_by, create_date, 
+      update_by, update_date, param1, 
+      param2, param3)
+    values (#{id,jdbcType=INTEGER}, 
+	      (
+			SELECT
+				a.nextNo
+			FROM
+				(
+					SELECT
+						CONCAT('D', 
+							(
+								SELECT
+
+								IF (
+									EXISTS (
+										SELECT
+											1
+										FROM
+											tb_delivery
+										WHERE
+											delivery_no LIKE (
+												SELECT
+													CONCAT('%', date_format(now(), '%Y%m%d'), '%')
+											)
+									),
+									(
+										SELECT
+											MAX(
+												CAST(
+													SUBSTRING(delivery_no, LENGTH('D')+1) AS SIGNED
+												)
+											) + 1
+										FROM
+											tb_delivery
+										WHERE
+											delivery_no LIKE (
+												SELECT
+													CONCAT('%', date_format(now(), '%Y%m%d'), '%')
+											)
+									),
+									(
+										SELECT
+											CONCAT(
+												date_format(now(), '%Y%m%d'),
+												'0001'
+											)
+									)
+								)
+							)
+						) AS nextNo
+				) a
+		),
+      #{personId,jdbcType=INTEGER}, 
+      #{departId,jdbcType=INTEGER}, #{samplingId,jdbcType=INTEGER}, #{samplingDetailId,jdbcType=INTEGER}, 
+      #{foodId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, #{regId,jdbcType=INTEGER}, 
+      #{regName,jdbcType=VARCHAR}, #{opeId,jdbcType=VARCHAR}, #{opeCode,jdbcType=VARCHAR}, 
+      #{photos,jdbcType=VARCHAR}, #{deliveryDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, 
+      #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.delivery.TbDelivery" >
+    insert into tb_delivery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deliveryNo != null" >
+        delivery_no,
+      </if>
+      <if test="personId != null" >
+        person_id,
+      </if>
+      <if test="departId != null" >
+        depart_id,
+      </if>
+      <if test="samplingId != null" >
+        sampling_id,
+      </if>
+      <if test="samplingDetailId != null" >
+        sampling_detail_id,
+      </if>
+      <if test="foodId != null" >
+        food_id,
+      </if>
+      <if test="foodName != null" >
+        food_name,
+      </if>
+      <if test="regId != null" >
+        reg_id,
+      </if>
+      <if test="regName != null" >
+        reg_name,
+      </if>
+      <if test="opeId != null" >
+        ope_id,
+      </if>
+      <if test="opeCode != null" >
+        ope_code,
+      </if>
+      <if test="photos != null" >
+        photos,
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="param1 != null" >
+        param1,
+      </if>
+      <if test="param2 != null" >
+        param2,
+      </if>
+      <if test="param3 != null" >
+        param3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNo != null" >
+        #{deliveryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null" >
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="departId != null" >
+        #{departId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingId != null" >
+        #{samplingId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingDetailId != null" >
+        #{samplingDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="foodId != null" >
+        #{foodId,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null" >
+        #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="regId != null" >
+        #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="regName != null" >
+        #{regName,jdbcType=VARCHAR},
+      </if>
+      <if test="opeId != null" >
+        #{opeId,jdbcType=VARCHAR},
+      </if>
+      <if test="opeCode != null" >
+        #{opeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="photos != null" >
+        #{photos,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        #{deliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        #{param3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.delivery.TbDelivery" >
+    update tb_delivery
+    <set >
+      <if test="deliveryNo != null" >
+        delivery_no = #{deliveryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null" >
+        person_id = #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="departId != null" >
+        depart_id = #{departId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingId != null" >
+        sampling_id = #{samplingId,jdbcType=INTEGER},
+      </if>
+      <if test="samplingDetailId != null" >
+        sampling_detail_id = #{samplingDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="foodId != null" >
+        food_id = #{foodId,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null" >
+        food_name = #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="regId != null" >
+        reg_id = #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="regName != null" >
+        reg_name = #{regName,jdbcType=VARCHAR},
+      </if>
+      <if test="opeId != null" >
+        ope_id = #{opeId,jdbcType=VARCHAR},
+      </if>
+      <if test="opeCode != null" >
+        ope_code = #{opeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="photos != null" >
+        photos = #{photos,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.delivery.TbDelivery" >
+    update tb_delivery
+    set delivery_no = #{deliveryNo,jdbcType=VARCHAR},
+      person_id = #{personId,jdbcType=INTEGER},
+      depart_id = #{departId,jdbcType=INTEGER},
+      sampling_id = #{samplingId,jdbcType=INTEGER},
+      sampling_detail_id = #{samplingDetailId,jdbcType=INTEGER},
+      food_id = #{foodId,jdbcType=VARCHAR},
+      food_name = #{foodName,jdbcType=VARCHAR},
+      reg_id = #{regId,jdbcType=INTEGER},
+      reg_name = #{regName,jdbcType=VARCHAR},
+      ope_id = #{opeId,jdbcType=VARCHAR},
+      ope_code = #{opeCode,jdbcType=VARCHAR},
+      photos = #{photos,jdbcType=VARCHAR},
+      delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+  <update id="updateSamplingId" parameterType="java.lang.Object" >
+    UPDATE tb_delivery SET sampling_id = #{samplingId}, sampling_detail_id = #{detailId}
+    	WHERE delete_flag = 0 AND reg_id = #{regId} AND FIND_IN_SET(#{opeId}, ope_id)    
+    	AND delivery_date LIKE CONCAT(#{samplingDate}, '%') AND food_name LIKE CONCAT('%', #{foodName}, '%')
+    	AND (sampling_detail_id IS NULL OR sampling_detail_id = '')
+  </update>
+  
+  
+  
+  
+
+
+  <resultMap id="ModelBaseResultMap" type="com.dayuan.model.delivery.DeliveryModel" >
+  	<!-- TbDelivery -->
+    <result column="td_id" property="delivery.id" jdbcType="INTEGER" />
+    <result column="td_delivery_no" property="delivery.deliveryNo" jdbcType="VARCHAR" />
+    <result column="td_person_id" property="delivery.personId" jdbcType="INTEGER" />
+    <result column="td_depart_id" property="delivery.departId" jdbcType="INTEGER" />
+    <result column="td_sampling_id" property="delivery.samplingId" jdbcType="INTEGER" />
+    <result column="td_sampling_detail_id" property="delivery.samplingDetailId" jdbcType="INTEGER" />
+    <result column="td_food_id" property="delivery.foodId" jdbcType="VARCHAR" />
+    <result column="td_food_name" property="delivery.foodName" jdbcType="VARCHAR" />
+    <result column="td_reg_id" property="delivery.regId" jdbcType="INTEGER" />
+    <result column="td_reg_name" property="delivery.regName" jdbcType="VARCHAR" />
+    <result column="td_ope_id" property="delivery.opeId" jdbcType="VARCHAR" />
+    <result column="td_ope_code" property="delivery.opeCode" jdbcType="VARCHAR" />
+    <result column="td_photos" property="delivery.photos" jdbcType="VARCHAR" />
+    <result column="td_delivery_date" property="delivery.deliveryDate" jdbcType="TIMESTAMP" />
+    <result column="td_remark" property="delivery.remark" jdbcType="VARCHAR" />
+    <result column="td_delete_flag" property="delivery.deleteFlag" jdbcType="SMALLINT" />
+    <result column="td_create_by" property="delivery.createBy" jdbcType="VARCHAR" />
+    <result column="td_create_date" property="delivery.createDate" jdbcType="TIMESTAMP" />
+    <result column="td_update_by" property="delivery.updateBy" jdbcType="VARCHAR" />
+    <result column="td_update_date" property="delivery.updateDate" jdbcType="TIMESTAMP" />
+    <result column="td_param1" property="delivery.param1" jdbcType="VARCHAR" />
+    <result column="td_param2" property="delivery.param2" jdbcType="VARCHAR" />
+    <result column="td_param3" property="delivery.param3" jdbcType="VARCHAR" />
+    
+    <!-- TbDeliveryPerson -->
+    <result column="tdp_id" property="deliveryPerson.id" jdbcType="INTEGER" />
+    <result column="tdp_license_plate" property="deliveryPerson.licensePlate" jdbcType="VARCHAR" />
+    <result column="tdp_owner_name" property="deliveryPerson.ownerName" jdbcType="VARCHAR" />
+    <result column="tdp_owner_phone" property="deliveryPerson.ownerPhone" jdbcType="VARCHAR" />
+    <result column="tdp_company_name" property="deliveryPerson.companyName" jdbcType="VARCHAR" />
+    <result column="tdp_company_address" property="deliveryPerson.companyAddress" jdbcType="VARCHAR" />
+    <result column="tdp_delete_flag" property="deliveryPerson.deleteFlag" jdbcType="SMALLINT" />
+    <result column="tdp_create_by" property="deliveryPerson.createBy" jdbcType="VARCHAR" />
+    <result column="tdp_create_date" property="deliveryPerson.createDate" jdbcType="TIMESTAMP" />
+    <result column="tdp_update_by" property="deliveryPerson.updateBy" jdbcType="VARCHAR" />
+    <result column="tdp_update_date" property="deliveryPerson.updateDate" jdbcType="TIMESTAMP" />
+    <result column="tdp_param1" property="deliveryPerson.param1" jdbcType="VARCHAR" />
+    <result column="tdp_param2" property="deliveryPerson.param2" jdbcType="VARCHAR" />
+    <result column="tdp_param3" property="deliveryPerson.param3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Model_Base_Column_List" >
+  	<!-- TbDelivery -->
+    td.id td_id, td.delivery_no td_delivery_no, td.person_id td_person_id, td.depart_id td_depart_id, td.sampling_id td_sampling_id, td.sampling_detail_id td_sampling_detail_id, td.food_id td_food_id, td.food_name td_food_name, td.reg_id td_reg_id, td.reg_name td_reg_name, td.ope_id td_ope_id, td.ope_code td_ope_code, 
+    td.photos td_photos, td.delivery_date td_delivery_date, td.remark td_remark, td.delete_flag td_delete_flag, td.create_by td_create_by, td.create_date td_create_date, td.update_by td_update_by, td.update_date td_update_date, 
+    td.param1 td_param1, td.param2 td_param2, td.param3 td_param3,
+    
+    <!-- TbDeliveryPerson -->
+    tdp.id tdp_id, tdp.license_plate tdp_license_plate, tdp.owner_name tdp_owner_name, tdp.owner_phone tdp_owner_phone, tdp.company_name tdp_company_name, tdp.company_address tdp_company_address, tdp.delete_flag tdp_delete_flag, 
+    tdp.create_by tdp_create_by, tdp.create_date tdp_create_date, tdp.update_by tdp_update_by, tdp.update_date tdp_update_date, tdp.param1 tdp_param1, tdp.param2 tdp_param2, tdp.param3 tdp_param3
+  </sql>
+  
+	<sql id="Example_Where_Clause">
+		and td.delete_flag = 0
+		<if test="obj != null">
+			<if test="obj.regIds != null and obj.regIds.size > 0 ">
+				and td.reg_id in
+	    		<foreach collection="obj.regIds" item="regId" index="index" open="(" close=")" separator=",">
+					#{regId}
+				</foreach>
+			</if>
+		</if>
+	</sql>
+  <select id="loadDatagrid" resultMap="ModelBaseResultMap" parameterType="Object" >
+    select <include refid="Model_Base_Column_List"></include>
+    from tb_delivery td left join tb_delivery_person tdp on td.person_id = tdp.id 
+    where 1=1 <include refid="Example_Where_Clause"></include>
+    order by td.create_date ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal
+    from tb_delivery td left join tb_delivery_person tdp on td.person_id = tdp.id 
+    where 1=1 <include refid="Example_Where_Clause"></include>
+  </select>
+  
+  <select id="queryByDeliveryDate" resultMap="ModelBaseResultMap" parameterType="java.lang.Object" >
+    select 
+    <include refid="Model_Base_Column_List" />
+    from tb_delivery td left join tb_delivery_person tdp on td.person_id = tdp.id
+    where  1=1 
+    	<if test="date != null">
+    		and td.delivery_date like concat(#{date,jdbcType=VARCHAR},'%')
+    	</if>
+    	<if test="regIds != null and regIds.size > 0">
+    		and td.reg_id in
+    		<foreach collection="regIds" item="regId" index="index" open="(" close=")" separator=",">
+				#{regId}
+			</foreach>
+    	</if>
+    order by td.delivery_date desc
+  </select>
+  <select id="queryDeliveryById" resultMap="ModelBaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Model_Base_Column_List" />
+    from tb_delivery td left join tb_delivery_person tdp on td.person_id = tdp.id
+    where td.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

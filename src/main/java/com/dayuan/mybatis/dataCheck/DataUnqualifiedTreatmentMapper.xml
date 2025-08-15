@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.dataCheck.DataUnqualifiedTreatmentMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.dataCheck.DataUnqualifiedTreatment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="check_recording_id" property="checkRecordingId" jdbcType="INTEGER"/>
+        <result column="deal_method" property="dealMethod" jdbcType="SMALLINT"/>
+        <result column="deal_type" property="dealType" jdbcType="SMALLINT"/>
+        <result column="deal_imgURL" property="dealImgurl" jdbcType="VARCHAR"/>
+        <result column="sperson_name" property="spersonName" jdbcType="VARCHAR"/>
+        <result column="sperson_phone" property="spersonPhone" jdbcType="VARCHAR"/>
+        <result column="send_date" property="sendDate" jdbcType="TIMESTAMP"/>
+        <result column="recheck_date" property="recheckDate" jdbcType="TIMESTAMP"/>
+        <result column="end_date" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="recheck_value" property="recheckValue" jdbcType="VARCHAR"/>
+        <result column="recheck_result" property="recheckResult" jdbcType="VARCHAR"/>
+        <result column="recheck_depart" property="recheckDepart" jdbcType="VARCHAR"/>
+        <result column="supervision_depart" property="supervisionDepart" jdbcType="VARCHAR"/>
+        <result column="supervisor" property="supervisor" jdbcType="VARCHAR"/>
+        <result column="supervisor_phone" property="supervisorPhone" jdbcType="VARCHAR"/>
+        <result column="deal_situation" property="dealSituation" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="param1" property="param1" jdbcType="VARCHAR"/>
+        <result column="param2" property="param2" jdbcType="VARCHAR"/>
+        <result column="param3" property="param3" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, check_recording_id, deal_method, deal_type, deal_imgURL, sperson_name, sperson_phone,
+        send_date, recheck_date, end_date, recheck_value, recheck_result, recheck_depart,
+        supervision_depart, supervisor, supervisor_phone, deal_situation, create_date,
+        create_by, update_date, update_by, param1, param2, param3
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from data_unqualified_treatment
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM data_unqualified_treatment WHERE id IN
+        <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedTreatment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO data_unqualified_treatment (id, check_recording_id, deal_method,
+                                                deal_type, deal_imgURL, sperson_name,
+                                                sperson_phone, send_date, recheck_date,
+                                                end_date, recheck_value, recheck_result,
+                                                recheck_depart, supervision_depart, supervisor,
+                                                supervisor_phone, deal_situation, remark,
+                                                create_date, create_by, update_date,
+                                                update_by, param1, param2,
+                                                param3)
+        VALUES (#{id,jdbcType=INTEGER}, #{checkRecordingId,jdbcType=INTEGER}, #{dealMethod,jdbcType=SMALLINT},
+                                        #{dealType,jdbcType=SMALLINT}, #{dealImgurl,jdbcType=VARCHAR}, #{spersonName,jdbcType=VARCHAR},
+                                        #{spersonPhone,jdbcType=VARCHAR}, #{sendDate,jdbcType=TIMESTAMP}, #{recheckDate,jdbcType=TIMESTAMP},
+                                        #{endDate,jdbcType=TIMESTAMP}, #{recheckValue,jdbcType=VARCHAR}, #{recheckResult,jdbcType=VARCHAR},
+                                                                                                         #{recheckDepart,jdbcType=VARCHAR},
+                                                                                                         #{supervisionDepart,jdbcType=VARCHAR},
+                                                                                                         #{supervisor,jdbcType=VARCHAR},
+                                                                                                         #{supervisorPhone,jdbcType=VARCHAR},
+                                                                                                         #{dealSituation,jdbcType=VARCHAR},
+                                                                                                         #{remark,jdbcType=VARCHAR},
+                                                                                                         #{createDate,jdbcType=TIMESTAMP},
+                                                                                                         #{createBy,jdbcType=VARCHAR},
+                                                                                                         #{updateDate,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, #{param2,jdbcType=VARCHAR},
+                #{param3,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedTreatment" useGeneratedKeys="true" keyProperty="id">
+        insert into data_unqualified_treatment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="checkRecordingId != null">
+                check_recording_id,
+            </if>
+            <if test="dealMethod != null">
+                deal_method,
+            </if>
+            <if test="dealType != null">
+                deal_type,
+            </if>
+            <if test="dealImgurl != null">
+                deal_imgURL,
+            </if>
+            <if test="spersonName != null">
+                sperson_name,
+            </if>
+            <if test="spersonPhone != null">
+                sperson_phone,
+            </if>
+            <if test="sendDate != null">
+                send_date,
+            </if>
+            <if test="recheckDate != null">
+                recheck_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="recheckValue != null">
+                recheck_value,
+            </if>
+            <if test="recheckResult != null">
+                recheck_result,
+            </if>
+            <if test="recheckDepart != null">
+                recheck_depart,
+            </if>
+            <if test="supervisionDepart != null">
+                supervision_depart,
+            </if>
+            <if test="supervisor != null">
+                supervisor,
+            </if>
+            <if test="supervisorPhone != null">
+                supervisor_phone,
+            </if>
+            <if test="dealSituation != null">
+                deal_situation,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="param1 != null">
+                param1,
+            </if>
+            <if test="param2 != null">
+                param2,
+            </if>
+            <if test="param3 != null">
+                param3,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="checkRecordingId != null">
+                #{checkRecordingId,jdbcType=INTEGER},
+            </if>
+            <if test="dealMethod != null">
+                #{dealMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="dealType != null">
+                #{dealType,jdbcType=SMALLINT},
+            </if>
+            <if test="dealImgurl != null">
+                #{dealImgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="spersonName != null">
+                #{spersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="spersonPhone != null">
+                #{spersonPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="sendDate != null">
+                #{sendDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recheckDate != null">
+                #{recheckDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recheckValue != null">
+                #{recheckValue,jdbcType=VARCHAR},
+            </if>
+            <if test="recheckResult != null">
+                #{recheckResult,jdbcType=VARCHAR},
+            </if>
+            <if test="recheckDepart != null">
+                #{recheckDepart,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisionDepart != null">
+                #{supervisionDepart,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisor != null">
+                #{supervisor,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisorPhone != null">
+                #{supervisorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="dealSituation != null">
+                #{dealSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                #{param3,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedTreatment">
+        update data_unqualified_treatment
+        <set>
+            <if test="checkRecordingId != null">
+                check_recording_id = #{checkRecordingId,jdbcType=INTEGER},
+            </if>
+            <if test="dealMethod != null">
+                deal_method = #{dealMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="dealType != null">
+                deal_type = #{dealType,jdbcType=SMALLINT},
+            </if>
+            <if test="dealImgurl != null">
+                deal_imgURL = #{dealImgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="spersonName != null">
+                sperson_name = #{spersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="spersonPhone != null">
+                sperson_phone = #{spersonPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="sendDate != null">
+                send_date = #{sendDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recheckDate != null">
+                recheck_date = #{recheckDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recheckValue != null">
+                recheck_value = #{recheckValue,jdbcType=VARCHAR},
+            </if>
+            <if test="recheckResult != null">
+                recheck_result = #{recheckResult,jdbcType=VARCHAR},
+            </if>
+            <if test="recheckDepart != null">
+                recheck_depart = #{recheckDepart,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisionDepart != null">
+                supervision_depart = #{supervisionDepart,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisor != null">
+                supervisor = #{supervisor,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisorPhone != null">
+                supervisor_phone = #{supervisorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="dealSituation != null">
+                deal_situation = #{dealSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="param1 != null">
+                param1 = #{param1,jdbcType=VARCHAR},
+            </if>
+            <if test="param2 != null">
+                param2 = #{param2,jdbcType=VARCHAR},
+            </if>
+            <if test="param3 != null">
+                param3 = #{param3,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.dataCheck.DataUnqualifiedTreatment">
+        UPDATE data_unqualified_treatment
+        SET check_recording_id = #{checkRecordingId,jdbcType=INTEGER},
+            deal_method        = #{dealMethod,jdbcType=SMALLINT},
+            deal_type          = #{dealType,jdbcType=SMALLINT},
+            deal_imgURL        = #{dealImgurl,jdbcType=VARCHAR},
+            sperson_name       = #{spersonName,jdbcType=VARCHAR},
+            sperson_phone      = #{spersonPhone,jdbcType=VARCHAR},
+            send_date          = #{sendDate,jdbcType=TIMESTAMP},
+            recheck_date       = #{recheckDate,jdbcType=TIMESTAMP},
+            end_date           = #{endDate,jdbcType=TIMESTAMP},
+            recheck_value      = #{recheckValue,jdbcType=VARCHAR},
+            recheck_result     = #{recheckResult,jdbcType=VARCHAR},
+            recheck_depart     = #{recheckDepart,jdbcType=VARCHAR},
+            supervision_depart = #{supervisionDepart,jdbcType=VARCHAR},
+            supervisor         = #{supervisor,jdbcType=VARCHAR},
+            supervisor_phone   = #{supervisorPhone,jdbcType=VARCHAR},
+            deal_situation     = #{dealSituation,jdbcType=VARCHAR},
+            remark             = #{remark,jdbcType=VARCHAR},
+            create_date        = #{createDate,jdbcType=TIMESTAMP},
+            create_by          = #{createBy,jdbcType=VARCHAR},
+            update_date        = #{updateDate,jdbcType=TIMESTAMP},
+            update_by          = #{updateBy,jdbcType=VARCHAR},
+            param1             = #{param1,jdbcType=VARCHAR},
+            param2             = #{param2,jdbcType=VARCHAR},
+            param3             = #{param3,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 根据rid查询结果 -->
+    <select id="queryByRid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM data_unqualified_treatment
+        where check_recording_id = #{rid}
+    </select>
+    <!-- add by xiaoyl 2022/05/18 甘肃系统使用：根据rid查询结果 -->
+    <select id="queryByRid2GS" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM data_unqualified_treatment
+        where check_recording_id = #{rid} and delete_flag=0
+    </select>
+
+    <resultMap id="RecordingMap" type="com.dayuan.model.dataCheck.CheckResultModel">
+    </resultMap>
+
+    <resultMap id="RecordingMap2" type="com.dayuan.model.dataCheck.CheckResultModel">
+        <id column="id" property="id"/>
+        <result property="sampleCode" column="sampleCode"/>
+        <result property="regName" column="regName"/>
+        <result property="ope_shop_code" column="ope_shop_code"/>
+        <result property="foodName" column="foodName"/>
+        <result property="itemName" column="itemName"/>
+        <result property="recheckValue" column="recheckValue"/>
+        <result property="recheckResult" column="recheckResult"/>
+        <result property="dutId" column="dutId"/>
+        <result property="udealType" column="udealType"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="updateDate" column="updateDate"/>
+        <result property="handName" column="handName"/>
+        <result property="fFilePaths" column="fFilePaths"/>
+        <result property="reloadFlag" column="reloadFlag"/>
+        <result property="checkResult" column="check_result"/>
+        <result property="checkUnit" column="check_unit"/>
+    <!--    <collection property="tbFiles" ofType="com.dayuan.bean.data.TbFile" columnPrefix="f_">
+            <result property="filePath" column="file_path"/>
+        </collection>-->
+    </resultMap>
+
+
+    <!--========================== 不合格处理-待处理 ==============================-->
+    <sql id="BASEMAP3">
+        <!-- 检测结果表  data_check_recording -->
+        <!-- update by xiaoyl 2022-02-28 修改不合格数据上传次数，将dcr.reload_flag 修改成 (dcr.reload_flag-1) -->
+        dcr.id id, dcr.check_result checkResult,dcr.check_unit checkUnit,(dcr.reload_flag-1) reloadFlag ,dcr.reload_flag recheckNuber,
+        dcr.conclusion conclusion,dcr.check_date checkDate,
+        dcr.check_username checkUsername,dcr.depart_name departName,
+        dcr.item_name itemName, dcr.food_name foodName,
+        dcr.reg_user_name ope_shop_code, dcr.reg_name regName,
+        dcr.point_name pointName,
+        dut.id dutId, dut.deal_type udealType, dut.deal_method dealMethod,dut.recheck_depart recheckDepart,
+        dut.send_date sendDate,dut.create_date createDate,dut.recheck_date recheckDate,dut.supervisor supervisor,
+        dut.update_date updateDate,
+        tsd.sample_code sampleCode
+
+
+    </sql>
+    <sql id="BASEMAP1">
+        <!-- 检测结果表  data_check_recording -->
+        dcr.id id, dcr.check_accord checkAccord, dcr.limit_value limitValue, dcr.check_result checkResult,
+        dcr.check_unit checkUnit, dcr.conclusion conclusion,dcr.check_date checkDate, dcr.check_code checkCode,
+        dcr.check_username checkUsername, dcr.auditor_name auditorName,dcr.upload_name uploadName,
+        dcr.upload_date uploadDate, dcr.task_name taskName, dcr.depart_id departId,dcr.depart_name departName,
+        dcr.device_model deviceModel, dcr.device_method deviceMethod,dcr.device_company deviceCompany,
+        dcr.data_source dataSource,dcr.item_name itemName, dcr.food_name foodName,dcr.reg_user_name ope_shop_code,
+        dcr.point_name pointName,dcr.device_name deviceName,dcr.reload_flag reloadFlag,dcr.reg_name regName,
+
+        <!-- 不合格处理 -->
+        dut.id dutId, dut.deal_type udealType, dut.deal_method dealMethod , dut.recheck_result recheckValue, dut.recheck_depart recheckDepart,
+        dut.send_date sendDate, dut.sperson_name spersonName, dut.remark remark, dut.supervisor supervisor,
+        dut.supervisor_phone supervisorPhone, dut.create_date createDate,dut.recheck_date recheckDate,
+        dut.deal_imgURL dealImgurl,dut.update_date updateDate,
+        u.realname
+    </sql>
+
+    <sql id="LEFT_JOIN1">
+        LEFT JOIN data_unqualified_treatment dut on dut.check_recording_id = dcr.id
+        LEFT JOIN tb_sampling tbs ON tbs.id = dcr.sampling_id
+    </sql>
+
+    <sql id="Example_Where_Clause1">
+        where dcr.delete_flag = 0
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+            AND type.id=#{obj.regTypeId}
+        </if>
+        <if test="obj != null">
+            <if test=" obj.keyWords !=null and obj.keyWords != ''">
+                and (
+                    dcr.reg_name like CONCAT('%', #{obj.keyWords}, '%')
+                    or dcr.item_name like CONCAT('%', #{obj.keyWords}, '%')
+                    or dcr.food_name like CONCAT('%', #{obj.keyWords}, '%')
+                    or dcr.reg_user_name like CONCAT('%', #{obj.keyWords}, '%')
+                    or tsd.sample_code like CONCAT('%', #{obj.keyWords}, '%')
+                    or dcr.id =#{obj.keyWords} <!-- add by xiaoyl 2022/04/24关键字查询：增加检测记录编号查询-->
+                )
+            </if>
+            <!-- 待处理条件:结论为不合格,且处理状态标识为空(未处理) -->
+            <if test="obj.conclusion != null and obj.conclusion != '' ">
+                and dcr.conclusion = #{obj.conclusion} and dut.deal_method is null
+            </if>
+            <!-- 处理中和已处理条件 -->
+            <if test="obj.dealMethod != null ">
+                and dut.deal_method = #{obj.dealMethod}
+            </if>
+            <!-- 筛选数据 -->
+            <choose>
+                <when test="obj.userRegId != null ">
+                    and dcr.reg_id = #{obj.userRegId}
+                </when>
+                <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                    and dcr.point_id in
+                    <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <when test="obj.departArr != null and obj.departArr.length > 0">
+                    and dcr.depart_id in
+                    <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+            </choose>
+        </if>
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            and dcr.check_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            and dcr.check_date &lt;=#{obj.endDateStr}
+        </if>
+    </sql>
+
+    <!-- 待处理  分页基础查询 -->
+    <select id="loadDatagrid" resultMap="RecordingMap" parameterType="Object">
+        select
+        <include refid="BASEMAP3"/>
+        FROM data_check_recording dcr
+        LEFT JOIN data_unqualified_treatment dut on dut.check_recording_id = dcr.id and dut.delete_flag=0
+        LEFT JOIN tb_sampling_detail tsd ON dcr.sampling_detail_id = tsd.id
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+	        LEFT JOIN base_regulatory_object bro on dcr.reg_id=bro.id
+            LEFT JOIN base_regulatory_type type on bro.reg_type=type.id
+        </if>
+        <include refid="Example_Where_Clause1"/>
+        <if test="obj.queryTimeOutHandel!=0">
+        	and DATE_ADD(dcr.check_date,INTERVAL 1 HOUR)&lt;now()
+        </if>
+        order by dcr.check_date ${order} limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        FROM data_check_recording dcr
+        LEFT JOIN data_unqualified_treatment dut on dut.check_recording_id = dcr.id and dut.delete_flag=0
+        LEFT JOIN tb_sampling_detail tsd ON dcr.sampling_detail_id = tsd.id
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+            LEFT JOIN base_regulatory_object bro on dcr.reg_id=bro.id
+            LEFT JOIN base_regulatory_type type on bro.reg_type=type.id
+        </if>
+        <include refid="Example_Where_Clause1"/>
+        <if test="obj.queryTimeOutHandel!=0">
+        	and DATE_ADD(dcr.check_date,INTERVAL 1 HOUR)&lt;now()
+        </if>
+    </select>
+
+
+    <!--========================== 不合格处理-处理中与已处理 ==============================-->
+    <sql id="BASEMAP2">
+        <include refid="BASEMAP1"></include>
+        <!-- 不合格处理 -->
+        ,GROUP_CONCAT(if (d.dispose_value!='',CAST(CONCAT(config.handle_name,':',d.dispose_value) AS
+        char),CAST(CONCAT(config.handle_name,':',d.dispose_value1,d.dispose_type) AS char))) handName
+    </sql>
+
+    <sql id="LEFT_JOIN2">
+        <include refid="LEFT_JOIN1"></include>
+        LEFT JOIN data_unqualified_dispose dud on dud.unid = dut.id
+        LEFT JOIN data_unqualified_config duc on duc.id = dud.dispose_id
+    </sql>
+
+    <!-- 处理中与已处理数据列表查询 -->
+    <!-- 分页基础查询 -->
+    <!--========================== 不合格处理-已处理 ==============================-->
+    <sql id="Example_Where_Clause2">
+        WHERE rid IS NOT NULL AND r.delete_flag = 0 and r.data_type = 0 and t.deal_method = 1 and t.delete_flag=0
+        <if test="obj != null">
+            <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+                AND type.id=#{obj.regTypeId}
+            </if>
+            <if test="obj.keyWords !=null and obj.keyWords != ''">
+                and (
+                r.reg_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.item_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.food_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.reg_user_name like CONCAT('%', #{obj.keyWords}, '%')
+                or tsd.sample_code like CONCAT('%', #{obj.keyWords}, '%')
+                or r.rid =#{obj.keyWords} <!-- add by xiaoyl 2022/04/24关键字查询：增加检测记录编号查询-->
+                )
+            </if>
+            <choose>
+                <when test="obj.userRegId != null ">
+                    and r.reg_id = #{obj.userRegId}
+                </when>
+                <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                    and r.point_id in
+                    <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <when test="obj.departArr != null and obj.departArr.length > 0">
+                    and r.depart_id in
+                    <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+            </choose>
+            <if test="obj.departId != null">
+                AND r.depart_id IN (SELECT id FROM t_s_depart WHERE delete_flag=0 AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{obj.departId}),'%'))
+            </if>
+        </if>
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            and t.update_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            and t.update_date &lt;= #{obj.endDateStr}
+        </if>
+    </sql>
+
+    <!-- 处理中与已处理数据列表查询 -->
+    <select id="loadDealDatagrid" resultMap="RecordingMap2" parameterType="Object">
+        SELECT
+        r.rid id, r.food_name foodName, r.item_name itemName,
+        r.reg_name regName, r.reg_user_name ope_shop_code,
+        (r.reload_flag-1) reloadFlag,
+        r.check_result,r.check_unit,
+        r.handled_assessment handledAssessment,r.handled_remark handledRemark,r.param6,
+        t.id dutId, t.recheck_value recheckValue, t.recheck_result recheckResult,
+        t.deal_type udealType, t.update_date updateDate, t.id tId,
+        GROUP_CONCAT( IF( d.dispose_value1 IS NOT NULL,CONCAT_WS('', config.handle_name, ':', d.dispose_value1, d.dispose_type),CONCAT_WS('', config.handle_name)) SEPARATOR ';' ) handName,
+        tsd.sample_code sampleCode,
+        (SELECT GROUP_CONCAT(file_path) FROM tb_file WHERE delete_flag = 0 AND source_type = 'Enforce'
+        and update_date &gt;= #{obj.startDateStr} and update_date &lt;= #{obj.endDateStr} and source_id = t.id) AS fFilePaths
+        FROM data_unqualified_treatment t
+        LEFT JOIN data_check_recording r ON t.check_recording_id = r.rid
+        LEFT JOIN tb_sampling_detail tsd ON r.sampling_detail_id = tsd.id
+        LEFT JOIN data_unqualified_dispose d ON t.id = d.unid
+        LEFT JOIN data_unqualified_config config ON config.id = d.dispose_id
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+            LEFT JOIN base_regulatory_object bro on r.reg_id=bro.id
+            LEFT JOIN base_regulatory_type type on bro.reg_type=type.id
+        </if>
+        <include refid="Example_Where_Clause2"/>
+        GROUP BY r.rid
+        ORDER BY t.update_date DESC
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getDealRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(DISTINCT r.rid) AS rowTotal
+        FROM data_unqualified_treatment t
+        LEFT JOIN data_check_recording r ON t.check_recording_id = r.rid
+        LEFT JOIN tb_sampling_detail tsd ON r.sampling_detail_id = tsd.id
+        LEFT JOIN data_unqualified_dispose d ON t.id = d.unid
+        LEFT JOIN data_unqualified_config config ON config.id = d.dispose_id
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+            LEFT JOIN base_regulatory_object obj on r.reg_id=obj.id
+            LEFT JOIN base_regulatory_type type on obj.reg_type=type.id
+        </if>
+        <include refid="Example_Where_Clause2"/>
+    </select>
+
+    <!--  查询效率太慢，已被淘汰使用 delete by xiaoyl 2023/05/15
+  <select id="loadDealDatagrid" resultMap="RecordingMap2" parameterType="Object">
+        SELECT tb1.*, tf.source_id AS f_source_id, GROUP_CONCAT(tf.file_path) AS fFilePaths FROM
+        (
+            SELECT
+                r.rid id, r.food_name foodName, r.item_name itemName,
+                r.reg_name regName, r.reg_user_name ope_shop_code,
+                &lt;!&ndash;add by xiaoyl 2022-02-28 增加复检字段&ndash;&gt;
+                (r.reload_flag-1) reloadFlag,
+                &lt;!&ndash;add by xiaoyl 2022-03-14 增加检测值字段&ndash;&gt;
+                r.check_result,r.check_unit,
+                t.id dutId, t.recheck_value recheckValue, t.recheck_result recheckResult,
+                t.deal_type udealType, t.update_date updateDate, t.id tId,
+                GROUP_CONCAT( IF( d.dispose_value1 IS NOT NULL,CONCAT_WS('', config.handle_name, ':', d.dispose_value1, d.dispose_type),CONCAT_WS('', config.handle_name)) SEPARATOR ';' ) handName,
+                tsd.sample_code sampleCode
+            FROM data_unqualified_treatment t
+                LEFT JOIN data_check_recording r ON t.check_recording_id = r.rid
+                LEFT JOIN tb_sampling_detail tsd ON r.sampling_detail_id = tsd.id
+                LEFT JOIN data_unqualified_dispose d ON t.id = d.unid
+                LEFT JOIN data_unqualified_config config ON config.id = d.dispose_id
+
+            <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+                LEFT JOIN base_regulatory_object bro on r.reg_id=bro.id
+                LEFT JOIN base_regulatory_type type on bro.reg_type=type.id
+            </if>
+            WHERE rid IS NOT NULL AND r.delete_flag = 0 and r.data_type = 0 and t.deal_method = 1
+            <if test="obj != null">
+                <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+                    AND type.id=#{obj.regTypeId}
+                </if>
+                <if test="obj.keyWords !=null and obj.keyWords != ''">
+                    and (
+                        r.reg_name like CONCAT('%', #{obj.keyWords}, '%')
+                        or r.item_name like CONCAT('%', #{obj.keyWords}, '%')
+                        or r.food_name like CONCAT('%', #{obj.keyWords}, '%')
+                        or r.reg_user_name like CONCAT('%', #{obj.keyWords}, '%')
+                        or tsd.sample_code like CONCAT('%', #{obj.keyWords}, '%')
+                        or r.rid =#{obj.keyWords} &lt;!&ndash; add by xiaoyl 2022/04/24关键字查询：增加检测记录编号查询&ndash;&gt;
+                    )
+                </if>
+                <choose>
+                    <when test="obj.userRegId != null ">
+                        and r.reg_id = #{obj.userRegId}
+                    </when>
+                    <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                        and r.point_id in
+                        <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </when>
+                    <when test="obj.departArr != null and obj.departArr.length > 0">
+                        and r.depart_id in
+                        <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </when>
+                </choose>
+            </if>
+            <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+                and t.update_date &gt;= #{obj.startDateStr}
+            </if>
+            <if test="obj.endDateStr != null and obj.endDateStr != ''">
+                and t.update_date &lt;= #{obj.endDateStr}
+            </if>
+            GROUP BY r.rid
+        ) tb1
+        LEFT JOIN (SELECT * FROM tb_file WHERE delete_flag = 0 AND source_type = 'Enforce'
+        &lt;!&ndash;add by xiaoyl 2022-03-01 tb_file表增加时间段查询条件，优化已处理功能的查询速度&ndash;&gt;
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            and update_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            and update_date &lt;= #{obj.endDateStr}
+        </if>
+        )tf
+        ON tf.source_id = tb1.tId AND tf.source_type = 'Enforce'
+        WHERE 1=1
+        <if test="obj.queryNoneFile==1">
+            AND tf.file_path IS NULL
+        </if>
+        GROUP BY tb1.id
+        ORDER BY tb1.updateDate DESC
+        limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getDealRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(1) AS rowTotal
+        FROM data_unqualified_treatment t
+        LEFT JOIN data_check_recording r ON t.check_recording_id = r.rid
+        LEFT JOIN tb_sampling_detail tsd ON r.sampling_detail_id = tsd.id
+        <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+            LEFT JOIN base_regulatory_object obj on r.reg_id=obj.id
+            LEFT JOIN base_regulatory_type type on obj.reg_type=type.id
+        </if>
+        WHERE r.rid IS NOT NULL
+        AND r.delete_flag = 0 and r.data_type = 0 and t.deal_method = 1
+        <if test="obj != null">
+            <if test="obj.regTypeId !=null and obj.regTypeId !=''">
+                AND type.id=#{obj.regTypeId}
+            </if>
+            <if test="obj.keyWords !=null and obj.keyWords != ''">
+                and (
+                r.reg_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.item_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.food_name like CONCAT('%', #{obj.keyWords}, '%')
+                or r.reg_user_name like CONCAT('%', #{obj.keyWords}, '%')
+                or tsd.sample_code like CONCAT('%', #{obj.keyWords}, '%')
+                )
+            </if>
+            <choose>
+                <when test="obj.userRegId != null ">
+                    and r.reg_id = #{obj.userRegId}
+                </when>
+                <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                    and r.point_id in
+                    <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <when test="obj.departArr != null and obj.departArr.length > 0">
+                    and r.depart_id in
+                    <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+            </choose>
+        </if>
+        <if test="obj.startDateStr != null and obj.startDateStr !='' ">
+            and t.update_date &gt;= #{obj.startDateStr}
+        </if>
+        <if test="obj.endDateStr != null and obj.endDateStr != ''">
+            and t.update_date &lt;= #{obj.endDateStr}
+        </if>
+    </select>-->
+
+    <!-- 根据id查询结果 -->
+    <select id="getRecording" resultMap="RecordingMap" parameterType="java.lang.Integer">
+        select
+            <!-- 检测结果表  data_check_recording  -->
+            <!--update by xiaoyl 2022-03-16 将dcr.id 修改成 dcr.id-->
+            dcr.id id, dcr.check_accord checkAccord, dcr.limit_value limitValue, dcr.check_result checkResult,dcr.point_name pointName,
+            dcr.check_unit checkUnit, dcr.conclusion conclusion,dcr.check_date checkDate,dcr.item_name itemName,dcr.check_username checkUsername,
+            dcr.food_name foodName,bus.ope_name opeName,dcr.reg_id regId,dcr.reg_name regName, dcr.reg_user_name ope_shop_code,
+            <!-- 抽检单表 -->
+            tbs.id samplingId, tbs.sampling_no samplingNo,tbs.ope_shop_code ope_shop_code,
+            tbsd.sample_code sampleCode,
+            <!-- 不合格处理人 -->
+            bw.worker_name workerName,
+            <!-- 不合格处理 -->
+            dut.id dutId, dut.deal_type udealType, dut.recheck_depart recheckDepart,dut.send_date sendDate,
+            dut.sperson_name spersonName,
+            dut.recheck_result recheckResult,dut.recheck_value recheckValue,
+            dut.remark remark, dut.supervisor supervisor,dut.supervisor_phone supervisorPhone,
+            dut.create_date createDate,dut.recheck_date recheckDate,dut.deal_imgURL dealImgurl,dut.update_date updateDate,
+            (SELECT realname FROM t_s_user WHERE id=dut.create_by) AS dealUser,
+            (SELECT depart_name FROM t_s_user tsu JOIN t_s_depart tsd ON tsu.depart_id = tsd.id WHERE tsu.id=dut.create_by) AS dealDepart,
+            GROUP_CONCAT( IF( dud.dispose_value1 IS NOT NULL,CONCAT_WS('', duc.handle_name, ':', dud.dispose_value1, dud.dispose_type),CONCAT_WS('', duc.handle_name)) SEPARATOR ';' ) handName
+        FROM data_check_recording dcr
+            LEFT JOIN base_regulatory_business bus ON dcr.reg_user_id=bus.id
+            LEFT JOIN tb_sampling_detail tbsd ON dcr.sampling_detail_id = tbsd.id
+            LEFT JOIN tb_sampling tbs ON tbs.id = tbsd.sampling_id
+            LEFT JOIN data_unqualified_treatment dut on dut.check_recording_id = dcr.id
+            LEFT JOIN base_workers bw on bw.id = dcr.check_userid
+            LEFT JOIN data_unqualified_dispose dud on dud.unid = dut.id
+            LEFT JOIN data_unqualified_config duc on duc.id = dud.dispose_id
+        where dcr.id = #{id}
+    </select>
+
+    <!--根据检测数据ID查询溯源信息-->
+    <select id="selectSourceByRid" resultType="com.dayuan.bean.regulatory.BaseRegulatoryObject">
+        SELECT
+            bro.id              id,
+            bro.depart_id       departId,
+            bro.reg_name        regName,
+            bro.reg_type        regType,
+            bro.link_user       linkUser,
+            bro.link_phone      linkPhone,
+            bro.link_idcard     linkIdcard,
+            bro.credit_code     creditCode,
+            bro.fax             fax,
+            bro.post            post,
+            bro.region_id       regionId,
+            bro.reg_address     regAddress,
+            bro.place_x         placeX,
+            bro.place_y         placeY,
+            bro.qrcode          qrcode,
+            bro.remark          remark,
+            bro.checked         checked,
+            bro.delete_flag     deleteFlag,
+            bro.sorting         sorting,
+            bro.create_by       createBy,
+            bro.create_date     createDate,
+            bro.update_by       updateBy,
+            bro.update_date     updateDate,
+            bro.param1          param1,
+            bro.param2          param2,
+            bro.param3          param3,
+            bro.management_type managementType,
+            bro.legal_person    legalPerson,
+            bro.company_name    companyName,
+            bro.business_cope   businessCope
+        FROM base_regulatory_object bro
+            LEFT JOIN data_check_recording dcr ON bro.id = dcr.reg_id
+        WHERE dcr.id = #{id} AND bro.delete_flag = 0
+    </select>
+
+    <sql id="LEFT_JOIN">
+        LEFT JOIN base_regulatory_business bus ON dcr.reg_user_id=bus.id
+        LEFT JOIN tb_sampling_detail tbsd ON dcr.sampling_detail_id = tbsd.id
+        LEFT JOIN tb_sampling tbs ON tbs.id = tbsd.sampling_id
+        LEFT JOIN data_unqualified_treatment dut on dut.check_recording_id = dcr.id
+        LEFT JOIN base_workers bw on bw.id = dcr.check_userid
+        LEFT JOIN data_unqualified_dispose dud on dud.unid = dut.id
+        LEFT JOIN data_unqualified_config duc on duc.id = dud.dispose_id
+    </sql>
+<!-- 新模式不合格查看  分页基础查询  add by xiaoyl 2019-09-20-->
+ <sql id="Example_Where_Clause_New">
+        where dcr.delete_flag = 0
+        <if test="obj.reloadFlag != null and obj.reloadFlag != '' ">
+               <choose>
+               		<when test="obj.reloadFlag==1">and dcr.reload_flag=1 </when>
+               		<when test="obj.reloadFlag==2">and dcr.reload_flag=1</when>
+               		<when test="obj.reloadFlag==3">and dcr.reload_flag>=2</when>
+               </choose>
+        </if>
+        <if test="obj != null">
+            <if test=" obj.keyWords !=null and obj.keyWords != ''">
+                and (
+                sampl.sampling_no like CONCAT('%', #{obj.keyWords}, '%')
+                or sampl.reg_name like CONCAT('%', #{obj.keyWords}, '%')
+                or detail.sample_tube_code like CONCAT('%', #{obj.keyWords}, '%')
+                or dcr.food_name like CONCAT('%', #{obj.keyWords}, '%')
+                or dcr.item_name like CONCAT('%', #{obj.keyWords}, '%')
+                OR dcr.id =#{obj.keyWords} <!-- add by xiaoyl 2022/04/24关键字查询：增加检测记录编号查询-->
+                )
+            </if>
+            <!-- 待处理条件:结论为不合格,且处理状态标识为空(未处理) -->
+            <if test="obj.conclusion != null and obj.conclusion != '' and obj.reloadFlag!=3">
+                and dcr.conclusion = #{obj.conclusion}
+            </if>
+            <!-- 筛选数据 -->
+            <choose>
+                <when test="obj.pointArr != null and obj.pointArr.length > 0">
+                    and dcr.point_id in
+                    <foreach item="item" index="index" collection="obj.pointArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <when test="obj.departArr != null and obj.departArr.length > 0">
+                    and dcr.depart_id in
+                    <foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+            </choose>
+        </if>
+        <if test="obj.checkDateStartDateStr != null and obj.checkDateStartDateStr !='' ">
+            and dcr.check_date&gt;= #{obj.checkDateStartDateStr}
+        </if>
+        <if test="obj.checkDateEndDateStr != null and obj.checkDateEndDateStr != ''">
+            and dcr.check_date &lt;= CONCAT(#{obj.checkDateEndDateStr},' 23:59:59')
+        </if>
+        GROUP BY dcr.id
+        <choose>
+       		<when test="obj.reloadFlag==1"> HAVING printCount=0</when>
+       		<when test="obj.reloadFlag==2"> HAVING printCount>0</when>
+         </choose>
+    </sql>
+
+ 	<resultMap id="newDataUnqualifiedRecordingMap" type="com.dayuan3.common.bean.DataUnqualifiedModel">
+    </resultMap>
+
+    <select id="loadDatagridForUnqualFied" resultMap="newDataUnqualifiedRecordingMap" parameterType="Object">
+       select dcr.rid id,dcr.item_name itemName,dcr.check_result checkResult,dcr.check_unit,dcr.check_unit checkUnit,dcr.conclusion conclusion,dcr.check_username checkUsername,
+       dcr.check_date checkDate,#{obj.reloadFlag} reloadFlag,sampl.reg_name regName,sampl.sampling_no samplingNo,dcr.food_name foodName,
+       detail.sample_tube_code sampleTubeCode,detail.sample_tube_time sampleTubeTime,count(log.id) printCount
+		FROM data_check_recording dcr
+		left join tb_sampling sampl on dcr.sampling_id=sampl.id
+		left join tb_sampling_detail detail on dcr.sampling_detail_id=detail.id
+		left join data_unqualified_printlog log on dcr.rid=log.record_id
+		 <include refid="Example_Where_Clause_New"/>
+       	 order by log.create_date desc, dcr.update_date desc limit #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotalUnqualFied" resultType="java.lang.Integer" parameterType="Object">
+      select count(1) as rowTotal FROM(  select dcr.rid,count( log.id ) printCount
+       FROM data_check_recording dcr
+		 left join tb_sampling sampl on dcr.sampling_id=sampl.id
+		left join tb_sampling_detail detail on dcr.sampling_detail_id=detail.id
+		left join data_unqualified_printlog log on dcr.rid=log.record_id
+		<include refid="Example_Where_Clause_New"/>  ) a
+    </select>
+</mapper>

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.task.TbTaskDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.task.TbTaskDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="detail_code" property="detailCode" jdbcType="VARCHAR" />
+    <result column="sample_id" property="sampleId" jdbcType="VARCHAR" />
+    <result column="sample" property="sample" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="item" property="item" jdbcType="VARCHAR" />
+    <result column="task_fdate" property="taskFdate" jdbcType="TIMESTAMP" />
+    <result column="receive_pointid" property="receivePointid" jdbcType="INTEGER" />
+    <result column="receive_point" property="receivePoint" jdbcType="VARCHAR" />
+    <result column="receive_nodeid" property="receiveNodeid" jdbcType="INTEGER" />
+    <result column="receive_node" property="receiveNode" jdbcType="VARCHAR" />
+    <result column="receive_userid" property="receiveUserid" jdbcType="VARCHAR" />
+    <result column="receive_username" property="receiveUsername" jdbcType="VARCHAR" />
+    <result column="receive_status" property="receiveStatus" jdbcType="SMALLINT" />
+    <result column="task_total" property="taskTotal" jdbcType="INTEGER" />
+    <result column="sample_number" property="sampleNumber" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="JoinResultMap" type="com.dayuan.bean.task.TbTaskDetail" extends="BaseResultMap">
+  	<result column="taskTitle" property="taskTitle" jdbcType="VARCHAR" />
+  	<result column="taskType" property="taskType" jdbcType="VARCHAR" />
+  	<result column="taskDepart" property="taskDepart" jdbcType="VARCHAR" />
+    <result column="taskCdate" property="taskCdate" jdbcType="TIMESTAMP" />
+    <result column="taskSdate" property="taskSdate" jdbcType="TIMESTAMP" />
+    <result column="taskEdate" property="taskEdate" jdbcType="TIMESTAMP" />
+    <result column="deleteFlag" property="deleteFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <resultMap id="ResultMap2" type="com.dayuan.model.task.TaskProgressModel">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+  	<result column="status" property="status" jdbcType="INTEGER" />
+  	<result column="total" property="total" jdbcType="INTEGER" />
+  	<result column="number" property="number" jdbcType="INTEGER" />
+  	<result column="tdId" property="tdId" jdbcType="INTEGER" />
+  	<result column="foodId" property="foodId" jdbcType="INTEGER" />
+  	<result column="foodName" property="foodName" jdbcType="VARCHAR" />
+  	<result column="itemId" property="itemId" jdbcType="VARCHAR" />
+  	<result column="itemName" property="itemName" jdbcType="VARCHAR" />
+    <result column="tdTotal" property="tdTotal" jdbcType="INTEGER" />
+    <result column="tdNumber" property="tdNumber" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_task_detail
+    where id in 
+    	<foreach collection="array" item="ids" index="index"
+            open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.task.TbTaskDetail" >
+    insert into tb_task_detail (id, task_id, detail_code, 
+      sample_id, sample, item_id, item, task_fdate, 
+      receive_pointid, receive_point, receive_nodeid, receive_node, receive_userid, 
+      receive_username, receive_status, task_total, 
+      sample_number, remark)
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{detailCode,jdbcType=VARCHAR}, 
+      #{sampleId,jdbcType=VARCHAR}, #{sample,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, #{taskFdate,jdbcType=TIMESTAMP}, 
+      #{receivePointid,jdbcType=INTEGER}, #{receivePoint,jdbcType=VARCHAR}, #{receiveNodeid,jdbcType=INTEGER}, #{receiveNode,jdbcType=VARCHAR}, #{receiveUserid,jdbcType=VARCHAR}, 
+      #{receiveUsername,jdbcType=VARCHAR}, #{receiveStatus,jdbcType=SMALLINT}, #{taskTotal,jdbcType=INTEGER}, 
+      #{sampleNumber,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.task.TbTaskDetail" >
+    insert into tb_task_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="detailCode != null" >
+        detail_code,
+      </if>
+      <if test="sampleId != null" >
+        sample_id,
+      </if>
+      <if test="sample != null" >
+        sample,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="item != null" >
+        item,
+      </if>
+      <if test="taskFdate != null" >
+        task_fdate,
+      </if>
+      <if test="receivePointid != null" >
+        receive_pointid,
+      </if>
+      <if test="receivePoint != null" >
+        receive_point,
+      </if>
+      <if test="receiveNodeid != null" >
+        receive_nodeid,
+      </if>
+      <if test="receiveNode != null" >
+        receive_node,
+      </if>
+      <if test="receiveUserid != null" >
+        receive_userid,
+      </if>
+      <if test="receiveUsername != null" >
+        receive_username,
+      </if>
+      <if test="receiveStatus != null" >
+        receive_status,
+      </if>
+      <if test="taskTotal != null" >
+        task_total,
+      </if>
+      <if test="sampleNumber != null" >
+        sample_number,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="detailCode != null" >
+        #{detailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleId != null" >
+        #{sampleId,jdbcType=VARCHAR},
+      </if>
+      <if test="sample != null" >
+        #{sample,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null" >
+        #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFdate != null" >
+        #{taskFdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivePointid != null" >
+        #{receivePointid,jdbcType=INTEGER},
+      </if>
+      <if test="receivePoint != null" >
+        #{receivePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNodeid != null" >
+        #{receiveNodeid,jdbcType=INTEGER},
+      </if>
+      <if test="receiveNode != null" >
+        #{receiveNode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserid != null" >
+        #{receiveUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUsername != null" >
+        #{receiveUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStatus != null" >
+        #{receiveStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="taskTotal != null" >
+        #{taskTotal,jdbcType=INTEGER},
+      </if>
+      <if test="sampleNumber != null" >
+        #{sampleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.task.TbTaskDetail" >
+    update tb_task_detail
+    <set >
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="detailCode != null" >
+        detail_code = #{detailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleId != null" >
+        sample_id = #{sampleId,jdbcType=VARCHAR},
+      </if>
+      <if test="sample != null" >
+        sample = #{sample,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null" >
+        item = #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFdate != null" >
+        task_fdate = #{taskFdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivePointid != null" >
+        receive_pointid = #{receivePointid,jdbcType=INTEGER},
+      </if>
+      <if test="receivePoint != null" >
+        receive_point = #{receivePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNodeid != null" >
+        receive_nodeid = #{receiveNodeid,jdbcType=INTEGER},
+      </if>
+      <if test="receiveNode != null" >
+        receive_node = #{receiveNode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUserid != null" >
+        receive_userid = #{receiveUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUsername != null" >
+        receive_username = #{receiveUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStatus != null" >
+        receive_status = #{receiveStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="taskTotal != null" >
+        task_total = #{taskTotal,jdbcType=INTEGER},
+      </if>
+      <if test="sampleNumber != null" >
+        sample_number = #{sampleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.task.TbTaskDetail" >
+    update tb_task_detail
+    set task_id = #{taskId,jdbcType=INTEGER},
+      detail_code = #{detailCode,jdbcType=VARCHAR},
+      sample_id = #{sampleId,jdbcType=VARCHAR},
+      sample = #{sample,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=VARCHAR},
+      item = #{item,jdbcType=VARCHAR},
+      task_fdate = #{taskFdate,jdbcType=TIMESTAMP},
+      receive_pointid = #{receivePointid,jdbcType=INTEGER},
+      receive_point = #{receivePoint,jdbcType=VARCHAR},
+      receive_nodeid = #{receiveNodeid,jdbcType=INTEGER},
+      receive_node = #{receiveNode,jdbcType=VARCHAR},
+      receive_userid = #{receiveUserid,jdbcType=VARCHAR},
+      receive_username = #{receiveUsername,jdbcType=VARCHAR},
+      receive_status = #{receiveStatus,jdbcType=SMALLINT},
+      task_total = #{taskTotal,jdbcType=INTEGER},
+      sample_number = #{sampleNumber,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <sql id="Base_Column_List" >
+    ttd.id id, ttd.task_id taskId, ttd.detail_code detailCode, ttd.sample_id sampleId, ttd.sample sample, ttd.item_id itemId, 
+    ttd.item item, ttd.task_fdate taskFdate,
+	ttd.receive_pointid receivePointid, ttd.receive_point receivePoint, ttd.receive_nodeid receiveNodeid, ttd.receive_node receiveNode, 
+	ttd.receive_userid receiveUserid, ttd.receive_username receiveUsername,
+	ttd.receive_status receiveStatus, ttd.task_total taskTotal, ttd.sample_number sampleNumber, ttd.remark remark, 
+	tt.task_title taskTitle, tt.task_type taskType, tt.task_status taskStatus,
+	tsd.depart_name taskDepart, tt.task_cdate taskCdate, tt.task_sdate taskSdate, tt.task_edate taskEdate
+  </sql>
+  
+  <sql id="Example_Where_Clause">
+		where tt.delete_flag = 0 and tt.task_status in (1, 2)
+		<trim suffixOverrides=",">
+			<if test="obj.task != null">
+				<if test="obj.task.taskTitle !=null">
+					and tt.task_title like concat(concat('%',#{obj.task.taskTitle}),'%')
+				</if>
+			</if>
+			<if test="obj.detail != null">
+				and (ttd.receive_pointid = #{obj.detail.receivePointid} or ttd.receive_nodeid = #{obj.detail.receiveNodeid})
+			</if>
+		</trim>
+	</sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task_detail ttd
+    left join tb_task tt on ttd.task_id = tt.id
+    left join t_s_depart tsd on tsd.id = tt.task_departId
+    where ttd.id = #{id}
+  </select>
+  
+  <select id="getDetailsByPid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task_detail ttd
+    inner join tb_task tt on ttd.task_id = tt.id
+    left join t_s_depart tsd on tsd.id = tt.task_departId
+    where ttd.task_id = #{id}
+  </select>
+  
+  <select id="getDetailsByTP" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_task_detail ttd
+    inner join tb_task tt on ttd.task_id = tt.id
+    left join t_s_depart tsd on tsd.id = tt.task_departId
+    where ttd.task_id = #{taskId} and ttd.receive_nodeid = #{pointId}
+  </select>
+  
+  <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object" >
+    select <include refid="Base_Column_List" />
+    from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+    <include refid="Example_Where_Clause" />
+    order by tt.create_date ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal
+    from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+    <include refid="Example_Where_Clause" />
+  </select>
+  
+  <resultMap id="RecTaskMap" type="com.dayuan.model.task.RecTaskModel" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="taskTitle" property="taskTitle" jdbcType="VARCHAR" />
+    <result column="depart" property="depart" jdbcType="VARCHAR" />
+    <result column="taskSdate" property="taskSdate" jdbcType="TIMESTAMP" />
+    <result column="taskEdate" property="taskEdate" jdbcType="TIMESTAMP" />
+    <result column="taskCdate" property="taskCdate" jdbcType="TIMESTAMP" />
+    <result column="taskType" property="taskType" jdbcType="VARCHAR" />
+    <result column="detailTotal" property="detailTotal" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="getRecTaskByPid" resultMap="RecTaskMap" parameterType="Object" >
+    select ttd.id id, tt.task_title taskTitle, tsd.depart_name depart, tt.task_sdate taskSdate, 
+    	tt.task_edate taskEdate, tt.task_cdate taskCdate, tt.task_type taskType, ttd.task_total detailTotal, tt.task_status taskStatus
+    from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+    where tt.delete_flag = 0 and (ttd.receive_pointid = #{obj.receivePointid} 
+    	or ttd.receive_nodeid = #{obj.receiveNodeid})
+    	<if test="obj.taskTitle !=null">
+			and tt.task_title like concat(concat('%',#{obj.taskTitle}),'%')
+		</if>
+		<if test="obj.depart !=null">
+			and tsd.depart_name like concat(concat('%',#{obj.depart}),'%')
+		</if>
+		<if test="obj.taskType !=null">
+			and tt.task_type = #{obj.taskType}
+		</if>
+    order by tt.create_date ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  
+  
+  <select id="getRecTaskTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+    where tt.delete_flag = 0 
+    <if test="obj!=null and obj.receivePointid != null">
+	    and ttd.receive_pointid = #{obj.receivePointid}
+    </if>
+  </select>
+  
+   
+  <select id="getRecTask" resultMap="RecTaskMap" parameterType="java.lang.String" >
+    select ttd.id id, ttd.task_id taskId, tt.task_title taskTitle, tsd.depart_name depart, tt.task_sdate taskSdate, 
+    	tt.task_edate taskEdate, tt.task_pdate taskPdate, tt.task_cdate taskCdate, tt.task_status taskStatus, tt.remark taskRemark, 
+    	tt.task_type taskType, tt.task_source taskSource, ttd.task_total detailTotal, tt.create_date createDate, tt.file_path filePath,
+        tt.task_announcer AS taskAnnouncer,tuser.user_name AS announcer,
+    	ttd.sample_id sampleId, ttd.sample sample, ttd.item_id itemId, ttd.item item, tt.task_detail_pId taskDetailPid,
+    	ttd.receive_pointid receivePointid, ttd.receive_point receivePoint, ttd.receive_nodeid receiveNodeid, ttd.receive_node receiveNode, 
+    	ttd.sample_number sampleNumber, ttd.receive_status receiveStatus
+    from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+        LEFT JOIN t_s_user tuser on tt.task_announcer=tuser.id
+    where ttd.id = #{id}
+  </select>
+  
+  <select id="queryTasksByRStatus" resultMap="BaseResultMap" parameterType="Object" >
+    select <include refid="Base_Column_List" />
+    from tb_task_detail ttd
+    	left join tb_task tt on ttd.task_id=tt.id
+    	left join t_s_depart tsd on tt.task_departId = tsd.id
+    where tt.delete_flag = 0 
+    	<if test="status != null">
+		    and ttd.receive_status = #{status}
+	    </if>
+    	<if test="receivePointid != null and receivePointid != ''">
+		    and ttd.receive_pointid = #{receivePointid}
+	    </if>
+	    <if test="receiveNodeid != null and receiveNodeid != ''">
+		    and ttd.receive_nodeid = #{receiveNodeid}
+	    </if>
+  </select>
+  
+  <!-- 根据任务明细ID更新抽样数量,强制更新任务明细状态为已接收 -->
+  <update id="updateSampleNumberById" parameterType="java.lang.String" >
+   update tb_task_detail set sample_number=sample_number+1, receive_status=1 where id=#{id}
+  </update>
+  
+   <!-- /**
+	 * 查询报警的任务
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年8月3日
+	 */
+	List<TbTaskDetail> queryAlarmTask(String date); -->
+	<select id="queryAlarmTask" resultMap="JoinResultMap">
+		SELECT
+			t.task_title taskTitle,t.task_sdate taskSdate,t.task_edate taskEdate,
+			d.receive_point,d.receive_nodeid,d.task_total,d.sample_number
+		FROM tb_task t LEFT JOIN tb_task_detail d ON t.id=d.task_id
+		WHERE task_pdate&gt;=#{date} AND task_pdate &lt;= CONCAT(#{date},':59')
+		AND task_status=1 AND d.sample_number&lt;d.task_total
+	</select>
+
+	<select id="queryCheckTask" resultMap="ResultMap2">
+		SELECT tt.id, tt.task_detail_pId pid, tt.task_title title,
+		    tt.task_status status, tt.task_total total, tt.sample_number number,
+		    ttd.id tdId, ttd.task_total tdTotal,
+		    ttd.sample_id foodId, ttd.sample foodName, ttd.item_id itemId, ttd.item itemName,
+		    ttd.sample_number tdNumber
+        FROM tb_task tt
+            INNER JOIN tb_task_detail ttd ON tt.id = ttd.task_id
+        WHERE tt.delete_flag = 0 AND tt.task_status IN (1,2)
+            AND #{checkTime} BETWEEN tt.task_sdate AND tt.task_edate
+            AND #{foodId} IN
+              (SELECT id FROM base_food_type
+                WHERE delete_flag = 0
+                  AND (
+                    (isFood=1 AND id = ttd.sample_id)
+                    OR food_code LIKE CONCAT((SELECT food_code FROM base_food_type WHERE delete_flag = 0 AND isFood=0 AND id = ttd.sample_id), '%')
+                  )
+              )
+            <choose>
+              <when test="itemId != null and itemId != ''">
+                AND (ttd.item_id = #{itemId} OR ttd.item_id IS NULL OR ttd.item_id = '')
+              </when>
+              <otherwise>
+                AND (ttd.item_id IS NULL OR ttd.item_id = '')
+              </otherwise>
+            </choose>
+            AND ttd.receive_nodeid = #{pointId}
+	</select>
+
+</mapper>

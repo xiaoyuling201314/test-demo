@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.statistics.DataRegStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.statistics.DataRegStatistics" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="yyyy_mm" property="yyyyMm" jdbcType="VARCHAR" />
+    <result column="reg_id" property="regId" jdbcType="INTEGER" />
+    <result column="reg_name" property="regName" jdbcType="VARCHAR" />
+    <result column="r_check_num" property="rCheckNum" jdbcType="INTEGER" />
+    <result column="r_unqualified_num" property="rUnqualifiedNum" jdbcType="INTEGER" />
+    <result column="r_unqualified_rate" property="rUnqualifiedRate" jdbcType="VARCHAR" />
+    <result column="stall_all_num" property="stallAllNum" jdbcType="INTEGER" />
+    <result column="stall_check_num" property="stallCheckNum" jdbcType="INTEGER" />
+    <result column="stall_uncheck_num" property="stallUncheckNum" jdbcType="INTEGER" />
+    <result column="stall_check_rate" property="stallCheckRate" jdbcType="VARCHAR" />
+    <result column="stall_statistics" property="stallStatistics" jdbcType="LONGVARCHAR" />
+    <result column="food_all_num" property="foodAllNum" jdbcType="INTEGER" />
+    <result column="food_check_num" property="foodCheckNum" jdbcType="INTEGER" />
+    <result column="food_uncheck_num" property="foodUncheckNum" jdbcType="INTEGER" />
+    <result column="food_check_rate" property="foodCheckRate" jdbcType="VARCHAR" />
+    <result column="food_statistics" property="foodStatistics" jdbcType="LONGVARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="param3" property="param3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, yyyy_mm, reg_id, reg_name, r_check_num, r_unqualified_num, r_unqualified_rate, 
+    stall_all_num, stall_check_num, stall_uncheck_num, stall_check_rate, food_all_num, 
+    food_check_num, food_uncheck_num, food_check_rate, delete_flag, create_by, create_date, 
+    update_by, update_date, param1, param2, param3,stall_statistics, food_statistics
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_reg_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_reg_statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.statistics.DataRegStatistics" useGeneratedKeys="true" keyProperty="id">
+    insert into data_reg_statistics (id, yyyy_mm, reg_id, 
+      reg_name, r_check_num, r_unqualified_num, 
+      r_unqualified_rate, stall_all_num, stall_check_num, 
+      stall_uncheck_num, stall_check_rate, food_all_num, 
+      food_check_num, food_uncheck_num, food_check_rate, 
+      delete_flag, create_by, create_date, 
+      update_by, update_date, param1, 
+      param2, param3, stall_statistics, 
+      food_statistics)
+    values (#{id,jdbcType=INTEGER}, #{yyyyMm,jdbcType=VARCHAR}, #{regId,jdbcType=INTEGER}, 
+      #{regName,jdbcType=VARCHAR}, #{rCheckNum,jdbcType=INTEGER}, #{rUnqualifiedNum,jdbcType=INTEGER}, 
+      #{rUnqualifiedRate,jdbcType=VARCHAR}, #{stallAllNum,jdbcType=INTEGER}, #{stallCheckNum,jdbcType=INTEGER}, 
+      #{stallUncheckNum,jdbcType=INTEGER}, #{stallCheckRate,jdbcType=VARCHAR}, #{foodAllNum,jdbcType=INTEGER}, 
+      #{foodCheckNum,jdbcType=INTEGER}, #{foodUncheckNum,jdbcType=INTEGER}, #{foodCheckRate,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{param1,jdbcType=VARCHAR}, 
+      #{param2,jdbcType=VARCHAR}, #{param3,jdbcType=VARCHAR}, #{stallStatistics,jdbcType=LONGVARCHAR}, 
+      #{foodStatistics,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.statistics.DataRegStatistics"  useGeneratedKeys="true" keyProperty="id" >
+    insert into data_reg_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="yyyyMm != null" >
+        yyyy_mm,
+      </if>
+      <if test="regId != null" >
+        reg_id,
+      </if>
+      <if test="regName != null" >
+        reg_name,
+      </if>
+      <if test="rCheckNum != null" >
+        r_check_num,
+      </if>
+      <if test="rUnqualifiedNum != null" >
+        r_unqualified_num,
+      </if>
+      <if test="rUnqualifiedRate != null" >
+        r_unqualified_rate,
+      </if>
+      <if test="stallAllNum != null" >
+        stall_all_num,
+      </if>
+      <if test="stallCheckNum != null" >
+        stall_check_num,
+      </if>
+      <if test="stallUncheckNum != null" >
+        stall_uncheck_num,
+      </if>
+      <if test="stallCheckRate != null" >
+        stall_check_rate,
+      </if>
+      <if test="foodAllNum != null" >
+        food_all_num,
+      </if>
+      <if test="foodCheckNum != null" >
+        food_check_num,
+      </if>
+      <if test="foodUncheckNum != null" >
+        food_uncheck_num,
+      </if>
+      <if test="foodCheckRate != null" >
+        food_check_rate,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="param1 != null" >
+        param1,
+      </if>
+      <if test="param2 != null" >
+        param2,
+      </if>
+      <if test="param3 != null" >
+        param3,
+      </if>
+      <if test="stallStatistics != null" >
+        stall_statistics,
+      </if>
+      <if test="foodStatistics != null" >
+        food_statistics,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yyyyMm != null" >
+        #{yyyyMm,jdbcType=VARCHAR},
+      </if>
+      <if test="regId != null" >
+        #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="regName != null" >
+        #{regName,jdbcType=VARCHAR},
+      </if>
+      <if test="rCheckNum != null" >
+        #{rCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="rUnqualifiedNum != null" >
+        #{rUnqualifiedNum,jdbcType=INTEGER},
+      </if>
+      <if test="rUnqualifiedRate != null" >
+        #{rUnqualifiedRate,jdbcType=VARCHAR},
+      </if>
+      <if test="stallAllNum != null" >
+        #{stallAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallCheckNum != null" >
+        #{stallCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallUncheckNum != null" >
+        #{stallUncheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallCheckRate != null" >
+        #{stallCheckRate,jdbcType=VARCHAR},
+      </if>
+      <if test="foodAllNum != null" >
+        #{foodAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodCheckNum != null" >
+        #{foodCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodUncheckNum != null" >
+        #{foodUncheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodCheckRate != null" >
+        #{foodCheckRate,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        #{param3,jdbcType=VARCHAR},
+      </if>
+      <if test="stallStatistics != null" >
+        #{stallStatistics,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="foodStatistics != null" >
+        #{foodStatistics,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.statistics.DataRegStatistics" >
+    update data_reg_statistics
+    <set >
+      <if test="yyyyMm != null" >
+        yyyy_mm = #{yyyyMm,jdbcType=VARCHAR},
+      </if>
+      <if test="regId != null" >
+        reg_id = #{regId,jdbcType=INTEGER},
+      </if>
+      <if test="regName != null" >
+        reg_name = #{regName,jdbcType=VARCHAR},
+      </if>
+      <if test="rCheckNum != null" >
+        r_check_num = #{rCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="rUnqualifiedNum != null" >
+        r_unqualified_num = #{rUnqualifiedNum,jdbcType=INTEGER},
+      </if>
+      <if test="rUnqualifiedRate != null" >
+        r_unqualified_rate = #{rUnqualifiedRate,jdbcType=VARCHAR},
+      </if>
+      <if test="stallAllNum != null" >
+        stall_all_num = #{stallAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallCheckNum != null" >
+        stall_check_num = #{stallCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallUncheckNum != null" >
+        stall_uncheck_num = #{stallUncheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="stallCheckRate != null" >
+        stall_check_rate = #{stallCheckRate,jdbcType=VARCHAR},
+      </if>
+      <if test="foodAllNum != null" >
+        food_all_num = #{foodAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodCheckNum != null" >
+        food_check_num = #{foodCheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodUncheckNum != null" >
+        food_uncheck_num = #{foodUncheckNum,jdbcType=INTEGER},
+      </if>
+      <if test="foodCheckRate != null" >
+        food_check_rate = #{foodCheckRate,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param1 != null" >
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="param3 != null" >
+        param3 = #{param3,jdbcType=VARCHAR},
+      </if>
+      <if test="stallStatistics != null" >
+        stall_statistics = #{stallStatistics,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="foodStatistics != null" >
+        food_statistics = #{foodStatistics,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.statistics.DataRegStatistics" >
+    update data_reg_statistics
+    set yyyy_mm = #{yyyyMm,jdbcType=VARCHAR},
+      reg_id = #{regId,jdbcType=INTEGER},
+      reg_name = #{regName,jdbcType=VARCHAR},
+      r_check_num = #{rCheckNum,jdbcType=INTEGER},
+      r_unqualified_num = #{rUnqualifiedNum,jdbcType=INTEGER},
+      r_unqualified_rate = #{rUnqualifiedRate,jdbcType=VARCHAR},
+      stall_all_num = #{stallAllNum,jdbcType=INTEGER},
+      stall_check_num = #{stallCheckNum,jdbcType=INTEGER},
+      stall_uncheck_num = #{stallUncheckNum,jdbcType=INTEGER},
+      stall_check_rate = #{stallCheckRate,jdbcType=VARCHAR},
+      food_all_num = #{foodAllNum,jdbcType=INTEGER},
+      food_check_num = #{foodCheckNum,jdbcType=INTEGER},
+      food_uncheck_num = #{foodUncheckNum,jdbcType=INTEGER},
+      food_check_rate = #{foodCheckRate,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      param3 = #{param3,jdbcType=VARCHAR},
+      stall_statistics = #{stallStatistics,jdbcType=LONGVARCHAR},
+      food_statistics = #{foodStatistics,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <sql id="query_column">
+  	id, yyyy_mm, reg_id, reg_name, r_check_num, r_unqualified_num, r_unqualified_rate,
+		stall_all_num, stall_check_num, stall_uncheck_num, stall_check_rate,
+		food_all_num, food_check_num, food_uncheck_num, food_check_rate, food_statistics
+  </sql>
+
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    SELECT count(1) as rowTotal
+    FROM data_reg_statistics
+    WHERE delete_flag = 0 AND yyyy_mm = #{obj.yyyyMMStr,jdbcType=VARCHAR}
+    <if test="obj.departId != null">
+        AND reg_id IN
+        (SELECT id FROM base_regulatory_object WHERE delete_flag = 0 AND depart_id IN
+            (SELECT id FROM t_s_depart WHERE delete_flag = 0
+        AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{obj.departId,jdbcType=INTEGER}), '%')))
+    </if>
+    <if test="obj.userRegId != null">
+        AND reg_id = #{obj.userRegId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+ <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object" >
+    SELECT <include refid="query_column"></include>
+	FROM data_reg_statistics
+	WHERE delete_flag = 0 AND yyyy_mm = #{obj.yyyyMMStr,jdbcType=VARCHAR}
+    <if test="obj.departId != null">
+	    AND reg_id IN
+		(SELECT id FROM base_regulatory_object WHERE delete_flag = 0 AND depart_id IN
+			(SELECT id FROM t_s_depart WHERE delete_flag = 0
+        AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{obj.departId,jdbcType=INTEGER}), '%')))
+    </if>
+    <if test="obj.userRegId != null">
+        AND reg_id = #{obj.userRegId,jdbcType=INTEGER}
+    </if>
+	ORDER BY stall_all_num DESC, food_all_num DESC LIMIT #{rowOffset}, #{pageSize}
+  </select>
+
+  
+  <insert id="insertList" parameterType="java.util.List">
+    insert into data_reg_statistics (id, yyyy_mm, reg_id, 
+      reg_name, r_check_num, r_unqualified_num, 
+      r_unqualified_rate, stall_all_num, stall_check_num, 
+      stall_uncheck_num, stall_check_rate, food_all_num, 
+      food_check_num, food_uncheck_num, food_check_rate, 
+      delete_flag, create_by, create_date, 
+      update_by, update_date, param1, 
+      param2, param3, stall_statistics, 
+      food_statistics)
+    values 
+    <trim suffixOverrides="," >
+	    <foreach collection="list" item="regStatistics" >
+		    (#{regStatistics.id,jdbcType=INTEGER}, #{regStatistics.yyyyMm,jdbcType=VARCHAR}, #{regStatistics.regId,jdbcType=INTEGER}, 
+	      #{regStatistics.regName,jdbcType=VARCHAR}, #{regStatistics.rCheckNum,jdbcType=INTEGER}, #{regStatistics.rUnqualifiedNum,jdbcType=INTEGER}, 
+	      #{regStatistics.rUnqualifiedRate,jdbcType=VARCHAR}, #{regStatistics.stallAllNum,jdbcType=INTEGER}, #{regStatistics.stallCheckNum,jdbcType=INTEGER}, 
+	      #{regStatistics.stallUncheckNum,jdbcType=INTEGER}, #{regStatistics.stallCheckRate,jdbcType=VARCHAR}, #{regStatistics.foodAllNum,jdbcType=INTEGER}, 
+	      #{regStatistics.foodCheckNum,jdbcType=INTEGER}, #{regStatistics.foodUncheckNum,jdbcType=INTEGER}, #{regStatistics.foodCheckRate,jdbcType=VARCHAR}, 
+	      #{regStatistics.deleteFlag,jdbcType=SMALLINT}, #{regStatistics.createBy,jdbcType=VARCHAR}, #{regStatistics.createDate,jdbcType=TIMESTAMP}, 
+	      #{regStatistics.updateBy,jdbcType=VARCHAR}, #{regStatistics.updateDate,jdbcType=TIMESTAMP}, #{regStatistics.param1,jdbcType=VARCHAR}, 
+	      #{regStatistics.param2,jdbcType=VARCHAR}, #{regStatistics.param3,jdbcType=VARCHAR}, #{regStatistics.stallStatistics,jdbcType=LONGVARCHAR}, 
+	      #{regStatistics.foodStatistics,jdbcType=LONGVARCHAR}),
+	    </foreach>
+    </trim>
+  </insert>
+  
+  <select id="queryByDepart" resultMap="BaseResultMap" parameterType="java.lang.Object" >
+    SELECT 
+		<include refid="query_column"></include>
+	FROM data_reg_statistics 
+	WHERE delete_flag = 0 AND yyyy_mm = #{yyyyMM,jdbcType=VARCHAR}
+	<if test="departId != null">
+      AND reg_id IN
+          (SELECT id FROM base_regulatory_object WHERE delete_flag = 0 AND depart_id IN
+              (SELECT id FROM t_s_depart WHERE delete_flag = 0
+              AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE id = #{departId,jdbcType=INTEGER}), '%')))
+    </if>
+    <if test="regId != null">
+      AND reg_id = #{regId,jdbcType=INTEGER}
+    </if>
+	ORDER BY stall_all_num DESC, food_all_num DESC
+  </select>
+  
+  <select id="queryNumByYm" resultType="java.lang.Integer" parameterType="java.lang.Object" >
+    SELECT COUNT(1) 
+		FROM data_reg_statistics 
+	WHERE delete_flag = 0 AND yyyy_mm = #{yyyyMM,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

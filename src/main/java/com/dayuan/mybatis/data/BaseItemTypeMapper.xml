@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseItemTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseItemType" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="sorting" property="sorting" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_name, sorting, remark, delete_flag, create_by, create_date, update_by, update_date
+  </sql>
+  <!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag = 0
+		<trim suffixOverrides=",">
+			<if test="obj.baseBean != null">
+				<!-- <if test="obj.baseDetectStandard.standardName != null and obj.baseDetectStandard.standardName != ''">
+					and standard_name like CONCAT('%', #{obj.baseDetectStandard.standardName}, '%')
+				</if> -->
+			</if>
+		</trim>
+	</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from base_item_type
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+	update base_item_type set delete_flag=1,update_date=now()
+	where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+		#{ids}
+	</foreach>
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.data.BaseItemType" >
+    insert into base_item_type (id, item_name, sorting, 
+      remark, delete_flag, create_by, 
+      create_date, update_by, update_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{sorting,jdbcType=SMALLINT}, 
+      #{remark,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=SMALLINT}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseItemType" >
+    insert into base_item_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="sorting != null" >
+        sorting,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null" >
+        #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseItemType" >
+    update base_item_type
+    <set >
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null" >
+        sorting = #{sorting,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseItemType" >
+    update base_item_type
+    set item_name = #{itemName,jdbcType=VARCHAR},
+      sorting = #{sorting,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+		select 
+		<include refid="Base_Column_List" />
+		from base_item_type
+		<include refid="Example_Where_Clause" />
+		order by create_date ${order} limit #{rowOffset}, #{pageSize}
+	</select>
+	
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from base_item_type
+		<include refid="Example_Where_Clause" />
+	</select>
+  <!-- 查询所有的检测项目类型  -->
+  <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from base_item_type where delete_flag=0 order by sorting asc
+  </select>
+  <!-- 根据食品种类查询检测项目类型  -->
+  <select id="queryByFoodId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select bit.id, bit.item_name, bit.sorting, bit.remark, bit.delete_flag, bit.create_by, bit.create_date, bit.update_by, bit.update_date
+    from base_item_type bit 
+		LEFT JOIN base_detect_item bdi on bdi.detect_item_typeid = bit.id 
+    	LEFT JOIN base_food_item bfi on bfi.item_id = bdi.id
+		where 1=1 
+		<if test="ids != null">
+			and bfi.food_id in 	
+			<foreach collection="ids" item="id" index="index"
+			           open="(" close=")" separator=",">
+		           #{id}
+		     </foreach>
+		</if>
+	     and bit.delete_flag = 0 and bdi.delete_flag = 0 and bfi.delete_flag = 0
+		GROUP BY bit.id
+    order by bit.sorting asc
+  </select>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.app.TbSignInMapper1" >
+  
+  <resultMap id="BaseResultModelMap" type="com.dayuan.model.app.TbSignInModel" >
+    <id column="id" property="id"/>
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="departId" property="departId" jdbcType="VARCHAR" />
+    <result column="pointId" property="pointId" jdbcType="VARCHAR" />
+    <result column="departName" property="departName" jdbcType="VARCHAR" />
+    <result column="pointName" property="pointName" jdbcType="VARCHAR" />
+    <result property="signType" column="sign_type" jdbcType="SMALLINT"/>
+	  <result column="param1" property="param1" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 分页基础查询(人员签到信息)-->
+  <!-- <select id="loadDatagrid" resultMap="com.dayuan.mybatis.app.TbSignInMapper.BaseResultModelMap" parameterType="Object" > -->
+  <select id="loadDatagrid" resultMap="BaseResultModelMap" parameterType="Object" >
+    select tsi.id id, tsi.longitude longitude, tsi.latitude latitude, tsi.sign_type signType,
+	    tsi.address address, tsi.create_date createDate, tsi.param1,
+	    tsu.id userId, tsu.user_name userName, tsu.realname realname,
+	    tsd.id departId, tsd.depart_name departName,
+	    bp.id pointId, bp.point_name pointName
+    from tb_sign_in tsi 
+    	left join t_s_user tsu on tsi.create_by = tsu.id
+    	left join t_s_depart tsd on tsu.depart_id = tsd.id
+    	left join base_point bp on tsu.point_id = bp.id
+    where tsi.delete_flag = 0 
+    	<if test="obj.userId != null and obj.userId != ''">
+			and tsi.create_by = #{obj.userId}
+		</if>
+		<if test="obj.startDateStr != null and obj.startDateStr!=''">
+			and tsi.create_date>=#{obj.startDateStr}
+		</if>
+		<if test="obj.endDateStr != null and obj.endDateStr!=''">
+			and tsi.create_date&lt;=#{obj.endDateStr}
+		</if>
+		<choose>
+			<when test="obj.signType==0"> and tsi.sign_type=0 </when>
+			<when test="obj.signType==1"> and tsi.sign_type=1 </when>
+			<when test="obj.signType==2"> and tsi.sign_type=2 </when>
+			<when test="obj.signType==3"> and tsi.sign_type in (3,4)</when>
+		</choose>
+    order by tsi.create_date desc limit #{rowOffset}, #{pageSize}
+  </select>
+	
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(1) as rowTotal
+    from tb_sign_in tsi 
+    	left join t_s_user tsu on tsi.create_by = tsu.id 
+    	where tsi.delete_flag = 0 
+    	<if test="obj.userId != null and obj.userId != ''">
+			and tsi.create_by = #{obj.userId}
+		</if>
+		<if test="obj.startDateStr != null and obj.startDateStr!=''">
+			and tsi.create_date>=#{obj.startDateStr}
+		</if>
+		<if test="obj.endDateStr != null and obj.endDateStr!=''">
+			and tsi.create_date&lt;=#{obj.endDateStr}
+		</if>
+		<choose>
+			<when test="obj.signType==0"> and tsi.sign_type=0 </when>
+			<when test="obj.signType==1"> and tsi.sign_type=1 </when>
+			<when test="obj.signType==2"> and tsi.sign_type=2 </when>
+			<when test="obj.signType==3"> and tsi.sign_type in (3,4)</when>
+		</choose>
+  </select>
+  
+  <!-- 分页基础查询(人员签到信息) -->
+  <!-- 
+  <select id="loadDatagrid" resultMap="com.dayuan.mybatis.app.TbSignInMapper.BaseResultModelMap" parameterType="Object" >
+    select tsi.id id, tsi.longitude longitude, tsi.latitude latitude, 
+	    tsi.address address, MAX(tsi.create_date) createDate, 
+	    tsu.id userId, tsu.user_name userName, tsu.realname realname,
+	    tsd.id departId, tsd.depart_name departName,
+	    bp.id pointId, bp.point_name pointName
+    from t_s_user tsu 
+    	left join tb_sign_in tsi on tsi.create_by = tsu.id
+    	left join t_s_depart tsd on tsu.depart_id = tsd.id
+    	left join base_point bp on tsu.point_id = bp.id
+    where tsu.delete_flag = 0 and tsi.delete_flag = 0 
+	    <if test="obj.departArr != null and obj.departArr.length > 0">
+			and tsu.depart_id in
+				<foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		</if>
+		<if test="obj.userId != null and obj.userId != ''">
+			and tsi.create_by = #{obj.userId}
+		</if>
+    group by tsu.id order by tsi.create_date desc limit #{rowOffset}, #{pageSize}
+  </select>
+	
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    select count(a.1) as rowTotal from 
+    (select 1 from t_s_user tsu 
+    	left join tb_sign_in tsi on tsi.create_by = tsu.id 
+    	where tsu.delete_flag = 0 and tsi.delete_flag = 0 
+	    <if test="obj.departArr != null and obj.departArr.length > 0">
+			and tsu.depart_id in
+				<foreach item="item" index="index" collection="obj.departArr" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		</if>
+		<if test="obj.userId != null and obj.userId != ''">
+			and tsi.create_by = #{obj.userId}
+		</if>
+    group by tsu.id) a
+  </select>
+   -->
+</mapper>

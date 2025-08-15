@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dayuan.mapper.data.TBImportHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.data.TBImportHistory">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="depart_id" jdbcType="INTEGER" property="departId" />
+		<result column="depart_code" jdbcType="VARCHAR" property="departCode" />
+		<result column="depart_name" jdbcType="VARCHAR" property="departName" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="source_file" jdbcType="VARCHAR" property="sourceFile" />
+		<result column="err_file" jdbcType="VARCHAR" property="errFile" />
+		<result column="success_count" jdbcType="INTEGER" property="successCount" />
+		<result column="fail_count" jdbcType="INTEGER" property="failCount" />
+		<result column="import_date" jdbcType="TIMESTAMP" property="importDate" />
+		<result column="import_type" jdbcType="INTEGER" property="importType" />
+		<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, depart_id,depart_code,depart_name,user_id,username, source_file, err_file, success_count, fail_count, import_date, import_type,end_date,remark
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_import_history
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from tb_import_history
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.dayuan.bean.data.TBImportHistory">
+		insert into tb_import_history (id, depart_id,depart_code,depart_name, user_id, username,source_file,
+		err_file, success_count, fail_count,
+		import_date, import_type,end_date,remark)
+		values (#{id,jdbcType=INTEGER},#{departId},#{departCode},#{departName},#{userId,jdbcType=VARCHAR},#{username}, #{sourceFile,jdbcType=VARCHAR},
+		#{errFile,jdbcType=VARCHAR}, #{successCount,jdbcType=INTEGER}, #{failCount,jdbcType=INTEGER},
+		#{importDate,jdbcType=TIMESTAMP}, #{importType,jdbcType=INTEGER},#{endDate},#{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.dayuan.bean.data.TBImportHistory">
+		insert into tb_import_history
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="departId != null">
+				depart_id,
+			</if>
+			<if test="departCode != null">
+				depart_code,
+			</if>
+			<if test="departName != null">
+				depart_name,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="sourceFile != null">
+				source_file,
+			</if>
+			<if test="errFile != null">
+				err_file,
+			</if>
+			<if test="successCount != null">
+				success_count,
+			</if>
+			<if test="failCount != null">
+				fail_count,
+			</if>
+			<if test="importDate != null">
+				import_date,
+			</if>
+			<if test="importType != null">
+				import_type,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="departId != null">
+				#{departId,jdbcType=INTEGER},
+			</if>
+			<if test="departCode != null">
+				#{departCode,jdbcType=VARCHAR},
+			</if>
+			<if test="departName != null">
+				#{departName,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceFile != null">
+				#{sourceFile,jdbcType=VARCHAR},
+			</if>
+			<if test="errFile != null">
+				#{errFile,jdbcType=VARCHAR},
+			</if>
+			<if test="successCount != null">
+				#{successCount,jdbcType=INTEGER},
+			</if>
+			<if test="failCount != null">
+				#{failCount,jdbcType=INTEGER},
+			</if>
+			<if test="importDate != null">
+				#{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importType != null">
+				#{importType,jdbcType=INTEGER},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.TBImportHistory">
+		update tb_import_history
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="departId != null">
+				depart_id = #{departId,jdbcType=INTEGER},
+			</if>
+			<if test="departCode != null">
+				depart_code = #{departCode,jdbcType=VARCHAR},
+			</if>
+			<if test="departName != null">
+				depart_name = #{departName,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceFile != null">
+				source_file = #{sourceFile,jdbcType=VARCHAR},
+			</if>
+			<if test="errFile != null">
+				err_file = #{errFile,jdbcType=VARCHAR},
+			</if>
+			<if test="successCount != null">
+				success_count = #{successCount,jdbcType=INTEGER},
+			</if>
+			<if test="failCount != null">
+				fail_count = #{failCount,jdbcType=INTEGER},
+			</if>
+			<if test="importDate != null">
+				import_date = #{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importType != null">
+				import_type = #{importType,jdbcType=INTEGER},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.TBImportHistory">
+		update tb_import_history
+		set user_id = #{userId,jdbcType=VARCHAR},
+		username = #{username,jdbcType=VARCHAR},
+		depart_id = #{departId,jdbcType=INTEGER},
+		depart_code = #{departCode,jdbcType=VARCHAR},
+		depart_name = #{departName,jdbcType=VARCHAR},
+		source_file = #{sourceFile,jdbcType=VARCHAR},
+		err_file = #{errFile,jdbcType=VARCHAR},
+		success_count = #{successCount,jdbcType=INTEGER},
+		fail_count = #{failCount,jdbcType=INTEGER},
+		import_date = #{importDate,jdbcType=TIMESTAMP},
+		import_type = #{importType,jdbcType=INTEGER}
+		end_date = #{endDate,jdbcType=TIMESTAMP},
+		remark = #{remark,jdbcType=VARCHAR},
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 查询总数 -->	
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+		select COUNT(1) from tb_import_history where depart_code like CONCAT(#{obj.departCode},'%') and import_type=#{obj.importType}
+		<if test="obj.departName != null and obj.departName != ''">
+			and depart_name like CONCAT('%',#{obj.departName},'%')
+		</if>
+	</select>
+	<!-- 分页查询 -->	
+	<select id="loadDatagrid" parameterType="Object" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from tb_import_history where import_type=#{obj.importType}
+		AND depart_code like CONCAT(#{obj.departCode},'%')
+		<if test="obj.departName != null and obj.departName != ''">
+			and depart_name like CONCAT('%',#{obj.departName},'%')
+		</if>
+		order by import_date desc limit #{rowOffset}, #{pageSize}
+	</select>
+</mapper>

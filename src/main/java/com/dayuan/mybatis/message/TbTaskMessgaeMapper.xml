@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.message.TbTaskMessgaeMapper" >
+  <resultMap id="BaseResultMap" type="com.dayuan.bean.message.TbTaskMessgae" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="from_user_id" property="fromUserId" jdbcType="VARCHAR" />
+    <result column="to_user_id" property="toUserId" jdbcType="VARCHAR" />
+    <result column="to_user_type" property="toUserType" jdbcType="SMALLINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="file_path" property="filePath" jdbcType="VARCHAR" />
+    <result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="group_point_id" property="groupPointId" jdbcType="INTEGER" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.dayuan.bean.message.TbTaskMessgae" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap type="com.dayuan.model.message.TbTaskMessgaeModel" id="UserMap">
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+      <result column="to_user_id" property="toUserId" jdbcType="VARCHAR" />
+      <result column="to_user_type" property="toUserType" jdbcType="SMALLINT" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="group_id" property="groupId" jdbcType="INTEGER" />
+		<result column="group_point_id" property="groupPointId" jdbcType="INTEGER" />
+		<result column="depart_name" property="departName" jdbcType="VARCHAR" />
+		<result column="message_id" property="messageId" jdbcType="VARCHAR" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <resultMap type="com.dayuan.model.message.TbTaskMessgaeModel" id="IndexMap">
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+  		<result column="title" property="title" jdbcType="VARCHAR" />
+  		<result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+  		<result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+  		<result column="flag" property="flag" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, from_user_id, to_user_id, to_user_type, title, file_path, sendtime, file_name, content,
+    group_id,group_point_id
+  </sql>
+  <sql id="Base_Column_Lists" >
+    from_user_id, to_user_id, to_user_type, title, file_path, sendtime, file_name, content,
+    group_id,group_point_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<if test="obj.tbTaskMessgae != null">
+			<!-- 已发送 -->
+			<if test="obj.tbTaskMessgae.fromUserId !=null">
+				left join t_s_user tu on to_user_id=tu.id
+				left join t_s_depart td on group_id=td.id
+				left join base_point tp on group_point_id=tp.id
+				left join (select * from tb_task_message_log tll where tll.user_id=#{obj.tbTaskMessgae.fromUserId}) tl on tl.message_id=tm.id
+				where tm.delete_flag=0 and from_user_id =#{obj.tbTaskMessgae.fromUserId}
+				<if test="obj.tbTaskMessgae.title !=null">
+					and title like concat('%',#{obj.tbTaskMessgae.title},'%') or tu.realname like concat('%',#{obj.tbTaskMessgae.title},'%')
+				</if>
+                <if test="obj.tbTaskMessgae.content !=null">
+                    and content like concat('%',#{obj.tbTaskMessgae.content},'%') or tu.realname like concat('%',#{obj.tbTaskMessgae.content},'%')
+                </if>
+				<!-- OR group_id IN (select id from t_s_depart where FIND_IN_SET(id,#{obj.tbTaskMessgae.groupId})) -->
+			</if>
+			<!-- 已接收 -->
+			<if test="obj.tbTaskMessgae.toUserId !=null">
+				left join t_s_user tu on from_user_id=tu.id
+				left join t_s_depart td on group_id=td.id
+				left join base_point tp on group_point_id=tp.id
+				left join (select * from tb_task_message_log tll where tll.user_id=#{obj.tbTaskMessgae.toUserId}) tl on tl.message_id=tm.id
+				where to_user_id =#{obj.tbTaskMessgae.toUserId}
+				<if test="obj.tbTaskMessgae.title !=null">
+					and title like concat('%',#{obj.tbTaskMessgae.title},'%') or tu.realname like concat('%',#{obj.tbTaskMessgae.title},'%')
+				</if>
+                <if test="obj.tbTaskMessgae.content !=null">
+                    and content like concat('%',#{obj.tbTaskMessgae.content},'%') or tu.realname like concat('%',#{obj.tbTaskMessgae.content},'%')
+                </if>
+					OR group_id IN (select id from t_s_depart where FIND_IN_SET(id,getParentList(#{obj.tbTaskMessgae.groupId})))
+				<if test="obj.tbTaskMessgae.groupPointId !=null">
+					OR group_point_id=#{obj.tbTaskMessgae.groupPointId}
+				</if>
+			</if>
+		</if>
+	</sql>
+	<!-- 查询首页列表信息 -->
+	<select id="selectIndex" resultMap="IndexMap" parameterType="java.lang.String">
+		SELECT * FROM
+
+		(SELECT a.id,b.task_title 'title',b.task_cdate 'sendtime',b.delete_flag,'1' as flag 
+		from tb_task_detail a 
+		LEFT JOIN tb_task b on a.task_id=b.id 
+		WHERE receive_userid=#{id}   
+		<if test="departId !=null">
+			OR receive_pointid=#{departId}
+		</if>
+		<if test="pointId !=null">
+			OR receive_nodeid=#{pointId}
+		</if>
+		union all
+		select  tm.id,tm.title,tm.sendtime,tl.delete_flag,'2' as flag from tb_task_message tm
+		left join t_s_depart td on group_id=td.id 
+		left join base_point tp on group_point_id=tp.id 
+		left join (select * from tb_task_message_log tll where tll.user_id=#{id}) tl on tl.message_id=tm.id
+		where to_user_id=#{id} OR group_id IN (select id from t_s_depart where FIND_IN_SET(id,getParentList(#{departId})))
+		<if test="pointId !=null">
+			OR group_point_id=#{pointId}
+		</if>) a ORDER BY sendtime Desc LIMIT 10
+	</select>
+  <!-- 根据id查询发送信息详情 -->
+  <select id="selectFromById" resultMap="UserMap" parameterType="java.lang.Integer">
+  	select
+  	<include refid="Base_Column_Lists" />
+    ,
+    <include refid="Blob_Column_List" />,tm.id,tu.id,tu.realname realname,tu.user_name userName,td.depart_name,
+    CONCAT_WS('*', tu.realname, td.depart_name, bp.point_name) AS departName
+    from  tb_task_message tm
+    left join t_s_user tu on tm.to_user_id=tu.id
+    left join t_s_depart td on tm.group_id=td.id
+    left join base_point bp on tm.group_point_id = bp.id
+    where tm.id=#{id}
+  </select>
+  <!-- 根据id查询接收信息详情 -->
+  <select id="selectToById" resultMap="UserMap" parameterType="java.lang.Integer">
+  	select
+  	<include refid="Base_Column_Lists" />
+    ,
+    <include refid="Blob_Column_List" />,tm.id,tu.id,tu.realname realname,tu.user_name userName,td.depart_name departName
+    from  tb_task_message tm
+    left join t_s_user tu on from_user_id=tu.id
+    left join t_s_depart td on group_id=td.id
+    where tm.id=#{id}
+  </select>
+  <!-- 得到总条数 -->
+  <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object" >
+    	select count(1) as rowTotal 
+    	from tb_task_message tm
+    	<include refid="Example_Where_Clause" />
+  </select>
+  <!-- 加载列表数据 -->
+  <select id="loadDatagrid" resultMap="UserMap" parameterType="Object" >
+    select <include refid="Base_Column_Lists"/>,tm.id,tu.id,tu.realname realname,tu.user_name userName,td.depart_name,tp.point_name,
+    CONCAT_WS('*',tu.realname,td.depart_name,tp.point_name) AS departName,message_id,tl.delete_flag
+    from tb_task_message tm 
+    <include refid="Example_Where_Clause" />
+    order by sendtime ${order} limit #{rowOffset}, #{pageSize}
+  </select>
+  	
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_task_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_task_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dayuan.bean.message.TbTaskMessgae" >
+    insert into tb_task_message (id, from_user_id, to_user_id, 
+      to_user_type, title, file_path, 
+      sendtime, file_name, group_id,group_point_id,delete_flag, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=VARCHAR}, #{toUserId,jdbcType=VARCHAR}, 
+      #{toUserType,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{sendtime,jdbcType=TIMESTAMP}, #{fileName,jdbcType=VARCHAR}, #{group_id,jdbcType=INTEGER},#{group_point_id,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR},#{deleteFlag,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dayuan.bean.message.TbTaskMessgae" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_task_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fromUserId != null" >
+        from_user_id,
+      </if>
+      <if test="toUserId != null" >
+        to_user_id,
+      </if>
+      <if test="toUserType != null" >
+        to_user_type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="filePath != null" >
+        file_path,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="groupPointId != null" >
+        group_point_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="deleteFlag != null">
+		delete_flag,
+	  </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fromUserId != null" >
+        #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserType != null" >
+        #{toUserType,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupPointId != null" >
+        #{groupPointId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+		#{deleteFlag,jdbcType=SMALLINT},
+	  </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.message.TbTaskMessgae" >
+    update tb_task_message
+    <set >
+      <if test="fromUserId != null" >
+        from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        to_user_id = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserType != null" >
+        to_user_type = #{toUserType,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupPointId != null" >
+        group_point_id = #{groupPointId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+		delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+	  </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dayuan.bean.message.TbTaskMessgae" >
+    update tb_task_message
+    set from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      to_user_type = #{toUserType,jdbcType=SMALLINT},
+      title = #{title,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=INTEGER},
+      group_point_id = #{groupPointId,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.message.TbTaskMessgae" >
+    update tb_task_message
+    set from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      to_user_type = #{toUserType,jdbcType=SMALLINT},
+      title = #{title,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=INTEGER},
+      group_point_id = #{groupPointId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="queryReceiveObject" resultType="java.lang.String" parameterType="com.dayuan.model.message.TbTaskMessgaeModel" >
+       <choose>
+           <when test="toUserType==0">
+               select   GROUP_CONCAT(realname) from t_s_user where FIND_IN_SET(id,#{toUserId})
+           </when>
+           <when test="toUserType==1">
+               select   GROUP_CONCAT(depart_name) from t_s_depart where FIND_IN_SET(id,#{groupId})
+           </when>
+           <when test="toUserType==2">
+               select  GROUP_CONCAT(point_name) from base_point  where FIND_IN_SET(id,#{groupPointId})
+           </when>
+       </choose>
+    </select>
+</mapper>

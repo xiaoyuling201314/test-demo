@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseWorkersMapper">
+    <resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseWorkers">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="worker_name" property="workerName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="SMALLINT"/>
+        <result column="depart_id" property="departId" jdbcType="VARCHAR"/>
+        <result column="point_id" property="pointId" jdbcType="VARCHAR"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="SMALLINT"/>
+        <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR"/>
+        <result column="office_phone" property="officePhone" jdbcType="VARCHAR"/>
+        <result column="signature_file" property="signatureFile" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="reserved1" property="reserved1" jdbcType="VARCHAR"/>
+        <result column="reserved2" property="reserved2" jdbcType="VARCHAR"/>
+        <result column="reserved3" property="reserved3" jdbcType="VARCHAR"/>
+        <result column="reserved4" property="reserved4" jdbcType="VARCHAR"/>
+        <result column="reserved5" property="reserved5" jdbcType="VARCHAR"/>
+        <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="job_state" property="jobState" jdbcType="TIMESTAMP"/>
+        <result column="id_number" property="idNumber" jdbcType="TIMESTAMP"/>
+        <result column="departNameStr" property="departNameStr" jdbcType="VARCHAR"/>
+        <result column="pointNameStr" property="pointNameStr" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, worker_name, gender, depart_id, point_id, position, status, mobile_phone, office_phone,
+        signature_file, wechat, email, address, reserved1, reserved2, reserved3, reserved4,
+        reserved5, delete_flag, create_by, create_date, update_by, update_date, id_number, job_state
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        <trim suffixOverrides=",">
+            <if test="obj.baseBean != null">
+                <if test="obj.baseBean.workerName != null and obj.baseBean.workerName != ''">
+                    AND bw.worker_name LIKE CONCAT('%', #{obj.baseBean.workerName}, '%')
+                </if>
+                <if test="obj.baseBean.status != null">
+                    AND bw.status = #{obj.baseBean.status}
+                </if>
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="Example_Where_Clauses">
+        where tb1.delete_flag = 0
+        <trim suffixOverrides=",">
+            <if test="baseBean != null">
+                <if test="baseBean.workerName != null and baseBean.workerName != ''">
+                    and tb1.worker_name like CONCAT('%', #{baseBean.workerName}, '%')
+                </if>
+                <if test="baseBean.departId != null and baseBean.departId != ''">
+                    and tb1.depart_id = #{baseBean.departId}
+                </if>
+                <if test="baseBean.pointId != null and baseBean.pointId != ''">
+                    and tb1.point_id = #{baseBean.pointId}
+                </if>
+                <if test="baseBean.status != null">
+                    and tb1.status = #{baseBean.status}
+                </if>
+            </if>
+        </trim>
+    </sql>
+    <select id="selectByPointId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM base_workers
+        WHERE delete_flag = 0 AND point_id = #{pointId}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_workers
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        update base_workers set delete_flag=1,update_date=now()
+        where id in
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.dayuan.bean.data.BaseWorkers">
+        INSERT INTO base_workers (id, worker_name, gender,
+                                  depart_id, point_id, position,
+                                  status, mobile_phone, office_phone,
+                                  signature_file, wechat, email,
+                                  address, reserved1, reserved2,
+                                  reserved3, reserved4, reserved5,
+                                  delete_flag, create_by, create_date,
+                                  update_by, update_date, job_state, id_number)
+        VALUES (#{id,jdbcType=VARCHAR}, #{workerName,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT},
+                                        #{departId,jdbcType=VARCHAR}, #{pointId,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
+                                        #{status,jdbcType=SMALLINT}, #{mobilePhone,jdbcType=VARCHAR}, #{officePhone,jdbcType=VARCHAR},
+                                        #{signatureFile,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+                                                                                                       #{address,jdbcType=VARCHAR},
+                                                                                                       #{reserved1,jdbcType=VARCHAR},
+                                                                                                       #{reserved2,jdbcType=VARCHAR},
+                                                                                                       #{reserved3,jdbcType=VARCHAR},
+                                                                                                       #{reserved4,jdbcType=VARCHAR},
+                                                                                                       #{reserved5,jdbcType=VARCHAR},
+                                                                                                       #{deleteFlag,jdbcType=SMALLINT},
+                                                                                                       #{createBy,jdbcType=VARCHAR},
+                                                                                                       #{createDate,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{jobState,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseWorkers">
+        insert into base_workers
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="workerName != null">
+                worker_name,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="departId != null">
+                depart_id,
+            </if>
+            <if test="pointId != null">
+                point_id,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="mobilePhone != null">
+                mobile_phone,
+            </if>
+            <if test="officePhone != null">
+                office_phone,
+            </if>
+            <if test="signatureFile != null">
+                signature_file,
+            </if>
+            <if test="wechat != null">
+                wechat,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="reserved1 != null">
+                reserved1,
+            </if>
+            <if test="reserved2 != null">
+                reserved2,
+            </if>
+            <if test="reserved3 != null">
+                reserved3,
+            </if>
+            <if test="reserved4 != null">
+                reserved4,
+            </if>
+            <if test="reserved5 != null">
+                reserved5,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="jobState != null">
+                job_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="workerName != null">
+                #{workerName,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=SMALLINT},
+            </if>
+            <if test="departId != null">
+                #{departId,jdbcType=VARCHAR},
+            </if>
+            <if test="pointId != null">
+                #{pointId,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="mobilePhone != null">
+                #{mobilePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="officePhone != null">
+                #{officePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="signatureFile != null">
+                #{signatureFile,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved1 != null">
+                #{reserved1,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved2 != null">
+                #{reserved2,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved3 != null">
+                #{reserved3,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved4 != null">
+                #{reserved4,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved5 != null">
+                #{reserved5,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jobState != null">
+                #{jobState,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseWorkers">
+        update base_workers
+        <set>
+            <if test="workerName != null">
+                worker_name = #{workerName,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=SMALLINT},
+            </if>
+            <if test="departId != null">
+                depart_id = #{departId,jdbcType=VARCHAR},
+            </if>
+            <if test="pointId != null">
+                point_id = #{pointId,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="mobilePhone != null">
+                mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="officePhone != null">
+                office_phone = #{officePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="signatureFile != null">
+                signature_file = #{signatureFile,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                wechat = #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved1 != null">
+                reserved1 = #{reserved1,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved2 != null">
+                reserved2 = #{reserved2,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved3 != null">
+                reserved3 = #{reserved3,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved4 != null">
+                reserved4 = #{reserved4,jdbcType=VARCHAR},
+            </if>
+            <if test="reserved5 != null">
+                reserved5 = #{reserved5,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                id_number = #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                job_state = #{jobState,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseWorkers">
+        UPDATE base_workers
+        SET worker_name    = #{workerName,jdbcType=VARCHAR},
+            gender         = #{gender,jdbcType=SMALLINT},
+            depart_id      = #{departId,jdbcType=VARCHAR},
+            point_id       = #{pointId,jdbcType=VARCHAR},
+            position       = #{position,jdbcType=VARCHAR},
+            status         = #{status,jdbcType=SMALLINT},
+            mobile_phone   = #{mobilePhone,jdbcType=VARCHAR},
+            office_phone   = #{officePhone,jdbcType=VARCHAR},
+            signature_file = #{signatureFile,jdbcType=VARCHAR},
+            wechat         = #{wechat,jdbcType=VARCHAR},
+            email          = #{email,jdbcType=VARCHAR},
+            address        = #{address,jdbcType=VARCHAR},
+            reserved1      = #{reserved1,jdbcType=VARCHAR},
+            reserved2      = #{reserved2,jdbcType=VARCHAR},
+            reserved3      = #{reserved3,jdbcType=VARCHAR},
+            reserved4      = #{reserved4,jdbcType=VARCHAR},
+            reserved5      = #{reserved5,jdbcType=VARCHAR},
+            delete_flag    = #{deleteFlag,jdbcType=SMALLINT},
+            create_by      = #{createBy,jdbcType=VARCHAR},
+            create_date    = #{createDate,jdbcType=TIMESTAMP},
+            update_by      = #{updateBy,jdbcType=VARCHAR},
+            id_number      = #{idNumber,jdbcType=VARCHAR},
+            job_state      = #{jobState,jdbcType=VARCHAR},
+            update_date    = #{updateDate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="com.dayuan.model.data.BaseWorkersModel">
+        select tb1.id,tb1.worker_name,tb1.position,tb1.mobile_phone,
+        tb1.status,tb1.gender,
+        tb1.job_state,tb1.wechat, tb2.depart_name as depart_id,tb3.point_name as point_id
+        from base_workers tb1
+        LEFT JOIN t_s_depart tb2 on tb1.depart_id=tb2.id
+        LEFT JOIN base_point tb3 on tb1.point_id=tb3.id
+        <include refid="Example_Where_Clauses"/>
+        <if test="filterDepartId != null and filterDepartId != ''">
+            and tb1.id not in (select tb4.user_id from base_point_user tb4 where tb4.depart_id = #{filterDepartId})
+        </if>
+        <if test="filterPointId != null and filterPointId != ''">
+            and tb1.id not in (select tb4.user_id from base_point_user tb4 where tb4.point_id = #{filterPointId})
+        </if>
+        order by tb1.create_date,tb1.update_date desc
+    </select>
+    <!-- 分页基础查询 -->
+    <select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+        SELECT bw.id, bw.worker_name, bw.mobile_phone, bw.gender,
+        bw.status,bw.create_date,bw.update_date,
+        <if test="obj.baseBean.status != null and obj.baseBean.status == 0">
+            GROUP_CONCAT(DISTINCT tsd.depart_name) departNameStr,
+            GROUP_CONCAT(DISTINCT bp.point_name) pointsNameStr,
+            bw.position
+            #GROUP_CONCAT(DISTINCT bpu.position_code) position
+            FROM base_workers bw
+            LEFT JOIN (SELECT * FROM base_point_user WHERE delete_flag = 0) bpu ON bw.id = bpu.user_id
+            LEFT JOIN (SELECT * FROM base_point WHERE delete_flag = 0) bp ON bp.id = bpu.point_id
+            LEFT JOIN (SELECT id,depart_name FROM t_s_depart WHERE delete_flag = 0  ) tsd ON
+            tsd.id =
+            bpu.depart_id
+            WHERE bw.delete_flag = 0
+        </if>
+        <if test="obj.baseBean.status != null and obj.baseBean.status == 1">
+            bw.position
+            FROM base_workers bw
+            WHERE bw.delete_flag = 0
+        </if>
+        <include refid="Example_Where_Clause"/>
+        GROUP BY bw.id
+        ORDER BY bw.create_date,bw.update_date ${order}
+        LIMIT #{rowOffset}, #{pageSize}
+    </select>
+
+    <select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+        select count(1) as rowTotal
+        FROM
+        (
+        select bw.id
+        /*查询在职人员，就查询其机构和检测点，离职后清空机构检测点信息，故不做查询*/
+        <!--<if test="obj.baseBean.status != null and obj.baseBean.status == 0">
+            FROM base_workers bw
+            LEFT JOIN (SELECT * FROM base_point_user WHERE delete_flag = 0) bpu ON bw.id = bpu.user_id
+            LEFT JOIN (SELECT * FROM base_point WHERE delete_flag = 0) bp ON bp.id = bpu.point_id
+            LEFT JOIN (SELECT id,depart_name FROM t_s_depart WHERE delete_flag = 0 AND FIND_IN_SET(id, getChildDepartLst(#{obj.departId})) ) tsd ON
+            tsd.id =
+            bpu.depart_id
+            WHERE bw.delete_flag = 0
+        </if>
+        <if test="obj.baseBean.status != null and obj.baseBean.status == 1">
+            FROM base_workers bw
+            WHERE bw.delete_flag = 0
+        </if>-->
+        FROM base_workers bw
+        WHERE bw.delete_flag = 0
+        <include refid="Example_Where_Clause"/>
+        GROUP BY bw.id
+        ) tab1
+    </select>
+
+    <select id="queryByWorkerName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_workers
+        where worker_name = #{workerName} and mobile_phone=#{MobilePhone} and delete_flag = 0
+    </select>
+
+    <select id="queryByDepartId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT bw.id id, bw.worker_name worker_name, bw.gender gender, bw.depart_id depart_id, bw.point_id point_id, bw.position position,
+        bw.status status, bw.mobile_phone mobile_phone, bw.office_phone office_phone, bw.signature_file signature_file, bw.wechat wechat,
+        bw.email email, bw.address address, bw.reserved1 reserved1, bw.reserved2 reserved2, bw.reserved3 reserved3, bw.reserved4 reserved4,
+        bw.reserved5 reserved5, bw.delete_flag delete_flag, bw.create_by create_by, bw.create_date create_date, bw.update_by update_by,
+        bw.update_date update_date, group_concat(bp.point_name) pointsNameStr
+        FROM base_workers bw
+        INNER JOIN base_point_user bpu ON bw.id = bpu.user_id
+        INNER JOIN base_point bp ON bp.id = bpu.point_id
+        INNER JOIN (SELECT id FROM t_s_depart WHERE delete_flag = 0 AND depart_code LIKE CONCAT((SELECT depart_code FROM t_s_depart WHERE delete_flag = 0 AND id = #{departId}), '%')) tsd ON tsd.id = bpu.depart_id
+        WHERE bw.delete_flag = 0 AND bw.status = 0 AND bpu.delete_flag = 0 AND bp.delete_flag = 0 
+        <if test="userName!=null and userName!=''">
+            AND bw.worker_name LIKE CONCAT("%",#{userName},"%")
+        </if>
+        GROUP BY bw.id
+    </select>
+
+    <!-- <select id="queryByPointId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select
+      <include refid="Base_Column_List" />
+      from base_workers
+      where point_id = #{pointid} and delete_flag = 0
+    </select> -->
+
+    <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from base_workers
+    </select>
+
+    <select id="queryIdleWorkers" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM base_workers
+        WHERE id not in (SELECT user_id FROM base_point_user WHERE delete_flag = 0 GROUP BY user_id)
+        AND delete_flag = 0 AND status = 0
+        <if test="userName!=null and userName!=''">
+            AND worker_name LIKE CONCAT("%",#{userName},"%")
+        </if>
+    </select>
+</mapper>

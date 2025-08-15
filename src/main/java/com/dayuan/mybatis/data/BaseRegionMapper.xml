@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayuan.mapper.data.BaseRegionMapper">
+	<resultMap id="BaseResultMap" type="com.dayuan.bean.data.BaseRegion">
+		<id column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="region_code" property="regionCode" jdbcType="VARCHAR" />
+		<result column="region_name" property="regionName" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="region_level" property="regionLevel" jdbcType="INTEGER" />
+		<result column="region_order" property="regionOrder" jdbcType="INTEGER" />
+		<result column="region_name_en" property="regionNameEn" jdbcType="VARCHAR" />
+		<result column="region_shortname_en" property="regionShortnameEn" jdbcType="VARCHAR" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		region_id, region_code, region_name, parent_id, region_level, region_order, region_name_en,
+		region_shortname_en, update_by, update_date, remark
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag = 0
+		<trim suffixOverrides=",">
+			<if test="obj.baseBean != null">
+				<if test="obj.baseBean.regionName != null and obj.baseBean.regionName != ''">
+					and region_name like CONCAT('%', #{obj.baseBean.regionName}, '%')
+				</if>
+			</if>
+		</trim>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from base_region
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update base_region set delete_flag=1,update_date=now()
+		where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="com.dayuan.bean.data.BaseRegion">
+		insert into base_region (region_id, region_code, region_name,
+		parent_id, region_level, region_order,
+		region_name_en, region_shortname_en, update_by,
+		update_date, remark)
+		values (#{regionId,jdbcType=INTEGER}, #{regionCode,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR},
+		#{parentId,jdbcType=INTEGER}, #{regionLevel,jdbcType=INTEGER}, #{regionOrder,jdbcType=INTEGER},
+		#{regionNameEn,jdbcType=VARCHAR}, #{regionShortnameEn,jdbcType=VARCHAR},
+		#{updateBy,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dayuan.bean.data.BaseRegion">
+		insert into base_region
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="regionId != null">
+				region_id,
+			</if>
+			<if test="regionCode != null">
+				region_code,
+			</if>
+			<if test="regionName != null">
+				region_name,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="regionLevel != null">
+				region_level,
+			</if>
+			<if test="regionOrder != null">
+				region_order,
+			</if>
+			<if test="regionNameEn != null">
+				region_name_en,
+			</if>
+			<if test="regionShortnameEn != null">
+				region_shortname_en,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="regionId != null">
+				#{regionId,jdbcType=INTEGER},
+			</if>
+			<if test="regionCode != null">
+				#{regionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="regionName != null">
+				#{regionName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="regionLevel != null">
+				#{regionLevel,jdbcType=INTEGER},
+			</if>
+			<if test="regionOrder != null">
+				#{regionOrder,jdbcType=INTEGER},
+			</if>
+			<if test="regionNameEn != null">
+				#{regionNameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="regionShortnameEn != null">
+				#{regionShortnameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dayuan.bean.data.BaseRegion">
+		update base_region
+		<set>
+			<if test="regionCode != null">
+				region_code = #{regionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="regionName != null">
+				region_name = #{regionName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="regionLevel != null">
+				region_level = #{regionLevel,jdbcType=INTEGER},
+			</if>
+			<if test="regionOrder != null">
+				region_order = #{regionOrder,jdbcType=INTEGER},
+			</if>
+			<if test="regionNameEn != null">
+				region_name_en = #{regionNameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="regionShortnameEn != null">
+				region_shortname_en = #{regionShortnameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dayuan.bean.data.BaseRegion">
+		update base_region
+		set region_code = #{regionCode,jdbcType=VARCHAR},
+		region_name = #{regionName,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=INTEGER},
+		region_level = #{regionLevel,jdbcType=INTEGER},
+		region_order = #{regionOrder,jdbcType=INTEGER},
+		region_name_en = #{regionNameEn,jdbcType=VARCHAR},
+		region_shortname_en = #{regionShortnameEn,jdbcType=VARCHAR},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		remark = #{remark,jdbcType=VARCHAR}
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</update>
+	<!-- 分页基础查询 -->
+	<select id="loadDatagrid" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from base_region
+		<include refid="Example_Where_Clause" />
+		order by create_date ${order} limit #{rowOffset}, #{pageSize}
+	</select>
+
+	<select id="getRowTotal" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) as rowTotal
+		from base_region
+		<include refid="Example_Where_Clause" />
+		order by create_date
+	</select>
+
+	<!-- /**
+	 * 查询下级行政机构
+	 * @param id 父级行政机构ID
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年4月23日
+	 */ -->
+	<select id="querySubRegionById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT <include refid="Base_Column_List" />
+		FROM base_region 
+		WHERE parent_id=#{regionId} ORDER BY region_code ASC
+	</select>
+	<!-- /**
+	 * 根据行政机构名称查询 行政机构
+	 * @param regionName
+	 * @return
+	 * @author LuoYX
+	 * @date 2018年4月25日
+	 */ -->
+	 <select id="queryByRegionName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT <include refid="Base_Column_List" />
+		FROM base_region 
+		WHERE region_name=#{regionName}
+	 </select>
+</mapper>
